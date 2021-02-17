@@ -24,7 +24,7 @@ class SplashWidget extends StatelessWidget {
     Logger.d('begin delayOpenHome');
     await Future.delayed(
       Duration(
-        seconds: 10,
+        seconds: 3,
       ),
     );
     Navigator.pushReplacement(

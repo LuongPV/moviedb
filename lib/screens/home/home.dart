@@ -136,25 +136,27 @@ class _HomeWidgetState extends State<HomeWidget> {
               width: 80,
             ),
             SizedBox(width: 10,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  movie.title,
-                  style: TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 20,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    movie.title,
+                    style: TextStyle(
+                      color: Colors.redAccent,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-                SizedBox(height: 5,),
-                Text(
-                  movie.releaseDate ?? '---',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16
+                  SizedBox(height: 5,),
+                  Text(
+                    movie.releaseDate ?? '---',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16
+                    )
                   )
-                )
-              ],
+                ],
+              ),
             ),
           ],
         ),

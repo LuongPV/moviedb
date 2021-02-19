@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/models/user.dart';
 import 'package:movie_db/screens/home/home.dart';
 
-class LoginWidget extends StatelessWidget {
-  final user = User();
-  final formKey = GlobalKey<FormState>();
+class LoginWidget extends StatefulWidget {
+  @override
+  _LoginWidgetState createState() => _LoginWidgetState();
+}
+
+class _LoginWidgetState extends State<LoginWidget> {
+
+  var usernameErrorText;
+
+  var passwordErrorText;
+
+  final usernameInputController = TextEditingController();
+
+  final passwordInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +22,6 @@ class LoginWidget extends StatelessWidget {
       body: Center(
         child: Container(
           padding: EdgeInsets.all(30),
-          child: Form(
-            key: formKey,
             child: Column(
               children: [
                 Container(
@@ -25,39 +33,56 @@ class LoginWidget extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 64),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
+                  child: TextField(
+                    controller: usernameInputController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       icon: Icon(Icons.person),
                       hintText: 'Username',
                       labelText: 'Username',
+                      errorText: usernameErrorText,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(32)),
+                      ),
                     ),
-                    onSaved: _saveUsername,
-                    validator: (username) => _validateUsername(username.trim()),
                   ),
                 ),
                 SizedBox(height: 16,),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.lock_outline),
+                TextField(
+                  controller: passwordInputController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                    icon: Icon(Icons.lock_outline),
                     hintText: 'Password',
                     labelText: 'Password',
+                    errorText: passwordErrorText,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32)),
+                    ),
                   ),
-                  onSaved: _savePassword,
-                  validator: (password) => _validatePassword(password.trim()),
                 ),
-                SizedBox(height: 30,),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: FlatButton(
-                    child: Text('Login'),
+                SizedBox(
+                  height: 50,
+                ),
+                Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blue,
+                  child: MaterialButton(
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w200,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                     onPressed: login,
+                    minWidth: 350,
                   ),
                 ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -65,13 +90,13 @@ class LoginWidget extends StatelessWidget {
   }
 
   void login() {
-    if (formKey.currentState.validate()) {
-      Navigator.pushReplacement(formKey.currentContext, MaterialPageRoute(builder: (context) => HomeWidget()));
-    }
-  }
-
-  void _saveUsername(String username) {
-    user.username = username;
+    setState(() {
+      usernameErrorText = _validateUsername(usernameInputController.text.trim());
+      passwordErrorText = _validatePassword(passwordInputController.text.trim());
+      if (usernameErrorText == null && passwordErrorText == null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeWidget()));
+      }
+    });
   }
 
   String _validateUsername(String username) {
@@ -82,10 +107,6 @@ class LoginWidget extends StatelessWidget {
       return 'Wrong username';
     }
     return null;
-  }
-
-  void _savePassword(String password) {
-    user.password = password;
   }
 
   String _validatePassword(String password) {

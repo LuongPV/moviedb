@@ -1,12 +1,10 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/utils/logger/logger.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
-import '../../data/models/search.dart';
+import '../../data/models/search_movie.dart';
 
 class HomeWidget extends StatefulWidget {
   @override
@@ -15,6 +13,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   final movies = List<Movie>();
+  final _movieRepository = MovieRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -56,34 +55,17 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   void _submitSearch(String searchText, BuildContext context) {
-    final query = 'https://api.themoviedb.org/3/search/movie?api_key=72ca6ce7e0d22478aca5df10518f5888&query=$searchText';
-    final encodedQuery = Uri.encodeFull(query);
-    Logger.d('encodedQuery = $encodedQuery');
-    http.get(encodedQuery).then((Response response) {
-      Logger.d('data = ${response.body}');
-      if (response.statusCode == 200) {
-        _processSearchData(response.body, context);
-      }
+    _movieRepository.searchMovie(searchText).then((response) {
+      setState(() {
+        movies.clear();
+        movies.addAll(response.results);
+      });
+      Navigator.pop(context);
     });
     showDialog(
       context: context,
       builder: (context) => _getDialog(),
     );
-  }
-
-  void _processSearchData(String jsonBody, BuildContext context) {
-    final responseMapData = jsonDecode(jsonBody);
-    try {
-      final searchResponse = SearchResponse.fromJson(responseMapData);
-      setState(() {
-        movies.clear();
-        movies.addAll(searchResponse.results);
-      });
-    } catch (e) {
-      Logger.w('Parse search data fail detail = $e');
-    } finally {
-      Navigator.pop(context); // Dismiss dialog
-    }
   }
 
   Widget getSearchListWidget() => ListView(
@@ -131,10 +113,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         elevation: 5,
         child: Row(
           children: [
-            Image.network(
-              'http://image.tmdb.org/t/p/w500/${movie.posterPath}',
-              width: 80,
-            ),
+            _getMovieThumbnailWidget(movie),
             SizedBox(width: 10,),
             Expanded(
               child: Column(
@@ -162,6 +141,21 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
       ),
       onTap: () => _openDetailMovie(movie)
+    );
+  }
+
+  Widget _getMovieThumbnailWidget(Movie movie) {
+    if (movie.posterPath == null) {
+      return Image.asset(
+        'assets/images/ic_movie_thumbnail.png',
+        width: 80,
+        height: 120,
+      );
+    }
+    return Image.network(
+      movie.posterPath,
+      width: 80,
+      height: 120,
     );
   }
 

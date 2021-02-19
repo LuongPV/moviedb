@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/models/search.dart';
+import 'package:movie_db/data/constants.dart';
+import 'package:movie_db/data/models/search_movie.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,9 +24,7 @@ class MovieDetailWidget extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            'http://image.tmdb.org/t/p/w500/${movie.backdropPath}',
-          ),
+          _getImagePosterWidget(movie.backdropPath),
           Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.all(20),
@@ -92,9 +91,19 @@ class MovieDetailWidget extends StatelessWidget {
     );
   }
 
+  Widget _getImagePosterWidget(String imageName) {
+    if (imageName == null) {
+      return Image.asset(
+        'assets/images/ic_movie_poster.jpg',
+        height: 230,
+      );
+    }
+    return Image.network(imageName);
+  }
+
   _openYoutubeSearch(String title) async {
     if (Platform.isAndroid) {
-      final url = 'https://www.youtube.com/results?search_query=$title';
+      final url = BASE_URL_YOUTUBE_SEARCH + title;
       if (await canLaunch(url)) {
         await launch(url);
       } else {

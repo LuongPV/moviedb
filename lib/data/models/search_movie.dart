@@ -1,12 +1,12 @@
-class SearchResponse {
+class SearchMovieResponse {
   int page;
   List<Movie> results;
   int totalPages;
   int totalResults;
 
-  SearchResponse({this.page, this.results, this.totalPages, this.totalResults});
+  SearchMovieResponse({this.page, this.results, this.totalPages, this.totalResults});
 
-  SearchResponse.fromJson(Map<String, dynamic> json) {
+  SearchMovieResponse.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     if (json['results'] != null) {
       results = new List<Movie>();

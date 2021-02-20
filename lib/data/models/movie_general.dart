@@ -1,41 +1,4 @@
-class SearchMovieResponse {
-  int page;
-  List<Movie> results;
-  int totalPages;
-  int totalResults;
-
-  SearchMovieResponse({this.page, this.results, this.totalPages, this.totalResults});
-
-  SearchMovieResponse.fromJson(Map<String, dynamic> json) {
-    page = json['page'];
-    if (json['results'] != null) {
-      results = new List<Movie>();
-      json['results'].forEach((v) {
-        results.add(new Movie.fromJson(v));
-      });
-    }
-    totalPages = json['total_pages'];
-    totalResults = json['total_results'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
-    }
-    data['total_pages'] = this.totalPages;
-    data['total_results'] = this.totalResults;
-    return data;
-  }
-
-  @override
-  String toString() {
-    return 'SearchResponse{page: $page, results: $results, totalPages: $totalPages, totalResults: $totalResults}';
-  }
-}
-
-class Movie {
+class MovieGeneral {
   bool adult;
   String backdropPath;
   List<int> genreIds;
@@ -51,7 +14,7 @@ class Movie {
   num voteAverage;
   int voteCount;
 
-  Movie(
+  MovieGeneral(
       {this.adult,
         this.backdropPath,
         this.genreIds,
@@ -67,7 +30,7 @@ class Movie {
         this.voteAverage,
         this.voteCount});
 
-  Movie.fromJson(Map<String, dynamic> json) {
+  MovieGeneral.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     genreIds = json['genre_ids'].cast<int>();

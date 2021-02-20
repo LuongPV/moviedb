@@ -1,45 +1,67 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:movie_db/data/models/search_movie.dart';
+import 'package:movie_db/data/models/movie_detail.dart';
+import 'package:movie_db/data/models/movie_search.dart';
+import 'package:movie_db/data/repositories/base_api.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
 import '../constants.dart';
 
-class TheMovieDbAPI {
+class TheMovieDbAPI extends BaseAPI {
 
-  Future<SearchMovieResponse> searchMovie(String title) async {
-    final query = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY + QUERY_MOVIE_TITLE + title;
-    final encodedQuery = Uri.encodeFull(query);
-    Logger.d('encodedQuery = $encodedQuery');
-    final response = await http.get(encodedQuery);
-    Logger.d('data = ${response.body}');
-    if (response.statusCode == 200) {
-      return _convertJsonResponse(response.body);
-    }
-    return null;
+  Future<MovieSearchResponse> searchMovie(String title) async {
+    final url = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY +
+        QUERY_MOVIE_TITLE + title;
+    final response = await executeGetRequest(url);
+    return _convertMovieSearchResponse(response);
   }
 
-  SearchMovieResponse _convertJsonResponse(String jsonBody) {
+  MovieSearchResponse _convertMovieSearchResponse(String jsonBody) {
     final responseMapData = jsonDecode(jsonBody);
     try {
-      return _appendBaseUrl(SearchMovieResponse.fromJson(responseMapData));
+      return _appendBaseUrlMovieSearch(MovieSearchResponse.fromJson(responseMapData));
     } catch (e) {
       Logger.w('Parse search data fail detail = $e');
     }
     return null;
   }
 
-}
+  MovieSearchResponse _appendBaseUrlMovieSearch(MovieSearchResponse searchMovieResponse) {
+    searchMovieResponse.results.forEach((item) {
+      if (item.posterPath != null) {
+        item.posterPath = BASE_URL_MOVIE_IMAGE + item.posterPath;
+      }
+      if (item.backdropPath != null) {
+        item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
+      }
+    });
+    return searchMovieResponse;
+  }
 
-SearchMovieResponse _appendBaseUrl(SearchMovieResponse searchMovieResponse) {
-  searchMovieResponse.results.forEach((item) {
-    if (item.posterPath != null) {
-      item.posterPath = BASE_URL_MOVIE_IMAGE + item.posterPath;
+  Future<MovieDetail> getMovieDetail(int movieId) async {
+    final url = BASE_URL_MOVIE_DETAIL + movieId.toString() + QUERY_API_KEY + API_KEY;
+    final response = await executeGetRequest(url);
+    return _convertMovieDetailResponse(response);
+  }
+
+  MovieDetail _convertMovieDetailResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlMovieDetail(MovieDetail.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse search data fail detail = $e');
     }
-    if (item.backdropPath != null) {
-      item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
+    return null;
+  }
+
+  MovieDetail _appendBaseUrlMovieDetail(MovieDetail movieDetailResponse) {
+    if (movieDetailResponse.posterPath != null) {
+      movieDetailResponse.posterPath = BASE_URL_MOVIE_IMAGE + movieDetailResponse.posterPath;
     }
-  });
-  return searchMovieResponse;
+    if (movieDetailResponse.backdropPath != null) {
+      movieDetailResponse.backdropPath = BASE_URL_MOVIE_IMAGE + movieDetailResponse.backdropPath;
+    }
+    return movieDetailResponse;
+  }
 }

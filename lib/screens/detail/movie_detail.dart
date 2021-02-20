@@ -2,19 +2,32 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/search_movie.dart';
+import 'package:movie_db/data/models/movie_detail.dart';
+import 'package:movie_db/data/repositories/movie_repository.dart';
+import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class MovieDetailWidget extends StatelessWidget {
-  final Movie movie;
+class MovieDetailWidget extends BaseStatefulWidget {
+  final int movieId;
 
-  MovieDetailWidget(this.movie);
+  MovieDetailWidget(this.movieId);
+
+  @override
+  _MovieDetailWidgetState createState() => _MovieDetailWidgetState();
+}
+
+class _MovieDetailWidgetState extends State<MovieDetailWidget> {
+   MovieDetail movie;
+   final _movieRepository = MovieRepository();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _getMovieDetail(widget.movieId);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -113,4 +126,13 @@ class MovieDetailWidget extends StatelessWidget {
     }
   }
 
+  void _getMovieDetail(int movieId) {
+    _movieRepository.getMovieDetail(movieId).then((response) {
+      setState(() {
+        movie = response;
+      });
+      widget.hideLoadingDialog(context);
+    });
+    widget.showLoadingDialog(context);
+  }
 }

@@ -1,18 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
+import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
-import '../../data/models/search_movie.dart';
+import '../../data/models/movie_search.dart';
 
-class HomeWidget extends StatefulWidget {
+class HomeWidget extends BaseStatefulWidget {
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  final movies = List<Movie>();
+  final movies = List<MovieGeneral>();
   final _movieRepository = MovieRepository();
 
   @override
@@ -60,12 +62,9 @@ class _HomeWidgetState extends State<HomeWidget> {
         movies.clear();
         movies.addAll(response.results);
       });
-      Navigator.pop(context);
+      widget.hideLoadingDialog(context);
     });
-    showDialog(
-      context: context,
-      builder: (context) => _getDialog(),
-    );
+    widget.showLoadingDialog(context);
   }
 
   Widget getSearchListWidget() => ListView(
@@ -91,23 +90,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
       );
 
-  Widget _getDialog() {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            new CircularProgressIndicator(),
-            SizedBox(width: 20,),
-            new Text("Loading"),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getMovieItemWidget(Movie movie) {
+  Widget getMovieItemWidget(MovieGeneral movie) {
     return InkWell(
       child: Card(
         elevation: 5,
@@ -144,7 +127,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Widget _getMovieThumbnailWidget(Movie movie) {
+  Widget _getMovieThumbnailWidget(MovieGeneral movie) {
     if (movie.posterPath == null) {
       return Image.asset(
         'assets/images/ic_movie_thumbnail.png',
@@ -159,10 +142,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  void _openDetailMovie(Movie movie) {
+  void _openDetailMovie(MovieGeneral movie) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       Logger.d('Open movie $movie');
-      return MovieDetailWidget(movie);
+      return MovieDetailWidget(movie.id);
     }));
   }
 }

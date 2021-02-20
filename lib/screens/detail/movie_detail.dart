@@ -68,6 +68,7 @@ class MovieDetailWidget extends StatelessWidget {
             child: MaterialButton(
                 padding: EdgeInsets.all(10),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Icons.play_circle_outline

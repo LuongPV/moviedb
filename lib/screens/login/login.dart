@@ -7,7 +7,6 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-
   var usernameErrorText;
 
   var passwordErrorText;
@@ -19,25 +18,29 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(30),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 100),
-                  child: _buildAppLogoWidget(),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 64),
-                  child: _buildUsernameWidget(),
-                ),
-                SizedBox(height: 16,),
-                _buildPasswordWidget(),
-                SizedBox(
-                  height: 50,
-                ),
-                _buildLoginButtonWidget(),
+      body: Container(
+        padding: EdgeInsets.all(30),
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 100),
+                child: _buildAppLogoWidget(),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 64),
+                child: _buildUsernameWidget(),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              _buildPasswordWidget(),
+              SizedBox(
+                height: 50,
+              ),
+              _buildLoginButtonWidget(),
             ],
           ),
         ),
@@ -107,10 +110,13 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   void login() {
     setState(() {
-      usernameErrorText = _validateUsername(usernameInputController.text.trim());
-      passwordErrorText = _validatePassword(passwordInputController.text.trim());
+      usernameErrorText =
+          _validateUsername(usernameInputController.text.trim());
+      passwordErrorText =
+          _validatePassword(passwordInputController.text.trim());
       if (usernameErrorText == null && passwordErrorText == null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeWidget()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeWidget()));
       }
     });
   }

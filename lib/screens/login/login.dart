@@ -26,64 +26,80 @@ class _LoginWidgetState extends State<LoginWidget> {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 100),
-                  child: Image.asset(
-                    'assets/images/ic_logo.png',
-                    width: 200,
-                  ),
+                  child: _buildAppLogoWidget(),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 64),
-                  child: TextField(
-                    controller: usernameInputController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      icon: Icon(Icons.person),
-                      hintText: 'Username',
-                      labelText: 'Username',
-                      errorText: usernameErrorText,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(32)),
-                      ),
-                    ),
-                  ),
+                  child: _buildUsernameWidget(),
                 ),
                 SizedBox(height: 16,),
-                TextField(
-                  controller: passwordInputController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    icon: Icon(Icons.lock_outline),
-                    hintText: 'Password',
-                    labelText: 'Password',
-                    errorText: passwordErrorText,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32)),
-                    ),
-                  ),
-                ),
+                _buildPasswordWidget(),
                 SizedBox(
                   height: 50,
                 ),
-                Material(
-                  elevation: 5,
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.blue,
-                  child: MaterialButton(
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w200,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    onPressed: login,
-                    minWidth: 350,
-                  ),
-                ),
+                _buildLoginButtonWidget(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Image _buildAppLogoWidget() {
+    return Image.asset(
+      'assets/images/ic_logo.png',
+      width: 200,
+    );
+  }
+
+  Material _buildLoginButtonWidget() {
+    return Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: Colors.blue,
+      child: MaterialButton(
+        child: Text(
+          'Login',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w200,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        onPressed: login,
+        minWidth: 350,
+      ),
+    );
+  }
+
+  TextField _buildPasswordWidget() {
+    return TextField(
+      controller: passwordInputController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        icon: Icon(Icons.lock_outline),
+        hintText: 'Password',
+        labelText: 'Password',
+        errorText: passwordErrorText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32)),
+        ),
+      ),
+    );
+  }
+
+  TextField _buildUsernameWidget() {
+    return TextField(
+      controller: usernameInputController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        icon: Icon(Icons.person),
+        hintText: 'Username',
+        labelText: 'Username',
+        errorText: usernameErrorText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32)),
         ),
       ),
     );

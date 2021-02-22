@@ -26,7 +26,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _getTextInputWidget(context),
+              _buildTextInputWidget(context),
               SizedBox(height: 20),
               Text(
                 'Results:',
@@ -36,7 +36,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
               ),
               SizedBox(height: 10,),
-              Expanded(child: movies.isNotEmpty ? getSearchListWidget() : getEmptyListLayout()),
+              Expanded(child: movies.isNotEmpty ? _buildSearchListWidget() : _buildEmptyListLayoutWidget()),
             ],
           ),
         ),
@@ -44,7 +44,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  Widget _getTextInputWidget(BuildContext context) {
+  Widget _buildTextInputWidget(BuildContext context) {
     return TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(gapPadding: 0),
@@ -67,13 +67,13 @@ class _HomeWidgetState extends State<HomeWidget> {
     widget.showLoadingDialog(context);
   }
 
-  Widget getSearchListWidget() => ListView(
+  Widget _buildSearchListWidget() => ListView(
         children: movies
-            .map((movie) => getMovieItemWidget(movie))
+            .map((movie) => _buildMovieItemWidget(movie))
             .toList(),
       );
 
-  Widget getEmptyListLayout() => Center(
+  Widget _buildEmptyListLayoutWidget() => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -90,7 +90,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
       );
 
-  Widget getMovieItemWidget(MovieGeneral movie) {
+  Widget _buildMovieItemWidget(MovieGeneral movie) {
     return InkWell(
       child: Card(
         elevation: 5,

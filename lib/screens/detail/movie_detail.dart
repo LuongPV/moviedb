@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
@@ -45,7 +46,6 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
         children: [
           _buildImagePosterWidget(movie.backdropPath),
           Container(
-            alignment: Alignment.centerLeft,
             padding: EdgeInsets.all(20),
             color: Colors.yellow,
             child: _buildInfoBannerWidget(),
@@ -109,6 +109,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             isReadOnly: true,
             color: Colors.blue,
             spacing: 0),
+        _buildGenreListWidget(),
       ],
     );
   }
@@ -142,5 +143,30 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       widget.hideLoadingDialog(context);
     });
     widget.showLoadingDialog(context);
+  }
+
+  Widget _buildGenreListWidget() {
+    final random = Random();
+    return Wrap(
+      spacing: 4,
+      children: movie.genres
+          .map(
+            (genre) => Chip(
+              label: Text(genre.name),
+              backgroundColor: Colors.white,
+              avatar: CircleAvatar(
+                backgroundColor: Color.fromRGBO(random.nextInt(255),
+                    random.nextInt(255), random.nextInt(255), 1),
+                child: Text(
+                  genre.name[0],
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 }

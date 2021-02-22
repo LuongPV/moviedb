@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db/screens/login/login.dart';
 
-class SplashWidget extends StatelessWidget {
+class SplashWidget extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  _SplashWidgetState createState() => _SplashWidgetState();
+}
+
+class _SplashWidgetState extends State<SplashWidget> {
+  void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       delayOpenHome(context);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Image.asset(
@@ -18,17 +27,16 @@ class SplashWidget extends StatelessWidget {
     );
   }
 
-  void delayOpenHome(BuildContext context) async {
-    await Future.delayed(
+  void delayOpenHome(BuildContext context) {
+    Future.delayed(
       Duration(
         seconds: 3,
       ),
-    );
-    Navigator.pushReplacement(
+    ).then((_) => Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => LoginWidget(),
       ),
-    );
+    ));
   }
 }

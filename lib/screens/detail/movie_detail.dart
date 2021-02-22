@@ -23,11 +23,18 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
    MovieDetail movie;
    final _movieRepository = MovieRepository();
 
+   void initState() {
+     super.initState();
+     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+       _getMovieDetail(widget.movieId);
+     });
+   }
+
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getMovieDetail(widget.movieId);
-    });
+    if (movie == null) {
+      return Scaffold();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -48,26 +55,19 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
                 Text(
                   movie.title == movie.originalTitle ? movie.title : '${movie.title} (${movie.originalTitle})',
                   style: TextStyle(
-                    fontSize: 26,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold
-                  ),
+                      fontSize: 26,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  movie.releaseDate ?? '---',
-                  style: TextStyle(
-                    color: Colors.black54
-                  )
-                ),
+                Text(movie.releaseDate ?? '---', style: TextStyle(color: Colors.black54)),
                 SmoothStarRating(
-                  starCount: 5,
-                  rating: movie.voteAverage.toDouble() / 2,
-                  allowHalfRating: true,
-                  size: 25,
-                  isReadOnly: true,
-                  color: Colors.blue,
-                  spacing: 0
-                ),
+                    starCount: 5,
+                    rating: movie.voteAverage.toDouble() / 2,
+                    allowHalfRating: true,
+                    size: 25,
+                    isReadOnly: true,
+                    color: Colors.blue,
+                    spacing: 0),
               ],
             ),
           ),
@@ -79,20 +79,20 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             ),
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: MaterialButton(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.play_circle_outline
-                    ),
-                    SizedBox(width: 10,),
-                    Text(
-                      'Youtube Search',
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.play_circle_outline),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Youtube Search',
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
               onPressed: () => _openYoutubeSearch(movie.title),
             ),
           ),

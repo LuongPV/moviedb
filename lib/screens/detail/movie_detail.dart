@@ -6,6 +6,7 @@ import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/movie_by_genre/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -151,19 +152,22 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       spacing: 4,
       children: movie.genres
           .map(
-            (genre) => Chip(
-              label: Text(genre.name),
-              backgroundColor: Colors.white,
-              avatar: CircleAvatar(
-                backgroundColor: Color.fromRGBO(random.nextInt(255),
-                    random.nextInt(255), random.nextInt(255), 1),
-                child: Text(
-                  genre.name[0],
-                  style: TextStyle(
-                    color: Colors.white,
+            (genre) => InkWell(
+              child: Chip(
+                label: Text(genre.name),
+                backgroundColor: Colors.white,
+                avatar: CircleAvatar(
+                  backgroundColor: Color.fromRGBO(random.nextInt(255),
+                      random.nextInt(255), random.nextInt(255), 1),
+                  child: Text(
+                    genre.name[0],
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MovieByGenreWidget(genre.id, genre.name))),
             ),
           )
           .toList(),

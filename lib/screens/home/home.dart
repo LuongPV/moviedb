@@ -1,12 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
-import 'package:movie_db/screens/detail/movie_detail.dart';
+import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
-
-import '../../data/models/movie_search.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override
@@ -35,8 +32,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                   color: Colors.blue,
                 ),
               ),
-              SizedBox(height: 10,),
-              Expanded(child: movies.isNotEmpty ? _buildSearchListWidget() : _buildEmptyListLayoutWidget()),
+              SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                  child: movies.isNotEmpty ? buildSearchListWidget(movies, context) : buildEmptyListLayoutWidget()),
             ],
           ),
         ),
@@ -65,87 +65,5 @@ class _HomeWidgetState extends State<HomeWidget> {
       widget.hideLoadingDialog(context);
     });
     widget.showLoadingDialog(context);
-  }
-
-  Widget _buildSearchListWidget() => ListView(
-        children: movies
-            .map((movie) => _buildMovieItemWidget(movie))
-            .toList(),
-      );
-
-  Widget _buildEmptyListLayoutWidget() => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              'assets/images/ic_no_result.png',
-              width: 150,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text('No movies found',
-                style: TextStyle(color: Colors.grey, fontSize: 20))
-          ],
-        ),
-      );
-
-  Widget _buildMovieItemWidget(MovieGeneral movie) {
-    return InkWell(
-      child: Card(
-        elevation: 5,
-        child: Row(
-          children: [
-            _getMovieThumbnailWidget(movie),
-            SizedBox(width: 10,),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    movie.title,
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontSize: 20,
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                  Text(
-                    movie.releaseDate ?? '---',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16
-                    )
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      onTap: () => _openDetailMovie(movie)
-    );
-  }
-
-  Widget _getMovieThumbnailWidget(MovieGeneral movie) {
-    if (movie.posterPath == null) {
-      return Image.asset(
-        'assets/images/ic_movie_thumbnail.png',
-        width: 80,
-        height: 120,
-      );
-    }
-    return Image.network(
-      movie.posterPath,
-      width: 80,
-      height: 120,
-    );
-  }
-
-  void _openDetailMovie(MovieGeneral movie) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      Logger.d('Open movie $movie');
-      return MovieDetailWidget(movie.id);
-    }));
   }
 }

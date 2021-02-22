@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
 import 'package:movie_db/data/repositories/base_api.dart';
@@ -63,5 +63,33 @@ class TheMovieDbAPI extends BaseAPI {
       movieDetailResponse.backdropPath = BASE_URL_MOVIE_IMAGE + movieDetailResponse.backdropPath;
     }
     return movieDetailResponse;
+  }
+
+  Future<MovieByGenreResponse> getMovieByGenre(int genreId) async {
+    final url = BASE_URL_MOVIE_BY_GENRE + QUERY_API_KEY + API_KEY + QUERY_MOVIE_BY_GENRE + genreId.toString();
+    final response = await executeGetRequest(url);
+    return _convertMovieByGenreResponse(response);
+  }
+
+  MovieByGenreResponse _convertMovieByGenreResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlMovieByGenre(MovieByGenreResponse.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse search data fail detail = $e');
+    }
+    return null;
+  }
+
+  MovieByGenreResponse _appendBaseUrlMovieByGenre(MovieByGenreResponse searchMovieResponse) {
+    searchMovieResponse.results.forEach((item) {
+      if (item.posterPath != null) {
+        item.posterPath = BASE_URL_MOVIE_IMAGE + item.posterPath;
+      }
+      if (item.backdropPath != null) {
+        item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
+      }
+    });
+    return searchMovieResponse;
   }
 }

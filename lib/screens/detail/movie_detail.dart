@@ -42,22 +42,24 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
           movie.title,
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImagePosterWidget(movie.backdropPath),
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Colors.yellow,
-            child: _buildInfoBannerWidget(),
-          ),
-          SizedBox(height: 10),
-          _buildYoutubeSearchButtonWidget(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(movie.overview),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImagePosterWidget(movie.backdropPath),
+            Container(
+              padding: EdgeInsets.all(20),
+              color: Colors.yellow,
+              child: _buildInfoBannerWidget(),
+            ),
+            SizedBox(height: 10),
+            _buildYoutubeSearchButtonWidget(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(movie.overview),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -117,9 +119,15 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
 
   Widget _buildImagePosterWidget(String imageName) {
     if (imageName == null) {
-      return Image.asset(
-        'assets/images/ic_movie_poster.jpg',
+      return Container(
         height: 230,
+        child: Align(
+          alignment: Alignment.center,
+          child: Image.asset(
+            'assets/images/ic_movie_thumbnail.png',
+            height: 120,
+          ),
+        ),
       );
     }
     return Image.network(imageName);

@@ -91,7 +91,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
 
   Column _buildInfoBannerWidget() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           movie.title == movie.originalTitle

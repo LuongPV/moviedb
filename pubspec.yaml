@@ -19,3 +19,23 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+  fonts:
+    - family: 'roboto'
+      fonts:
+        - asset: 'assets/fonts/Roboto-Thin.ttf'
+          weight: 100
+        - asset: 'assets/fonts/Roboto-ThinItalic.ttf'
+          weight: 100
+          style: italic
+        - asset: 'assets/fonts/Roboto-Regular.ttf'
+          weight: 400
+        - asset: 'assets/fonts/Roboto-Bold.ttf'
+          weight: 700
+    - family: 'stick'
+      fonts:
+        - asset: 'assets/fonts/Stick-Regular.ttf'
+          weight: 400
+    - family: 'montserrat'
+      fonts:
+        - asset: 'assets/fonts/Montserrat-ExtraLight.ttf'
+        - asset: 'assets/fonts/Montserrat-Regular.ttf'

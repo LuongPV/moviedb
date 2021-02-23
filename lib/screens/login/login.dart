@@ -66,7 +66,6 @@ class _LoginWidgetState extends State<LoginWidget> {
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
-            fontWeight: FontWeight.w200,
           ),
           textAlign: TextAlign.center,
         ),

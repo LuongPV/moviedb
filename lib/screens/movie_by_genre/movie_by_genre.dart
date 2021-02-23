@@ -3,6 +3,7 @@ import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MovieByGenreWidget extends BaseStatefulWidget {
   final int genreId;
@@ -37,14 +38,14 @@ class _MovieByGenreWidgetState extends State<MovieByGenreWidget> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Genre: ' + widget.genreName,
+          AppLocalizations.of(context).txtGenre + widget.genreName,
         ),
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: movies.isNotEmpty
             ? buildSearchListWidget(movies, context)
-            : buildEmptyListLayoutWidget(),
+            : buildEmptyListLayoutWidget(context),
       ),
     );
   }

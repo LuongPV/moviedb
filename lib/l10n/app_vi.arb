@@ -1,0 +1,16 @@
+{
+  "helloWorld": "Xin chào!",
+  "btnLogin": "Đăng nhập",
+  "txtUsername": "Tên đăng nhập",
+  "txtPassword": "Mật khẩu",
+  "txtResult": "Kết quả:",
+  "hintSearch": "Nhập tên phim",
+  "txtNoResult": "Không tìm thấy phim",
+  "txtGenre": "Thể loại: ",
+  "errEmptyUsername": "Tên đăng nhập không được để trống",
+  "errEmptyPassword": "Mật khẩu không được để trống",
+  "errWrongUsername": "Sai tên đăng nhập",
+  "errWrongPassword": "Sai mật khẩu",
+  "txtLoading": "Xin chờ",
+  "txtYoutubeSearch": "Tìm kiếm trên Youtube"
+}

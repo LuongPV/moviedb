@@ -4,6 +4,7 @@ import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               _buildTextInputWidget(context),
               SizedBox(height: 20),
               Text(
-                'Results:',
+                AppLocalizations.of(context).txtResult,
                 style: TextStyle(
                   fontSize: 32,
                   color: Colors.blue,
@@ -36,7 +37,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 height: 10,
               ),
               Expanded(
-                  child: movies.isNotEmpty ? buildSearchListWidget(movies, context) : buildEmptyListLayoutWidget()),
+                  child: movies.isNotEmpty ? buildSearchListWidget(movies, context) : buildEmptyListLayoutWidget(context)),
             ],
           ),
         ),
@@ -48,7 +49,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(gapPadding: 0),
-          hintText: 'Enter movie name',
+          hintText: AppLocalizations.of(context).hintSearch,
         ),
         onSubmitted: (value) {
           Logger.d('Submit button click data = $value');

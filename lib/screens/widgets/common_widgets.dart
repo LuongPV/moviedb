@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/utils/logger/logger.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Widget buildSearchListWidget(List<MovieGeneral> movies, BuildContext context) => ListView(
   children: movies
@@ -10,7 +11,7 @@ Widget buildSearchListWidget(List<MovieGeneral> movies, BuildContext context) =>
       .toList(),
 );
 
-Widget buildEmptyListLayoutWidget() => Center(
+Widget buildEmptyListLayoutWidget(BuildContext context) => Center(
   child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
@@ -21,7 +22,7 @@ Widget buildEmptyListLayoutWidget() => Center(
       SizedBox(
         height: 10,
       ),
-      Text('No movies found',
+      Text(AppLocalizations.of(context).txtNoResult,
           style: TextStyle(color: Colors.grey, fontSize: 20))
     ],
   ),

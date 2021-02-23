@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_db/screens/home/home.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       color: Colors.blue,
       child: MaterialButton(
         child: Text(
-          'Login',
+          AppLocalizations.of(context).btnLogin,
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -81,8 +82,8 @@ class _LoginWidgetState extends State<LoginWidget> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         icon: Icon(Icons.lock_outline),
-        hintText: 'Password',
-        labelText: 'Password',
+        hintText: AppLocalizations.of(context).txtPassword,
+        labelText: AppLocalizations.of(context).txtPassword,
         errorText: passwordErrorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(32)),
@@ -97,8 +98,8 @@ class _LoginWidgetState extends State<LoginWidget> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         icon: Icon(Icons.person),
-        hintText: 'Username',
-        labelText: 'Username',
+        hintText: AppLocalizations.of(context).txtUsername,
+        labelText: AppLocalizations.of(context).txtUsername,
         errorText: usernameErrorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(32)),
@@ -122,20 +123,20 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   String _validateUsername(String username) {
     if (username.isEmpty) {
-      return 'Username must not be empty';
+      return AppLocalizations.of(context).errEmptyUsername;
     }
     if (username != 'aaa') {
-      return 'Wrong username';
+      return AppLocalizations.of(context).errEmptyPassword;
     }
     return null;
   }
 
   String _validatePassword(String password) {
     if (password.isEmpty) {
-      return 'Password must not be empty';
+      return AppLocalizations.of(context).errEmptyPassword;
     }
     if (password != '111') {
-      return 'Wrong password';
+      return AppLocalizations.of(context).errWrongPassword;
     }
     return null;
   }

@@ -1,0 +1,42 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "btnLogin": "Login",
+  "@btnLogin": {
+    "description": "Button login"
+  },
+  "txtUsername": "Username",
+  "@txtUsername": {},
+  "txtPassword": "Password",
+  "@txtPassword": {},
+  "txtResult": "Results:",
+  "@txtResult": {},
+  "hintSearch": "Enter movie name",
+  "@hintSearch": {
+    "hint": "Hint search text"
+  },
+  "txtNoResult": "No movies found",
+  "@txtNoResult": {
+    "description": "Text when no movies found"
+  },
+  "txtGenre": "Genre: ",
+  "@txtGenre": {
+    "description": "Genre to search movies that belong to"
+  },
+  "errEmptyUsername": "Username must not be empty",
+  "@errEmptyUsername": {},
+  "errEmptyPassword": "Password must not be empty",
+  "@errEmptyPassword": {},
+  "errWrongUsername": "Wrong username",
+  "@errWrongUsername": {},
+  "errWrongPassword": "Wrong password",
+  "@errWrongPassword": {},
+  "txtLoading": "Loading",
+  "@txtLoading": {},
+  "txtYoutubeSearch": "Youtube Search",
+  "@txtYoutubeSearch": {
+    "description": "Search the movie on Youtube"
+  }
+}

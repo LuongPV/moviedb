@@ -10,6 +10,7 @@ import 'package:movie_db/screens/movie_by_genre/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MovieDetailWidget extends BaseStatefulWidget {
   final int movieId;
@@ -81,7 +82,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
               width: 10,
             ),
             Text(
-              'Youtube Search',
+              AppLocalizations.of(context).txtYoutubeSearch,
               textAlign: TextAlign.start,
             ),
           ],

@@ -7,6 +7,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.16.1
   http: ^0.12.2
   logger: ^0.9.4
   cupertino_icons: ^1.0.0
@@ -17,6 +20,7 @@ dev_dependencies:
     sdk: flutter
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/images/
   fonts:

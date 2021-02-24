@@ -12,33 +12,41 @@ class HomeWidget extends BaseStatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final movies = List<MovieGeneral>();
   final _movieRepository = MovieRepository();
+  var canExit = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTextInputWidget(context),
-              SizedBox(height: 20),
-              Text(
-                AppLocalizations.of(context).txtResult,
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.blue,
+    return WillPopScope(
+      onWillPop: () => _onWillPop(),
+      child: Scaffold(
+        key: scaffoldKey,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTextInputWidget(context),
+                SizedBox(height: 20),
+                Text(
+                  AppLocalizations.of(context).txtResult,
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.blue,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                  child: movies.isNotEmpty ? buildSearchListWidget(movies, context) : buildEmptyListLayoutWidget(context)),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                    child: movies.isNotEmpty
+                        ? buildSearchListWidget(movies, context)
+                        : buildEmptyListLayoutWidget(context)),
+              ],
+            ),
           ),
         ),
       ),
@@ -66,5 +74,19 @@ class _HomeWidgetState extends State<HomeWidget> {
       widget.hideLoadingDialog(context);
     });
     widget.showLoadingDialog(context);
+  }
+
+  Future<bool> _onWillPop() {
+    if (!canExit) {
+      scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          "Press 'Back' again to exit",
+        ),
+      ));
+      canExit = true;
+      Future.delayed(Duration(seconds: 3)).then((_) => canExit = false);
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 }

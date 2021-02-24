@@ -7,3 +7,4 @@ const API_KEY = '72ca6ce7e0d22478aca5df10518f5888';
 const QUERY_MOVIE_TITLE = '&query=';
 const BASE_URL_YOUTUBE_SEARCH = 'https://www.youtube.com/results?search_query=';
 const QUERY_MOVIE_BY_GENRE = '&with_genres=';
+const QUERY_API_LANGUAGE = '&language=';

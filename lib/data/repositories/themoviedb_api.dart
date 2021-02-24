@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
@@ -11,7 +12,7 @@ import '../constants.dart';
 class TheMovieDbAPI extends BaseAPI {
 
   Future<MovieSearchResponse> searchMovie(String title) async {
-    final url = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY +
+    final url = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY + _getLanguageQuery() +
         QUERY_MOVIE_TITLE + title;
     final response = await executeGetRequest(url);
     return _convertMovieSearchResponse(response);
@@ -40,7 +41,7 @@ class TheMovieDbAPI extends BaseAPI {
   }
 
   Future<MovieDetail> getMovieDetail(int movieId) async {
-    final url = BASE_URL_MOVIE_DETAIL + movieId.toString() + QUERY_API_KEY + API_KEY;
+    final url = BASE_URL_MOVIE_DETAIL + movieId.toString() + QUERY_API_KEY + API_KEY + _getLanguageQuery();
     final response = await executeGetRequest(url);
     return _convertMovieDetailResponse(response);
   }
@@ -66,7 +67,7 @@ class TheMovieDbAPI extends BaseAPI {
   }
 
   Future<MovieByGenreResponse> getMovieByGenre(int genreId) async {
-    final url = BASE_URL_MOVIE_BY_GENRE + QUERY_API_KEY + API_KEY + QUERY_MOVIE_BY_GENRE + genreId.toString();
+    final url = BASE_URL_MOVIE_BY_GENRE + QUERY_API_KEY + API_KEY  + _getLanguageQuery() + QUERY_MOVIE_BY_GENRE + genreId.toString();
     final response = await executeGetRequest(url);
     return _convertMovieByGenreResponse(response);
   }
@@ -91,5 +92,9 @@ class TheMovieDbAPI extends BaseAPI {
       }
     });
     return searchMovieResponse;
+  }
+
+  String _getLanguageQuery() {
+    return QUERY_API_LANGUAGE + Platform.localeName;
   }
 }

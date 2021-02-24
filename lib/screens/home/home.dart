@@ -81,6 +81,9 @@ class _HomeWidgetState extends State<HomeWidget> {
       scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
           "Press 'Back' again to exit",
+          style: TextStyle(
+            color: Colors.red,
+          ),
         ),
       ));
       canExit = true;

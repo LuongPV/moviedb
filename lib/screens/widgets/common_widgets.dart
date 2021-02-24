@@ -66,10 +66,18 @@ Widget _buildMovieItemWidget(MovieGeneral movie, BuildContext context) {
 }
 
 void _openDetailMovie(MovieGeneral movie, BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(builder: (context) {
-    Logger.d('Open movie $movie');
-    return MovieDetailWidget(movie.id);
-  }));
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) {
+        Logger.d('Open movie $movie');
+        return MovieDetailWidget();
+      },
+      settings: RouteSettings(
+        arguments: movie.id
+      ),
+    ),
+  );
 }
 
 Widget _getMovieThumbnailWidget(MovieGeneral movie) {

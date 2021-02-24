@@ -13,9 +13,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MovieDetailWidget extends BaseStatefulWidget {
-  final int movieId;
-
-  MovieDetailWidget(this.movieId);
 
   @override
   _MovieDetailWidgetState createState() => _MovieDetailWidgetState();
@@ -28,7 +25,9 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getMovieDetail(widget.movieId);
+      final movieId = ModalRoute.of(context).settings.arguments;
+      Logger.d('Movie ID = $movieId');
+      _getMovieDetail(movieId);
     });
   }
 

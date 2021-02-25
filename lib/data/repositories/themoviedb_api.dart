@@ -12,10 +12,15 @@ import '../constants.dart';
 class TheMovieDbAPI extends BaseAPI {
 
   Future<MovieSearchResponse> searchMovie(String title) async {
-    final url = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY + _getLanguageQuery() +
-        QUERY_MOVIE_TITLE + title;
-    final response = await executeGetRequest(url);
-    return _convertMovieSearchResponse(response);
+    try {
+      final url = BASE_URL_MOVIE_SEARCH + QUERY_API_KEY + API_KEY + _getLanguageQuery() +
+              QUERY_MOVIE_TITLE + title;
+      final response = await executeGetRequest(url);
+      return _convertMovieSearchResponse(response);
+    } catch (e) {
+      Logger.w('API Exception $e');
+      throw e;
+    }
   }
 
   MovieSearchResponse _convertMovieSearchResponse(String jsonBody) {

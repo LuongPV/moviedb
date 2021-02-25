@@ -76,21 +76,27 @@ class _HomeWidgetState extends State<HomeWidget> {
       widget.hideLoadingDialog(context);
     }).catchError((e) {
       widget.hideLoadingDialog(context);
+      var errDetailMessage;
       if (e is SocketException) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: null,
-            content: Text('Please check the internet connection!'),
-            actions: [
-              MaterialButton(
-                child: Text('OK'),
-                onPressed: () { Navigator.pop(context); },
-              ),
-            ],
-          ),
-        );
+        errDetailMessage = 'Please check the internet connection!';
+      } else {
+        errDetailMessage = "We're having technique issue, please try later!";
       }
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+          title: null,
+          content: Text(errDetailMessage),
+          actions: [
+            MaterialButton(
+              child: Text('OK'),
+              onPressed: () { Navigator.pop(context); },
+            ),
+          ],
+        );
+        },
+      );
     });
     widget.showLoadingDialog(context);
   }

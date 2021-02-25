@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
@@ -72,6 +74,23 @@ class _HomeWidgetState extends State<HomeWidget> {
         movies.addAll(response.results);
       });
       widget.hideLoadingDialog(context);
+    }).catchError((e) {
+      widget.hideLoadingDialog(context);
+      if (e is SocketException) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: null,
+            content: Text('Please check the internet connection!'),
+            actions: [
+              MaterialButton(
+                child: Text('OK'),
+                onPressed: () { Navigator.pop(context); },
+              ),
+            ],
+          ),
+        );
+      }
     });
     widget.showLoadingDialog(context);
   }

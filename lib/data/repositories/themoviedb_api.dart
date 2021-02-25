@@ -20,12 +20,7 @@ class TheMovieDbAPI extends BaseAPI {
 
   MovieSearchResponse _convertMovieSearchResponse(String jsonBody) {
     final responseMapData = jsonDecode(jsonBody);
-    try {
-      return _appendBaseUrlMovieSearch(MovieSearchResponse.fromJson(responseMapData));
-    } catch (e) {
-      Logger.w('Parse search data fail detail = $e');
-    }
-    return null;
+    return _appendBaseUrlMovieSearch(MovieSearchResponse.fromJson(responseMapData));
   }
 
   MovieSearchResponse _appendBaseUrlMovieSearch(MovieSearchResponse searchMovieResponse) {

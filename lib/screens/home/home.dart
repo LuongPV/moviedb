@@ -85,16 +85,21 @@ class _HomeWidgetState extends State<HomeWidget> {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-          title: null,
-          content: Text(errDetailMessage),
-          actions: [
-            MaterialButton(
-              child: Text('OK'),
-              onPressed: () { Navigator.pop(context); },
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: null,
+              content: Text(errDetailMessage),
+              actions: [
+                MaterialButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
-          ],
-        );
+          );
         },
       );
     });

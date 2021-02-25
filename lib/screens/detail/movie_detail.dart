@@ -2,16 +2,17 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
-import 'package:movie_db/screens/movie_by_genre/movie_by_genre.dart';
+import 'package:movie_db/screens/cast/cast_detail.dart';
+import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MovieDetailWidget extends BaseStatefulWidget {
 
@@ -199,17 +200,22 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
         children: casts == null
             ? []
             : casts.map(
-                (cast) => Container(
-                  margin: EdgeInsets.only(left: 20),
-                  width: 100,
-                  child: Column(
-                    children: [
-                      _buildCastImage(cast),
-                      Text(
-                        '${cast.name} (${cast.character})',
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                (cast) => InkWell(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20),
+                    width: 100,
+                    child: Column(
+                      children: [
+                        _buildCastImage(cast),
+                        Text(
+                          '${cast.name} (${cast.character})',
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => CastDetailWidget(cast.id))
                   ),
                 ),
               ).toList(),

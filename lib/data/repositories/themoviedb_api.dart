@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/cast_by_movie.dart';
+import 'package:movie_db/data/models/cast_detail.dart';
 import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
@@ -151,6 +152,29 @@ class TheMovieDbAPI extends BaseAPI {
         item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
       }
     });
+    return response;
+  }
+
+  Future<CastDetail> getCastDetail(int castId) async {
+    final url = BASE_URL_MOVIE_BY_CAST + castId.toString() + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+    final response = await executeGetRequest(url);
+    return _convertCastDetailResponse(response);
+  }
+
+  CastDetail _convertCastDetailResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlCastDetail(CastDetail.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse data fail detail = $e');
+    }
+    return null;
+  }
+
+  CastDetail _appendBaseUrlCastDetail(CastDetail response) {
+    if (response.profilePath != null) {
+      response.profilePath = BASE_URL_MOVIE_IMAGE + response.profilePath;
+    }
     return response;
   }
 }

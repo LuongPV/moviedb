@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:movie_db/data/models/cast.dart';
+import 'package:movie_db/data/models/cast_by_movie.dart';
+import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
@@ -96,5 +99,58 @@ class TheMovieDbAPI extends BaseAPI {
 
   String _getLanguageQuery() {
     return QUERY_API_LANGUAGE + Platform.localeName;
+  }
+
+  Future<CastByMovieResponse> getCastByMovie(int movieId) async {
+    final url = BASE_URL_MOVIE_DETAIL + movieId.toString() + PATH_MOVIE_DETAIL_CAST + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+    final response = await executeGetRequest(url);
+    return _convertCastByMovieResponse(response);
+  }
+
+  CastByMovieResponse _convertCastByMovieResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlCastByMovie(CastByMovieResponse.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse data fail detail = $e');
+    }
+    return null;
+  }
+
+  CastByMovieResponse _appendBaseUrlCastByMovie(CastByMovieResponse response) {
+    response.cast.forEach((cast) {
+      if (cast.profilePath != null) {
+        cast.profilePath = BASE_URL_MOVIE_IMAGE + cast.profilePath;
+      }
+    });
+    return response;
+  }
+
+  Future<MovieByCastResponse> getMovieByCast(int castId) async {
+    try {
+      final url = BASE_URL_MOVIE_BY_CAST + castId.toString() + PATH_MOVIE_BY_CAST + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+      final response = await executeGetRequest(url);
+      return _convertMovieByCastResponse(response);
+    } catch (e) {
+      Logger.w('API Exception $e');
+      throw e;
+    }
+  }
+
+  MovieByCastResponse _convertMovieByCastResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    return _appendBaseUrlMovieByCast(MovieByCastResponse.fromJson(responseMapData));
+  }
+
+  MovieByCastResponse _appendBaseUrlMovieByCast(MovieByCastResponse response) {
+    response.cast.forEach((item) {
+      if (item.posterPath != null) {
+        item.posterPath = BASE_URL_MOVIE_IMAGE + item.posterPath;
+      }
+      if (item.backdropPath != null) {
+        item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
+      }
+    });
+    return response;
   }
 }

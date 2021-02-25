@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
+import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
@@ -20,6 +21,7 @@ class MovieDetailWidget extends BaseStatefulWidget {
 
 class _MovieDetailWidgetState extends State<MovieDetailWidget> {
   MovieDetail movie;
+  List<Cast> casts;
   final _movieRepository = MovieRepository();
 
   void initState() {
@@ -58,6 +60,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
               padding: const EdgeInsets.all(20),
               child: Text(movie.overview),
             ),
+            _buildCastListWidget(),
           ],
         ),
       ),
@@ -149,7 +152,13 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       setState(() {
         movie = response;
       });
-      widget.hideLoadingDialog(context);
+    }).then((_) {
+      _movieRepository.getCastByMovie(movieId).then((response) {
+        setState(() {
+          casts = response.cast;
+        });
+        widget.hideLoadingDialog(context);
+      });
     });
     widget.showLoadingDialog(context);
   }
@@ -179,6 +188,48 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             ),
           )
           .toList(),
+    );
+  }
+
+  Widget _buildCastListWidget() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: casts == null
+            ? []
+            : casts.map(
+                (cast) => Container(
+                  margin: EdgeInsets.only(left: 20),
+                  width: 100,
+                  child: Column(
+                    children: [
+                      _buildCastImage(cast),
+                      Text(
+                        '${cast.name} (${cast.character})',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ).toList(),
+      ),
+    );
+  }
+
+  Image _buildCastImage(Cast cast) {
+    if (cast.profilePath == null) {
+      return Image.asset(
+        'assets/images/ic_cast_no_image.png',
+        width: 100,
+        height: 150,
+        fit: BoxFit.cover,
+      );
+    }
+    return Image.network(
+      cast.profilePath,
+      width: 100,
+      height: 150,
     );
   }
 }

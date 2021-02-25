@@ -1,3 +1,5 @@
+import 'package:movie_db/data/models/cast_by_movie.dart';
+import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
@@ -16,5 +18,13 @@ class MovieRepository {
 
   Future<MovieByGenreResponse> getMovieByGenre(int genreId) {
     return _movieAPI.getMovieByGenre(genreId);
+  }
+
+  Future<CastByMovieResponse> getCastByMovie(int movieId) {
+    return _movieAPI.getCastByMovie(movieId);
+  }
+
+  Future<MovieByCastResponse> getMovieByCast(int castId) {
+    return _movieAPI.getMovieByCast(castId);
   }
 }

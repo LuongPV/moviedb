@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/home/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:movie_db/screens/base/base_state.dart';
+import 'package:movie_db/screens/home/home.dart';
+
+import 'login_controller.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  LoginWidgetState createState() => LoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
-  var usernameErrorText;
-
-  var passwordErrorText;
-
+class LoginWidgetState extends BaseState<LoginWidget, LoginController> {
   final usernameInputController = TextEditingController();
-
   final passwordInputController = TextEditingController();
+
+  @override
+  LoginController getController() => LoginController(this, context);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,8 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           textAlign: TextAlign.center,
         ),
-        onPressed: login,
+        onPressed: () => controller.login(usernameInputController.text.trim(),
+            passwordInputController.text.trim()),
         minWidth: 350,
       ),
     );
@@ -84,7 +86,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         icon: Icon(Icons.lock_outline),
         hintText: AppLocalizations.of(context).txtPassword,
         labelText: AppLocalizations.of(context).txtPassword,
-        errorText: passwordErrorText,
+        errorText: controller.passwordErrorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(32)),
         ),
@@ -100,7 +102,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         icon: Icon(Icons.person),
         hintText: AppLocalizations.of(context).txtUsername,
         labelText: AppLocalizations.of(context).txtUsername,
-        errorText: usernameErrorText,
+        errorText: controller.usernameErrorText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(32)),
         ),
@@ -108,36 +110,8 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  void login() {
-    setState(() {
-      usernameErrorText =
-          _validateUsername(usernameInputController.text.trim());
-      passwordErrorText =
-          _validatePassword(passwordInputController.text.trim());
-      if (usernameErrorText == null && passwordErrorText == null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeWidget()));
-      }
-    });
-  }
-
-  String _validateUsername(String username) {
-    if (username.isEmpty) {
-      return AppLocalizations.of(context).errEmptyUsername;
-    }
-    if (username != 'aaa') {
-      return AppLocalizations.of(context).errEmptyPassword;
-    }
-    return null;
-  }
-
-  String _validatePassword(String password) {
-    if (password.isEmpty) {
-      return AppLocalizations.of(context).errEmptyPassword;
-    }
-    if (password != '111') {
-      return AppLocalizations.of(context).errWrongPassword;
-    }
-    return null;
+  void openHomeWidget() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeWidget()));
   }
 }

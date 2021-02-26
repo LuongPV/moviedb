@@ -1,5 +1,6 @@
 const BASE_URL_MOVIE_SEARCH = 'https://api.themoviedb.org/3/search/movie';
 const BASE_URL_MOVIE_DETAIL = 'https://api.themoviedb.org/3/movie/';
+const BASE_URL_TV_SHOW_DETAIL = 'https://api.themoviedb.org/3/tv/';
 const PATH_MOVIE_DETAIL_CAST = '/credits';
 const BASE_URL_MOVIE_BY_GENRE = 'https://api.themoviedb.org/3/discover/movie';
 const BASE_URL_MOVIE_BY_CAST = 'https://api.themoviedb.org/3/person/';

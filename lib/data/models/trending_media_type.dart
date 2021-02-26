@@ -1,6 +1,7 @@
 enum TrendingMediaType {
   MOVIE,
-  TV_SHOW
+  TV_SHOW,
+  ALL
 }
 
 extension APIString on TrendingMediaType {
@@ -11,6 +12,7 @@ extension APIString on TrendingMediaType {
         return 'movie';
       case TrendingMediaType.TV_SHOW:
         return 'tv';
+      case TrendingMediaType.ALL:
       default:
         return 'all';
     }

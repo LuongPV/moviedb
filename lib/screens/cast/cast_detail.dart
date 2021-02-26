@@ -11,6 +11,7 @@ import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_cast.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
+import 'package:movie_db/utils/model_converter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CastDetailWidget extends BaseStatefulWidget {
@@ -72,7 +73,9 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
               ),
             ),
             _buildMovieBanner(),
-            Expanded(child: buildMovieList(movies, context)),
+            Expanded(child: buildMovieList(movies.toMedia(), context, itemClickListener: (item) => 
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailWidget(item.id)))),
+            ),
           ],
         ),
       ),
@@ -187,9 +190,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
 
   void _getCastDetail(int castId) {
     _movieRepository.getCastDetail(castId).then((response) {
-      setState(() {
-        castDetail = response;
-      });
+      castDetail = response;
     }).then((_) {
       _movieRepository.getMovieByCast(widget.castId).then((response) {
         setState(() {

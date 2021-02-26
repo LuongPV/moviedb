@@ -4,16 +4,15 @@ import 'package:movie_db/data/models/trending_media.dart';
 import 'package:movie_db/data/models/trending_media_type.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
-import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/screens/detail/tv_show_detail.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 
-class HomeTrendWidget extends BaseStatefulWidget {
+class HomeTVShowWidget extends BaseStatefulWidget {
   @override
-  _HomeTrendWidgetState createState() => _HomeTrendWidgetState();
+  _HomeTVShowWidgetState createState() => _HomeTVShowWidgetState();
 }
 
-class _HomeTrendWidgetState extends State<HomeTrendWidget> {
+class _HomeTVShowWidgetState extends State<HomeTVShowWidget> {
   List<TrendingMedia> trendingMovies;
   final _movieRepository = MovieRepository();
 
@@ -33,21 +32,14 @@ class _HomeTrendWidgetState extends State<HomeTrendWidget> {
       itemClickListener: (item) => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) {
-            if (item.mediaType == TrendingMediaType.MOVIE.name) {
-              return MovieDetailWidget(item.id);
-            } else {
-              return TVShowDetailWidget(item.id);
-            }
-          },
+          builder: (context) => TVShowDetailWidget(item.id),
         ),
       ),
-      showType: true
     );
   }
 
   void _getTrendingMovies() {
-    _movieRepository.getTrendingMedia(TrendingMediaType.ALL).then((response) {
+    _movieRepository.getTrendingMedia(TrendingMediaType.TV_SHOW).then((response) {
       setState(() {
         trendingMovies = response.results;
       });

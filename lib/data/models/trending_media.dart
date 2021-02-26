@@ -14,6 +14,7 @@ class TrendingMedia {
   String backdropPath;
   num popularity;
   String mediaType;
+  String name;
 
   TrendingMedia(
       {this.genreIds,
@@ -30,7 +31,8 @@ class TrendingMedia {
         this.adult,
         this.backdropPath,
         this.popularity,
-        this.mediaType});
+        this.mediaType,
+        this.name});
 
   TrendingMedia.fromJson(Map<String, dynamic> json) {
     genreIds = json['genre_ids'].cast<int>();
@@ -48,6 +50,7 @@ class TrendingMedia {
     backdropPath = json['backdrop_path'];
     popularity = json['popularity'];
     mediaType = json['media_type'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +70,7 @@ class TrendingMedia {
     data['backdrop_path'] = this.backdropPath;
     data['popularity'] = this.popularity;
     data['media_type'] = this.mediaType;
+    data['name'] = this.name;
     return data;
   }
 

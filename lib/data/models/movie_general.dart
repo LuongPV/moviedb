@@ -13,6 +13,7 @@ class MovieGeneral {
   bool video;
   num voteAverage;
   int voteCount;
+  String name;
 
   MovieGeneral(
       {this.adult,
@@ -28,7 +29,8 @@ class MovieGeneral {
         this.title,
         this.video,
         this.voteAverage,
-        this.voteCount});
+        this.voteCount,
+        this.name});
 
   MovieGeneral.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
@@ -45,6 +47,7 @@ class MovieGeneral {
     video = json['video'];
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class MovieGeneral {
     data['video'] = this.video;
     data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;
+    data['name'] = this.name;
     return data;
   }
 

@@ -6,6 +6,7 @@ import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/home/home_movie_widget.dart';
 import 'package:movie_db/screens/home/home_settings_widget.dart';
 import 'package:movie_db/screens/home/home_trend_widget.dart';
+import 'package:movie_db/screens/home/home_tv_show_widget.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return [
       HomeTrendWidget(),
       HomeMovieWidget(),
-      Text('TV Show widget'),
+      HomeTVShowWidget(),
       HomeSettingsWidget(),
     ];
   }

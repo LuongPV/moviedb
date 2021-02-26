@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
-import 'package:movie_db/data/models/movie_detail.dart';
+import 'package:movie_db/data/models/tv_show_detail.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
@@ -14,43 +14,43 @@ import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MovieDetailWidget extends BaseStatefulWidget {
-  final movieId;
+class TVShowDetailWidget extends BaseStatefulWidget {
+  final int tvShowId;
 
-  MovieDetailWidget(this.movieId);
+  TVShowDetailWidget(this.tvShowId);
 
   @override
-  _MovieDetailWidgetState createState() => _MovieDetailWidgetState();
+  _TVShowDetailWidgetState createState() => _TVShowDetailWidgetState();
 }
 
-class _MovieDetailWidgetState extends State<MovieDetailWidget> {
-  MovieDetail movie;
+class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
+  TVShowDetail tvShowDetail;
   List<Cast> casts;
   final _movieRepository = MovieRepository();
 
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getMovieDetail(widget.movieId);
+      _getTVShowDetail(widget.tvShowId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (movie == null) {
+    if (tvShowDetail == null) {
       return Scaffold();
     }
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          movie.title,
+          tvShowDetail.name,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildImagePosterWidget(movie.backdropPath),
+            _buildImagePosterWidget(tvShowDetail.backdropPath),
             Container(
               padding: EdgeInsets.all(20),
               color: Colors.yellow,
@@ -60,7 +60,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             _buildYoutubeSearchButtonWidget(),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Text(movie.overview),
+              child: Text(tvShowDetail.overview),
             ),
             _buildCastListWidget(),
           ],
@@ -91,7 +91,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             ),
           ],
         ),
-        onPressed: () => _openYoutubeSearch(movie.title),
+        onPressed: () => _openYoutubeSearch(tvShowDetail.name),
       ),
     );
   }
@@ -101,17 +101,15 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          movie.title == movie.originalTitle
-              ? movie.title
-              : '${movie.title} (${movie.originalTitle})',
+          tvShowDetail.name,
           style: TextStyle(
               fontSize: 26, color: Colors.black87, fontWeight: FontWeight.bold),
         ),
-        Text(movie.releaseDate ?? '---',
+        Text(tvShowDetail.lastAirDate ?? '---',
             style: TextStyle(color: Colors.black54)),
         SmoothStarRating(
             starCount: 5,
-            rating: movie.voteAverage.toDouble() / 2,
+            rating: tvShowDetail.voteAverage.toDouble() / 2,
             allowHalfRating: true,
             size: 25,
             isReadOnly: true,
@@ -149,13 +147,13 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
     }
   }
 
-  void _getMovieDetail(int movieId) {
-    _movieRepository.getMovieDetail(movieId).then((response) {
+  void _getTVShowDetail(int tvShowId) {
+    _movieRepository.getTVShowDetail(tvShowId).then((response) {
       setState(() {
-        movie = response;
+        tvShowDetail = response;
       });
     }).then((_) {
-      _movieRepository.getCastByMovie(movieId).then((response) {
+      _movieRepository.getCastByTVShow(tvShowId).then((response) {
         setState(() {
           casts = response.cast;
         });
@@ -169,7 +167,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
     final random = Random();
     return Wrap(
       spacing: 4,
-      children: movie.genres
+      children: tvShowDetail.genres
           .map(
             (genre) => InkWell(
               child: Chip(

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/cast_by_movie.dart';
+import 'package:movie_db/data/models/cast_by_tv_show.dart';
 import 'package:movie_db/data/models/cast_detail.dart';
 import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
@@ -10,6 +11,7 @@ import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
 import 'package:movie_db/data/models/trending_media_response.dart';
 import 'package:movie_db/data/models/trending_media_type.dart';
+import 'package:movie_db/data/models/tv_show_detail.dart';
 import 'package:movie_db/data/repositories/base_api.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
@@ -158,9 +160,14 @@ class TheMovieDbAPI extends BaseAPI {
   }
 
   Future<CastDetail> getCastDetail(int castId) async {
-    final url = BASE_URL_MOVIE_BY_CAST + castId.toString() + QUERY_API_KEY + API_KEY + _getLanguageQuery();
-    final response = await executeGetRequest(url);
-    return _convertCastDetailResponse(response);
+    try {
+      final url = BASE_URL_MOVIE_BY_CAST + castId.toString() + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+      final response = await executeGetRequest(url);
+      return _convertCastDetailResponse(response);
+    } catch (e) {
+      Logger.w('Exception e = $e');
+      rethrow;
+    }
   }
 
   CastDetail _convertCastDetailResponse(String jsonBody) {
@@ -207,5 +214,57 @@ class TheMovieDbAPI extends BaseAPI {
     });
     return response;
   }
+
+  Future<TVShowDetail> getTVShowDetail(int movieId) async {
+    final url = BASE_URL_TV_SHOW_DETAIL + movieId.toString() + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+    final response = await executeGetRequest(url);
+    return _convertTVShowDetailResponse(response);
+  }
+
+  TVShowDetail _convertTVShowDetailResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlTVShowDetail(TVShowDetail.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse search data fail detail = $e');
+    }
+    return null;
+  }
+
+  TVShowDetail _appendBaseUrlTVShowDetail(TVShowDetail response) {
+    if (response.posterPath != null) {
+      response.posterPath = BASE_URL_MOVIE_IMAGE + response.posterPath;
+    }
+    if (response.backdropPath != null) {
+      response.backdropPath = BASE_URL_MOVIE_IMAGE + response.backdropPath;
+    }
+    return response;
+  }
+
+  Future<CastByTVShowResponse> getCastByTVShow(int movieId) async {
+    final url = BASE_URL_TV_SHOW_DETAIL + movieId.toString() + PATH_MOVIE_DETAIL_CAST + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+    final response = await executeGetRequest(url);
+    return _convertCastByTVShowResponse(response);
+  }
+
+  CastByTVShowResponse _convertCastByTVShowResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    try {
+      return _appendBaseUrlCastByTVShow(CastByTVShowResponse.fromJson(responseMapData));
+    } catch (e) {
+      Logger.w('Parse data fail detail = $e');
+    }
+    return null;
+  }
+
+  CastByTVShowResponse _appendBaseUrlCastByTVShow(CastByTVShowResponse response) {
+    response.cast.forEach((cast) {
+      if (cast.profilePath != null) {
+        cast.profilePath = BASE_URL_MOVIE_IMAGE + cast.profilePath;
+      }
+    });
+    return response;
+  }
+
 
 }

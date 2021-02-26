@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/models/movie_general.dart';
+import 'package:movie_db/data/models/trending_media.dart';
+import 'package:movie_db/data/models/trending_media_type.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -69,9 +71,8 @@ void _openDetailMovie(MovieGeneral movie, BuildContext context) {
     MaterialPageRoute(
       builder: (context) {
         Logger.d('Open movie $movie');
-        return MovieDetailWidget();
+        return MovieDetailWidget(movie.id);
       },
-      settings: RouteSettings(arguments: movie.id),
     ),
   );
 }
@@ -91,7 +92,11 @@ Widget _getMovieThumbnailWidget(MovieGeneral movie) {
   );
 }
 
-Widget buildMovieList(List<MovieGeneral> movies, BuildContext context) {
+Widget buildMovieList(
+    List<TrendingMedia> movies,
+    BuildContext context,
+    {Function(TrendingMedia) itemClickListener, bool showType = false}
+    ) {
   if (movies == null) {
     return Material();
   }
@@ -101,32 +106,65 @@ Widget buildMovieList(List<MovieGeneral> movies, BuildContext context) {
     crossAxisSpacing: 10,
     mainAxisSpacing: 10,
     crossAxisCount: 3,
-    children: movies.map((movie) => _buildMovieItem(movie, context)).toList(),
+    children: movies
+        .map((movie) => _buildMovieItem(movie, context, itemClickListener: itemClickListener, showType: showType))
+        .toList(),
   );
 }
 
-Widget _buildMovieItem(MovieGeneral movie, BuildContext context) {
-  return InkWell(
-      child: Column(
-        children: [
-          _buildMovieImage(movie),
-          Text(
-            movie.title,
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MovieDetailWidget(),
-            settings: RouteSettings(
-              arguments: movie.id,
+Widget _buildMovieItem(TrendingMedia movie, BuildContext context, {Function(TrendingMedia) itemClickListener, bool showType = false}) {
+  Widget content = Column(
+    children: [
+      _buildMovieImage(movie),
+      Text(
+        movie.title ?? movie.name,
+        textAlign: TextAlign.center,
+      )
+    ],
+  );
+  if (showType) {
+    content = Stack(
+      children: [
+        content,
+        Positioned(
+          top: 5,
+          right: 10,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.all(Radius.circular(5))
             ),
-          )));
+            padding: EdgeInsets.all(3),
+            child: _buildMediaTypeIcon(movie),
+          ),
+        ),
+      ],
+    );
+  }
+
+  return InkWell(
+    child: content,
+    onTap: () {
+      if (itemClickListener != null) {
+        itemClickListener(movie);
+      }
+    },
+  );
 }
 
-Widget _buildMovieImage(MovieGeneral movie) {
+Widget _buildMediaTypeIcon(TrendingMedia media) {
+  var icon;
+  if (media.mediaType == TrendingMediaType.MOVIE.name) {
+    icon = Icon(Icons.movie);
+  } else if (media.mediaType == TrendingMediaType.TV_SHOW.name) {
+    icon = Icon(Icons.live_tv);
+  } else {
+    icon = Material();
+  }
+  return icon;
+}
+
+Widget _buildMovieImage(TrendingMedia movie) {
   if (movie.posterPath == null) {
     return Image.asset(
       'assets/images/ic_movie_thumbnail.png',

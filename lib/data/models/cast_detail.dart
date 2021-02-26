@@ -5,7 +5,7 @@ class CastDetail {
   String birthday;
   String deathday;
   int gender;
-  Null homepage;
+  String homepage;
   int id;
   String imdbId;
   String knownForDepartment;

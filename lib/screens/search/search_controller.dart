@@ -4,15 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 
-import 'home_widget.dart';
+import 'search_widget.dart';
 
-class HomeController {
-  HomeWidgetState state;
+class SearchController {
+  SearchWidgetState state;
   BuildContext context;
   final movies = List<MovieGeneral>();
   final _movieRepository = MovieRepository();
 
-  HomeController(this.state, this.context);
+  SearchController(this.state, this.context);
 
   void searchMovie(String searchText) {
     _movieRepository.searchMovie(searchText).then((response) {

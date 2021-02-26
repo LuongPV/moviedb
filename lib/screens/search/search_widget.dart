@@ -6,14 +6,14 @@ import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
-import 'home_controller.dart';
+import 'search_controller.dart';
 
-class HomeWidget extends BaseStatefulWidget {
+class SearchWidget extends BaseStatefulWidget {
   @override
-  HomeWidgetState createState() => HomeWidgetState();
+  SearchWidgetState createState() => SearchWidgetState();
 }
 
-class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
+class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var canExit = false;
 
@@ -83,7 +83,7 @@ class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
   }
 
   @override
-  HomeController getController() => HomeController(this, context);
+  SearchController getController() => SearchController(this, context);
 
   void showNetworkError(errDetailMessage) {
     showDialog(

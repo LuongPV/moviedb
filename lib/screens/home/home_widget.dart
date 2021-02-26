@@ -1,22 +1,20 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'home_controller.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override
-  _HomeWidgetState createState() => _HomeWidgetState();
+  HomeWidgetState createState() => HomeWidgetState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final movies = List<MovieGeneral>();
-  final _movieRepository = MovieRepository();
   var canExit = false;
 
   @override
@@ -44,8 +42,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                   height: 10,
                 ),
                 Expanded(
-                    child: movies.isNotEmpty
-                        ? buildSearchListWidget(movies, context)
+                    child: controller.movies.isNotEmpty
+                        ? buildSearchListWidget(controller.movies, context)
                         : buildEmptyListLayoutWidget(context)),
               ],
             ),
@@ -63,47 +61,8 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
         onSubmitted: (value) {
           Logger.d('Submit button click data = $value');
-          _submitSearch(value.trim(), context);
+          controller.searchMovie(value.trim());
         });
-  }
-
-  void _submitSearch(String searchText, BuildContext context) {
-    _movieRepository.searchMovie(searchText).then((response) {
-      setState(() {
-        movies.clear();
-        movies.addAll(response.results);
-      });
-      widget.hideLoadingDialog(context);
-    }).catchError((e) {
-      widget.hideLoadingDialog(context);
-      var errDetailMessage;
-      if (e is SocketException) {
-        errDetailMessage = 'Please check the internet connection!';
-      } else {
-        errDetailMessage = "We're having technique issue, please try later!";
-      }
-      showDialog(
-        context: context,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async => false,
-            child: AlertDialog(
-              title: null,
-              content: Text(errDetailMessage),
-              actions: [
-                MaterialButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    });
-    widget.showLoadingDialog(context);
   }
 
   Future<bool> _onWillPop() {
@@ -121,5 +80,31 @@ class _HomeWidgetState extends State<HomeWidget> {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+
+  @override
+  HomeController getController() => HomeController(this, context);
+
+  void showNetworkError(errDetailMessage) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: null,
+            content: Text(errDetailMessage),
+            actions: [
+              MaterialButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

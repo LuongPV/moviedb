@@ -1,7 +1,7 @@
 name: movie_db
 description: A new Flutter application.
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.0.2+2
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
@@ -15,6 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   smooth_star_rating: ^1.1.1
   url_launcher: ^5.7.10
+  package_info: ^0.4.0+16
 dev_dependencies:
   flutter_test:
     sdk: flutter

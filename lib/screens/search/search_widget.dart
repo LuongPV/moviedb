@@ -14,15 +14,10 @@ class SearchWidget extends BaseStatefulWidget {
 }
 
 class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  var canExit = false;
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onWillPop(),
-      child: Scaffold(
-        key: scaffoldKey,
+    return Scaffold(
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(10),
@@ -49,7 +44,6 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -63,23 +57,6 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
           Logger.d('Submit button click data = $value');
           controller.searchMovie(value.trim());
         });
-  }
-
-  Future<bool> _onWillPop() {
-    if (!canExit) {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(
-          "Press 'Back' again to exit",
-          style: TextStyle(
-            color: Colors.red,
-          ),
-        ),
-      ));
-      canExit = true;
-      Future.delayed(Duration(seconds: 3)).then((_) => canExit = false);
-      return Future.value(false);
-    }
-    return Future.value(true);
   }
 
   @override

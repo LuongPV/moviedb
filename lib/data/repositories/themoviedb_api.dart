@@ -8,6 +8,8 @@ import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
+import 'package:movie_db/data/models/trending_media_response.dart';
+import 'package:movie_db/data/models/trending_media_type.dart';
 import 'package:movie_db/data/repositories/base_api.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
@@ -177,4 +179,33 @@ class TheMovieDbAPI extends BaseAPI {
     }
     return response;
   }
+
+  Future<TrendingMediaResponse> getTrendingMedia(TrendingMediaType type) async {
+    try {
+      final url = BASE_URL_TRENDING + type.name + PATH_URL_TRENDING + QUERY_API_KEY + API_KEY + _getLanguageQuery();
+      final response = await executeGetRequest(url);
+      return _convertTrendingMediaResponse(response);
+    } catch (e) {
+      Logger.w('API Exception $e');
+      throw e;
+    }
+  }
+
+  TrendingMediaResponse _convertTrendingMediaResponse(String jsonBody) {
+    final responseMapData = jsonDecode(jsonBody);
+    return _appendBaseUrlTrendingMedia(TrendingMediaResponse.fromJson(responseMapData));
+  }
+
+  TrendingMediaResponse _appendBaseUrlTrendingMedia(TrendingMediaResponse response) {
+    response.results.forEach((item) {
+      if (item.posterPath != null) {
+        item.posterPath = BASE_URL_MOVIE_IMAGE + item.posterPath;
+      }
+      if (item.backdropPath != null) {
+        item.backdropPath = BASE_URL_MOVIE_IMAGE + item.backdropPath;
+      }
+    });
+    return response;
+  }
+
 }

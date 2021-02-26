@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/screens/base/base_state.dart';
+import 'package:movie_db/screens/home/home_widget.dart';
 import 'package:movie_db/screens/search/search_widget.dart';
 
 import 'login_controller.dart';
@@ -112,6 +113,6 @@ class LoginWidgetState extends BaseState<LoginWidget, LoginController> {
 
   void openHomeWidget() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => SearchWidget()));
+        context, MaterialPageRoute(builder: (context) => HomeWidget()));
   }
 }

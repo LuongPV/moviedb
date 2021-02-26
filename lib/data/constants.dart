@@ -12,3 +12,5 @@ const BASE_URL_YOUTUBE_SEARCH = 'https://www.youtube.com/results?search_query=';
 const BASE_URL_IMDB_CAST = 'https://www.imdb.com/name/';
 const QUERY_MOVIE_BY_GENRE = '&with_genres=';
 const QUERY_API_LANGUAGE = '&language=';
+const BASE_URL_TRENDING = 'https://api.themoviedb.org/3/trending/';
+const PATH_URL_TRENDING = '/day';

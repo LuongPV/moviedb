@@ -9,6 +9,7 @@ import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_cast.dart';
+import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -71,7 +72,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
               ),
             ),
             _buildMovieBanner(),
-            Expanded(child: _buildMovieList()),
+            Expanded(child: buildMovieList(movies, context)),
           ],
         ),
       ),
@@ -216,45 +217,5 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
         Logger.w('Fail launch url $url');
       }
     }
-  }
-
-  Widget _buildMovieList() {
-    if (movies == null) {
-      return Material();
-    }
-    return GridView.count(
-      childAspectRatio: 0.5,
-      padding: const EdgeInsets.all(10),
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      crossAxisCount: 3,
-      children: movies.map(_buildMovieItem).toList(),
-    );
-  }
-
-  Widget _buildMovieItem(MovieGeneral movie) {
-    return InkWell(
-        child: Column(
-          children: [_buildMovieImage(movie), Text(movie.title)],
-        ),
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MovieDetailWidget(),
-              settings: RouteSettings(
-                arguments: movie.id,
-              ),
-            )));
-  }
-
-  Widget _buildMovieImage(MovieGeneral movie) {
-    if (movie.posterPath == null) {
-      return Image.asset(
-        'assets/images/ic_movie_thumbnail.png',
-      );
-    }
-    return Image.network(
-      movie.posterPath,
-    );
   }
 }

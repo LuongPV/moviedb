@@ -4,6 +4,8 @@ import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
 import 'package:movie_db/data/models/movie_search.dart';
+import 'package:movie_db/data/models/trending_media_response.dart';
+import 'package:movie_db/data/models/trending_media_type.dart';
 import 'package:movie_db/data/repositories/themoviedb_api.dart';
 
 class MovieRepository {
@@ -31,5 +33,9 @@ class MovieRepository {
 
   Future<CastDetail> getCastDetail(int castId) {
     return _movieAPI.getCastDetail(castId);
+  }
+
+  Future<TrendingMediaResponse> getTrendingMedia(TrendingMediaType type) {
+    return _movieAPI.getTrendingMedia(type);
   }
 }

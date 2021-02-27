@@ -7,6 +7,7 @@ import 'package:movie_db/screens/home/home_movie_widget.dart';
 import 'package:movie_db/screens/home/home_settings_widget.dart';
 import 'package:movie_db/screens/home/home_trend_widget.dart';
 import 'package:movie_db/screens/home/home_tv_show_widget.dart';
+import 'package:movie_db/screens/search/search_widget.dart';
 import 'package:movie_db/utils/package_info.dart';
 
 class HomeWidget extends BaseStatefulWidget {
@@ -146,9 +147,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
               ),
             ),
-            _buildLeftMenuItem(Icons.movie, 'Movie', 1),
-            _buildLeftMenuItem(Icons.live_tv_sharp, 'TV Show', 2),
-            _buildLeftMenuItem(Icons.settings, 'Settings', 3),
+            _buildLeftMenuItem(
+                Icons.search_outlined,
+                'Search',
+                () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchWidget()))
+            ),
+            _buildLeftMenuItem(Icons.movie, 'Movie', () => _selectedIndex = 1),
+            _buildLeftMenuItem(Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
+            _buildLeftMenuItem(Icons.settings, 'Settings', () => _selectedIndex = 3),
             Expanded(child: Material()),
             Text('Version: $versionName'),
             SizedBox(height: 10,),
@@ -158,17 +164,24 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-  ListTile _buildLeftMenuItem(IconData iconData, String label, int index) {
+  ListTile _buildLeftMenuItem(IconData iconData, String label, Function clickListener) {
     return ListTile(
-          leading: Icon(iconData),
+      leading: Icon(
+        iconData,
+        color: Color(0xFFDAE9FF),
+      ),
       title: Text(
         label,
-        style: TextStyle(fontWeight: FontWeight.w600),
+        style: TextStyle(
+          fontSize: 18,
+          color: Color(0xFFDAE9FF),
+          fontWeight: FontWeight.w600,
+        ),
       ),
       onTap: () {
             setState(() {
               Navigator.pop(context);
-              _selectedIndex = index;
+              clickListener();
             });
           },
         );

@@ -18,6 +18,9 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Search'),
+      ),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(10),

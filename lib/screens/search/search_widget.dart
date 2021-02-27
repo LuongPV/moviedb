@@ -14,10 +14,12 @@ class SearchWidget extends BaseStatefulWidget {
 }
 
 class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Search'),
       ),
@@ -86,5 +88,26 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
         );
       },
     );
+  }
+
+  void showLoading() {
+    scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          'Loading, please wait...',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: Colors.blue,
+        duration: Duration(seconds: 60),
+      ),
+    );
+  }
+
+  void hideLoading() {
+    scaffoldKey.currentState.hideCurrentSnackBar();
   }
 }

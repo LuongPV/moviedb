@@ -11,14 +11,22 @@ class ToggleSettingWidget extends StatefulWidget {
 
   final Widget icon;
 
-  ToggleSettingWidget(this.title, this.description, this.icon, [this.onSettingToggled]);
+  final bool defaultValue;
+
+  ToggleSettingWidget(this.title, this.description, this.icon, {this.defaultValue, this.onSettingToggled});
 
   @override
   _ToggleSettingWidgetState createState() => _ToggleSettingWidgetState();
 }
 
 class _ToggleSettingWidgetState extends State<ToggleSettingWidget> {
-  var isOn = true;
+  var isOn;
+
+  @override
+  void initState() {
+    super.initState();
+    isOn = widget.defaultValue;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,3 +15,4 @@ const QUERY_MOVIE_BY_GENRE = '&with_genres=';
 const QUERY_API_LANGUAGE = '&language=';
 const BASE_URL_TRENDING = 'https://api.themoviedb.org/3/trending/';
 const PATH_URL_TRENDING = '/day';
+const DELAY_CONFIRM_EXIT_SEC = 2;

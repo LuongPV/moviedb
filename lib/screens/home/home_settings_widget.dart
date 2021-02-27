@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_db/data/global_variables.dart';
 import 'package:movie_db/screens/widgets/ToggleSettingWidget.dart';
 
 class HomeSettingsWidget extends StatelessWidget {
@@ -13,6 +14,8 @@ class HomeSettingsWidget extends StatelessWidget {
             'Confirm exiting application',
             "Press 'Back' twice to exit application",
             _buildImage('assets/images/ic_exit.png'),
+            defaultValue: isConfirmExit,
+            onSettingToggled: (isOn) => isConfirmExit = isOn,
           ),
         ],
       ),

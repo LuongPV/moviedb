@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_db/data/constants.dart';
+import 'package:movie_db/data/global_variables.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/home/home_movie_widget.dart';
@@ -60,8 +62,12 @@ class _HomeWidgetState extends State<HomeWidget> {
       Navigator.pop(context);
       return Future.value(false);
     }
+    if (!isConfirmExit) {
+      return Future.value(true);
+    }
     if (!canExit) {
       scaffoldKey.currentState.showSnackBar(SnackBar(
+        duration: Duration(seconds: DELAY_CONFIRM_EXIT_SEC),
         content: Text(
           "Press 'Back' again to exit",
           style: TextStyle(
@@ -73,7 +79,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         backgroundColor: Colors.blue,
       ));
       canExit = true;
-      Future.delayed(Duration(seconds: 3)).then((_) => canExit = false);
+      Future.delayed(Duration(seconds: DELAY_CONFIRM_EXIT_SEC)).then((_) => canExit = false);
       return Future.value(false);
     }
     return Future.value(true);

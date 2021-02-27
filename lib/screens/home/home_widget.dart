@@ -157,6 +157,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 'Search',
                 () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchWidget()))
             ),
+            _buildLeftMenuItem(Icons.trending_up, 'Trend', () => _selectedIndex = 0),
             _buildLeftMenuItem(Icons.movie, 'Movie', () => _selectedIndex = 1),
             _buildLeftMenuItem(Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
             _buildLeftMenuItem(Icons.settings, 'Settings', () => _selectedIndex = 3),

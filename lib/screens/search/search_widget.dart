@@ -15,6 +15,7 @@ class SearchWidget extends BaseStatefulWidget {
 
 class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  var textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,8 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
                   height: 10,
                 ),
                 Expanded(
-                    child: controller.movies.isNotEmpty
-                        ? buildSearchListWidget(controller.movies, context)
-                        : buildEmptyListLayoutWidget(context)),
+                    child: _buildSearchWidget(),
+                ),
               ],
             ),
           ),
@@ -52,16 +52,27 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
     );
   }
 
+  Widget _buildSearchWidget() {
+    if (textController.text.isEmpty) {
+      return Material();
+    } else if (controller.movies.isNotEmpty) {
+      return buildSearchListWidget(controller.movies, context);
+    } else {
+      return buildEmptyListLayoutWidget(context);
+    }
+  }
+
   Widget _buildTextInputWidget(BuildContext context) {
     return TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(gapPadding: 0),
-          hintText: AppLocalizations.of(context).hintSearch,
-        ),
-        onSubmitted: (value) {
-          Logger.d('Submit button click data = $value');
-          controller.searchMovie(value.trim());
-        });
+      controller: textController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(gapPadding: 0),
+        hintText: AppLocalizations.of(context).hintSearch,
+      ),
+      onSubmitted: (value) {
+        Logger.d('Submit button click data = $value');
+        controller.searchMovie(value.trim());
+      });
   }
 
   @override

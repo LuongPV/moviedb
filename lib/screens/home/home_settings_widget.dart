@@ -1,10 +1,29 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:movie_db/screens/widgets/ToggleSettingWidget.dart';
 
 class HomeSettingsWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Text('Settings widget');
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: [
+          ToggleSettingWidget(
+            'Confirm exiting application',
+            "Press 'Back' twice to exit application",
+            _buildImage('assets/images/ic_exit.png'),
+          ),
+        ],
+      ),
+    );
   }
 
+  Image _buildImage(String path) {
+    return Image.asset(
+      path,
+      width: 30,
+      height: 30,
+    );
+  }
 }

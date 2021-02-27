@@ -19,13 +19,14 @@ Widget buildEmptyListLayoutWidget(BuildContext context) => Center(
         children: <Widget>[
           Image.asset(
             'assets/images/ic_no_result.png',
+            color: Colors.blue,
             width: 150,
           ),
           SizedBox(
-            height: 10,
+            height: 30,
           ),
           Text(AppLocalizations.of(context).txtNoResult,
-              style: TextStyle(color: Colors.grey, fontSize: 20))
+              style: TextStyle(color: Colors.blue, fontSize: 20))
         ],
       ),
     );

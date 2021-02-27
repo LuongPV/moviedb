@@ -45,7 +45,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
         drawer: _buildNavigationDrawer(),
         body: Container(
-          child: _pages[_selectedIndex],
+          child: IndexedStack(
+            children: _pages,
+            index: _selectedIndex,
+          ),
         ),
         bottomNavigationBar: _buildBottomNavigationBar(),
       ),

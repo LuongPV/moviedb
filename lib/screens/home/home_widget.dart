@@ -65,9 +65,12 @@ class _HomeWidgetState extends State<HomeWidget> {
         content: Text(
           "Press 'Back' again to exit",
           style: TextStyle(
-            color: Colors.red,
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
           ),
         ),
+        backgroundColor: Colors.blue,
       ));
       canExit = true;
       Future.delayed(Duration(seconds: 3)).then((_) => canExit = false);

@@ -16,8 +16,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class TVShowDetailWidget extends BaseStatefulWidget {
   final int tvShowId;
+  final String name;
 
-  TVShowDetailWidget(this.tvShowId);
+  TVShowDetailWidget(this.tvShowId, this.name);
 
   @override
   _TVShowDetailWidgetState createState() => _TVShowDetailWidgetState();
@@ -37,34 +38,39 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (tvShowDetail == null) {
-      return Scaffold();
-    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          tvShowDetail.name,
-        ),
+        title: Text(widget.name),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImagePosterWidget(tvShowDetail.backdropPath),
-            Container(
-              padding: EdgeInsets.all(20),
-              color: Colors.yellow,
-              child: _buildInfoBannerWidget(),
-            ),
-            SizedBox(height: 10),
-            _buildYoutubeSearchButtonWidget(),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(tvShowDetail.overview),
-            ),
-            _buildCastListWidget(),
-          ],
-        ),
+      body: tvShowDetail == null ? _buildNoDataContent() : _buildDataContent(),
+    );
+  }
+
+  Widget _buildNoDataContent() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  SingleChildScrollView _buildDataContent() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildImagePosterWidget(tvShowDetail.backdropPath),
+          Container(
+            padding: EdgeInsets.all(20),
+            color: Colors.yellow,
+            child: _buildInfoBannerWidget(),
+          ),
+          SizedBox(height: 10),
+          _buildYoutubeSearchButtonWidget(),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(tvShowDetail.overview),
+          ),
+          _buildCastListWidget(),
+        ],
       ),
     );
   }
@@ -157,10 +163,8 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
         setState(() {
           casts = response.cast;
         });
-        widget.hideLoadingDialog(context);
       });
     });
-    widget.showLoadingDialog(context);
   }
 
   Widget _buildGenreListWidget() {

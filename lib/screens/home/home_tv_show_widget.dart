@@ -32,7 +32,7 @@ class _HomeTVShowWidgetState extends State<HomeTVShowWidget> {
       itemClickListener: (item) => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TVShowDetailWidget(item.id),
+          builder: (context) => TVShowDetailWidget(item.id, item.name),
         ),
       ),
     );

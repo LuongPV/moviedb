@@ -32,7 +32,7 @@ class _HomeMovieWidgetState extends State<HomeMovieWidget> {
       itemClickListener: (item) => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MovieDetailWidget(item.id),
+          builder: (context) => MovieDetailWidget(item.id, item.title),
         ),
       ),
     );

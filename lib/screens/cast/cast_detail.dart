@@ -74,7 +74,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
             ),
             _buildMovieBanner(),
             Expanded(child: buildMovieList(movies.toMedia(), context, itemClickListener: (item) => 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailWidget(item.id)))),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailWidget(item.id, item.title)))),
             ),
           ],
         ),

@@ -16,8 +16,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailWidget extends BaseStatefulWidget {
   final movieId;
+  final title;
 
-  MovieDetailWidget(this.movieId);
+  MovieDetailWidget(this.movieId, this.title);
 
   @override
   _MovieDetailWidgetState createState() => _MovieDetailWidgetState();
@@ -37,34 +38,40 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (movie == null) {
-      return Scaffold();
-    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          movie.title,
-        ),
+        title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImagePosterWidget(movie.backdropPath),
-            Container(
-              padding: EdgeInsets.all(20),
-              color: Colors.yellow,
-              child: _buildInfoBannerWidget(),
-            ),
-            SizedBox(height: 10),
-            _buildYoutubeSearchButtonWidget(),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(movie.overview),
-            ),
-            _buildCastListWidget(),
-          ],
-        ),
+      body: movie == null ? _buildNoDataContent() : _buildDataContent(),
+    );
+  }
+
+
+  Widget _buildNoDataContent() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  SingleChildScrollView _buildDataContent() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildImagePosterWidget(movie.backdropPath),
+          Container(
+            padding: EdgeInsets.all(20),
+            color: Colors.yellow,
+            child: _buildInfoBannerWidget(),
+          ),
+          SizedBox(height: 10),
+          _buildYoutubeSearchButtonWidget(),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(movie.overview),
+          ),
+          _buildCastListWidget(),
+        ],
       ),
     );
   }
@@ -159,10 +166,8 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
         setState(() {
           casts = response.cast;
         });
-        widget.hideLoadingDialog(context);
       });
     });
-    widget.showLoadingDialog(context);
   }
 
   Widget _buildGenreListWidget() {

@@ -71,7 +71,7 @@ void _openDetailMovie(MovieGeneral movie, BuildContext context) {
     MaterialPageRoute(
       builder: (context) {
         Logger.d('Open movie $movie');
-        return MovieDetailWidget(movie.id);
+        return MovieDetailWidget(movie.id, movie.title);
       },
     ),
   );

@@ -51,8 +51,6 @@ class _HomeTrendWidgetState extends State<HomeTrendWidget> {
       setState(() {
         trendingMovies = response.results;
       });
-      widget.hideLoadingDialog(context);
     });
-    widget.showLoadingDialog(context);
   }
 }

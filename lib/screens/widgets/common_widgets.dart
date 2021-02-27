@@ -98,7 +98,9 @@ Widget buildMovieList(
     {Function(TrendingMedia) itemClickListener, bool showType = false}
     ) {
   if (movies == null) {
-    return Material();
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
   return GridView.count(
     childAspectRatio: 0.5,

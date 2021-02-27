@@ -43,8 +43,6 @@ class _HomeTVShowWidgetState extends State<HomeTVShowWidget> {
       setState(() {
         trendingMovies = response.results;
       });
-      widget.hideLoadingDialog(context);
     });
-    widget.showLoadingDialog(context);
   }
 }

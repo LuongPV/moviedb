@@ -12,6 +12,7 @@ import 'package:movie_db/screens/cast/cast_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailWidget extends BaseStatefulWidget {
@@ -147,7 +148,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
 
   _openYoutubeSearch(String title) async {
     if (Platform.isAndroid) {
-      final url = BASE_URL_YOUTUBE_SEARCH + title;
+      final url = sprintf(URL_YOUTUBE_SEARCH, [title]);
       if (await canLaunch(url)) {
         await launch(url);
       } else {

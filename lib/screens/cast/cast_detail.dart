@@ -12,6 +12,7 @@ import 'package:movie_db/screens/movie_by/movie_by_cast.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 import 'package:movie_db/utils/model_converter.dart';
+import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CastDetailWidget extends BaseStatefulWidget {
@@ -211,7 +212,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
 
   _openCastImdbPage() async {
     if (Platform.isAndroid) {
-      final url = BASE_URL_IMDB_CAST + castDetail.imdbId;
+      final url = sprintf(URL_IMDB_CAST, [castDetail.imdbId]);
       if (await canLaunch(url)) {
         await launch(url);
       } else {

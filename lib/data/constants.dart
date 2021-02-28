@@ -7,7 +7,7 @@ const URL_TV_SHOW_DETAIL_CAST = 'https://api.themoviedb.org/3/tv/%d/credits?api_
 const URL_MOVIE_BY_GENRE = 'https://api.themoviedb.org/3/discover/movie?with_genres=%s&api_key=$API_KEY&language=%s';
 const URL_MOVIE_BY_CAST = 'https://api.themoviedb.org/3/person/%d/movie_credits?api_key=$API_KEY&language=%s';
 const URL_CAST_DETAIL = 'https://api.themoviedb.org/3/person/%d?api_key=$API_KEY&language=%s';
-const URL_MOVIE_IMAGE = 'http://image.tmdb.org/t/p/w500/%s';
+const URL_MOVIE_IMAGE = 'http://image.tmdb.org/t/p/w500%s';
 const URL_YOUTUBE_SEARCH = 'https://www.youtube.com/results?search_query=%s';
 const URL_IMDB_CAST = 'https://www.imdb.com/name/%s';
 const URL_TRENDING = 'https://api.themoviedb.org/3/trending/%s/day?api_key=$API_KEY&language=%s';

@@ -18,9 +18,14 @@ dependencies:
   package_info: ^0.4.0+16
   custom_switch: ^0.0.1
   sprintf: ^4.0.0
+  flutter_launcher_icons: ^0.8.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icons/ic_launcher.png"
 flutter:
   uses-material-design: true
   generate: true

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast_detail.dart';
 import 'package:movie_db/data/models/movie_general.dart';
+import 'package:movie_db/data/repositories/cast_repository.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
@@ -28,6 +29,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
   CastDetail castDetail;
   List<MovieGeneral> movies;
   final _movieRepository = MovieRepository();
+  final _castRepository = CastRepository();
 
   void initState() {
     super.initState();
@@ -190,7 +192,7 @@ class _CastDetailWidgetState extends State<CastDetailWidget> {
   }
 
   void _getCastDetail(int castId) {
-    _movieRepository.getCastDetail(castId).then((response) {
+    _castRepository.getCastDetail(castId).then((response) {
       castDetail = response;
     }).then((_) {
       _movieRepository.getMovieByCast(widget.castId).then((response) {

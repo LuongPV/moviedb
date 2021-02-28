@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
+import 'package:movie_db/data/repositories/cast_repository.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
@@ -29,6 +30,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
   MovieDetail movie;
   List<Cast> casts;
   final _movieRepository = MovieRepository();
+  final _castRepository = CastRepository();
 
   void initState() {
     super.initState();
@@ -163,7 +165,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
         movie = response;
       });
     }).then((_) {
-      _movieRepository.getCastByMovie(movieId).then((response) {
+      _castRepository.getCastByMovie(movieId).then((response) {
         setState(() {
           casts = response.cast;
         });

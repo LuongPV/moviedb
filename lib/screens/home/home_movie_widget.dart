@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/models/trending_media.dart';
 import 'package:movie_db/data/models/trending_media_type.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
+import 'package:movie_db/data/repositories/trending_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
@@ -14,7 +14,7 @@ class HomeMovieWidget extends BaseStatefulWidget {
 
 class _HomeMovieWidgetState extends State<HomeMovieWidget> {
   List<TrendingMedia> trendingMovies;
-  final _movieRepository = MovieRepository();
+  final _trendingRepository = TrendingRepository();
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _HomeMovieWidgetState extends State<HomeMovieWidget> {
   }
 
   void _getTrendingMovies() {
-    _movieRepository.getTrendingMedia(TrendingMediaType.MOVIE).then((response) {
+    _trendingRepository.getTrendingMedia(TrendingMediaType.MOVIE).then((response) {
       setState(() {
         trendingMovies = response.results;
       });

@@ -6,7 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/tv_show_detail.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
+import 'package:movie_db/data/repositories/cast_repository.dart';
+import 'package:movie_db/data/repositories/tv_show_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
@@ -28,7 +29,8 @@ class TVShowDetailWidget extends BaseStatefulWidget {
 class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
   TVShowDetail tvShowDetail;
   List<Cast> casts;
-  final _movieRepository = MovieRepository();
+  final _tvShowRepository = TVShowRepository();
+  final _castRepository = CastRepository();
 
   void initState() {
     super.initState();
@@ -155,12 +157,12 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
   }
 
   void _getTVShowDetail(int tvShowId) {
-    _movieRepository.getTVShowDetail(tvShowId).then((response) {
+    _tvShowRepository.getTVShowDetail(tvShowId).then((response) {
       setState(() {
         tvShowDetail = response;
       });
     }).then((_) {
-      _movieRepository.getCastByTVShow(tvShowId).then((response) {
+      _castRepository.getCastByTVShow(tvShowId).then((response) {
         setState(() {
           casts = response.cast;
         });

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/global_variables.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_state.dart';
+import 'package:movie_db/screens/home/home_controller.dart';
 import 'package:movie_db/screens/home/home_movie_widget.dart';
 import 'package:movie_db/screens/home/home_settings_widget.dart';
 import 'package:movie_db/screens/home/home_trend_widget.dart';
@@ -13,10 +14,10 @@ import 'package:movie_db/utils/package_info.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override
-  _HomeWidgetState createState() => _HomeWidgetState();
+  HomeWidgetState createState() => HomeWidgetState();
 }
 
-class _HomeWidgetState extends State<HomeWidget> {
+class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
   var canExit = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<MovieGeneral> movies;
@@ -25,9 +26,13 @@ class _HomeWidgetState extends State<HomeWidget> {
   List<BottomNavigationBarItem> _bottomItems = _buildBottomNavigationBarItems();
   var versionName;
 
+  @override
+  HomeController getController() => HomeController(this, context);
+
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.initConfirmExit();
       _getVersionName();
     });
   }
@@ -62,7 +67,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       Navigator.pop(context);
       return Future.value(false);
     }
-    if (!isConfirmExit) {
+    if (!controller.isConfirmExit) {
       return Future.value(true);
     }
     if (!canExit) {

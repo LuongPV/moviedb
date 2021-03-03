@@ -19,6 +19,7 @@ dependencies:
   custom_switch: ^0.0.1
   sprintf: ^4.0.0
   flutter_launcher_icons: ^0.8.1
+  shared_preferences: ^0.5.12+4
 dev_dependencies:
   flutter_test:
     sdk: flutter

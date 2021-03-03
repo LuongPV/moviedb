@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:movie_db/data/repositories/account_repository.dart';
 
 import 'login_widget.dart';
 
 class LoginController {
+  AccountRepository _accountRepository = AccountRepository();
   LoginWidgetState loginWidgetState;
   BuildContext context;
   var usernameErrorText;
@@ -16,7 +18,18 @@ class LoginController {
       usernameErrorText = _validateUsername(username);
       passwordErrorText = _validatePassword(password);
       if (usernameErrorText == null && passwordErrorText == null) {
-        loginWidgetState.openHomeWidget();
+        loginWidgetState.widget.showLoadingDialog(context);
+        _accountRepository.login(username, password).then((loginData) {
+          loginWidgetState.updateUI(() {
+            loginWidgetState.widget.hideLoadingDialog(context);
+            if (loginData == null) {
+              usernameErrorText = AppLocalizations.of(context).errWrongUsername;
+              usernameErrorText = AppLocalizations.of(context).errWrongPassword;
+            } else {
+              loginWidgetState.openHomeWidget();
+            }
+          });
+        });
       }
     });
   }
@@ -25,18 +38,12 @@ class LoginController {
     if (username.isEmpty) {
       return AppLocalizations.of(context).errEmptyUsername;
     }
-    if (username != 'aaa') {
-      return AppLocalizations.of(context).errEmptyPassword;
-    }
     return null;
   }
 
   String _validatePassword(String password) {
     if (password.isEmpty) {
       return AppLocalizations.of(context).errEmptyPassword;
-    }
-    if (password != '111') {
-      return AppLocalizations.of(context).errWrongPassword;
     }
     return null;
   }

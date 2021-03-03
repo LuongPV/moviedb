@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class ToggleSettingWidget extends StatefulWidget {
   final Function(bool) onSettingToggled;
 
+  final key;
+
   final String title;
 
   final String description;
@@ -13,7 +15,9 @@ class ToggleSettingWidget extends StatefulWidget {
 
   final bool defaultValue;
 
-  ToggleSettingWidget(this.title, this.description, this.icon, {this.defaultValue, this.onSettingToggled});
+  ToggleSettingWidget(this.title, this.description, this.icon,
+      {this.key, this.defaultValue, this.onSettingToggled})
+      : super(key: key);
 
   @override
   _ToggleSettingWidgetState createState() => _ToggleSettingWidgetState();

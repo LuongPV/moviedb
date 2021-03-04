@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
-import 'package:movie_db/data/models/movie_detail.dart';
-import 'package:movie_db/data/repositories/cast_repository.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
 import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
+import 'package:movie_db/screens/detail/movie_detail_controller.dart';
 import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';
+import 'package:movie_db/utils/url.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,19 +23,18 @@ class MovieDetailWidget extends BaseStatefulWidget {
   MovieDetailWidget(this.movieId, this.title);
 
   @override
-  _MovieDetailWidgetState createState() => _MovieDetailWidgetState();
+  MovieDetailWidgetState createState() => MovieDetailWidgetState();
 }
 
-class _MovieDetailWidgetState extends State<MovieDetailWidget> {
-  MovieDetail movie;
-  List<Cast> casts;
-  final _movieRepository = MovieRepository();
-  final _castRepository = CastRepository();
+class MovieDetailWidgetState extends BaseState<MovieDetailWidget, MovieDetailController> {
+
+  @override
+  getController() => MovieDetailController(this, context);
 
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getMovieDetail(widget.movieId);
+      controller.getMovieDetail(widget.movieId);
     });
   }
 
@@ -45,7 +44,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: movie == null ? _buildNoDataContent() : _buildDataContent(),
+      body: controller.movie == null ? _buildNoDataContent() : _buildDataContent(),
     );
   }
 
@@ -61,17 +60,18 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildImagePosterWidget(movie.backdropPath),
+          _buildImagePosterWidget(controller.movie.backdropPath),
           Container(
             padding: EdgeInsets.all(20),
             color: Colors.yellow,
             child: _buildInfoBannerWidget(),
           ),
           SizedBox(height: 10),
+          _buildTrailerVideos(),
           _buildYoutubeSearchButtonWidget(),
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Text(movie.overview),
+            child: Text(controller.movie.overview),
           ),
           _buildCastListWidget(),
         ],
@@ -101,7 +101,7 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
             ),
           ],
         ),
-        onPressed: () => _openYoutubeSearch(movie.title),
+        onPressed: () => launchUrl(sprintf(URL_YOUTUBE_SEARCH, [controller.movie.title])),
       ),
     );
   }
@@ -111,17 +111,17 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          movie.title == movie.originalTitle
-              ? movie.title
-              : '${movie.title} (${movie.originalTitle})',
+          controller.movie.title == controller.movie.originalTitle
+              ? controller.movie.title
+              : '${controller.movie.title} (${controller.movie.originalTitle})',
           style: TextStyle(
               fontSize: 26, color: Colors.black87, fontWeight: FontWeight.bold),
         ),
-        Text(movie.releaseDate ?? '---',
+        Text(controller.movie.releaseDate ?? '---',
             style: TextStyle(color: Colors.black54)),
         SmoothStarRating(
             starCount: 5,
-            rating: movie.voteAverage.toDouble() / 2,
+            rating: controller.movie.voteAverage.toDouble() / 2,
             allowHalfRating: true,
             size: 25,
             isReadOnly: true,
@@ -148,36 +148,11 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
     return Image.network(imageName);
   }
 
-  _openYoutubeSearch(String title) async {
-    if (Platform.isAndroid) {
-      final url = sprintf(URL_YOUTUBE_SEARCH, [title]);
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        Logger.w('Fail launch url $url');
-      }
-    }
-  }
-
-  void _getMovieDetail(int movieId) {
-    _movieRepository.getMovieDetail(movieId).then((response) {
-      setState(() {
-        movie = response;
-      });
-    }).then((_) {
-      _castRepository.getCastByMovie(movieId).then((response) {
-        setState(() {
-          casts = response.cast;
-        });
-      });
-    });
-  }
-
   Widget _buildGenreListWidget() {
     final random = Random();
     return Wrap(
       spacing: 4,
-      children: movie.genres
+      children: controller.movie.genres
           .map(
             (genre) => InkWell(
               child: Chip(
@@ -206,9 +181,9 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: casts == null
+        children: controller.casts == null
             ? []
-            : casts.map(
+            : controller.casts.map(
                 (cast) => InkWell(
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
@@ -216,9 +191,12 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
                     child: Column(
                       children: [
                         _buildCastImage(cast),
-                        Text(
-                          '${cast.name} (${cast.character})',
-                          textAlign: TextAlign.center,
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            '${cast.name} (${cast.character})',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ],
                     ),
@@ -245,6 +223,56 @@ class _MovieDetailWidgetState extends State<MovieDetailWidget> {
       cast.profilePath,
       width: 100,
       height: 150,
+    );
+  }
+
+  Image _buildVideoImage(String path) {
+    return Image.network(
+      path,
+    );
+  }
+
+  Widget _buildTrailerVideos() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: controller.trailerVideos
+            .map(
+              (trailerVideo) => InkWell(
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 20),
+                      width: 200,
+                      child: Column(
+                        children: [
+                          _buildVideoImage(trailerVideo.snippet.thumbnails.standard.url),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              trailerVideo.snippet.title,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 90,
+                      top: 30,
+                      child: Image.asset(
+                        'assets/images/ic_play_youtube.png',
+                        height: 50,
+                      ),
+                    ),
+                  ]
+                ),
+                onTap: () => launchUrl(sprintf(URL_YOUTUBE_VIEW_VIDEO, [trailerVideo.id])),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

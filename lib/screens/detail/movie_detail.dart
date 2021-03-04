@@ -55,26 +55,30 @@ class MovieDetailWidgetState extends BaseState<MovieDetailWidget, MovieDetailCon
     );
   }
 
-  SingleChildScrollView _buildDataContent() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImagePosterWidget(controller.movie.backdropPath),
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Colors.yellow,
-            child: _buildInfoBannerWidget(),
-          ),
-          SizedBox(height: 10),
-          _buildTrailerVideos(),
-          _buildYoutubeSearchButtonWidget(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(controller.movie.overview),
-          ),
-          _buildCastListWidget(),
-        ],
+  Widget _buildDataContent() {
+    return RefreshIndicator(
+      onRefresh: () => controller.refreshData(widget.movieId),
+      strokeWidth: 5,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImagePosterWidget(controller.movie.backdropPath),
+            Container(
+              padding: EdgeInsets.all(20),
+              color: Colors.yellow,
+              child: _buildInfoBannerWidget(),
+            ),
+            SizedBox(height: 10),
+            _buildTrailerVideos(),
+            _buildYoutubeSearchButtonWidget(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(controller.movie.overview),
+            ),
+            _buildCastListWidget(),
+          ],
+        ),
       ),
     );
   }

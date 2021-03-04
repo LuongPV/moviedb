@@ -21,31 +21,22 @@ class MovieDetailController {
 
   MovieDetailController(this.state, this.context);
 
-  void getMovieDetail(int movieId) {
-    _movieRepository.getMovieDetail(movieId).then((response) {
-      state.updateUI(() {
-        movie = response;
-      });
-    }).then((_) {
-      _castRepository.getCastByMovie(movieId).then((response) {
-        state.updateUI(() {
-          casts = response.cast;
-        });
-      });
-    }).then((_) {
-      _videoRepository.getVideoByMovie(movieId).then((response) {
-        response.results.forEach((result) {
-          _videoRepository.getVideoInfo(result.key).then((response) {
-            state.updateUI(() {
-              trailerVideos.addAll(response.items.where((item) =>
-                  item.snippet != null &&
-                  item.snippet.thumbnails != null &&
-                  item.snippet.thumbnails.getThumbnailInfo() != null));
-            });
-          });
-        });
-      });
+  Future<void> getMovieDetail(int movieId) async {
+    movie = await _movieRepository.getMovieDetail(movieId);
+    state.updateUI(() {});
+    casts = (await _castRepository.getCastByMovie(movieId)).cast;
+    final videoByMovieResponse = await _videoRepository.getVideoByMovie(movieId);
+    videoByMovieResponse.results.forEach((result) async {
+      final videoInfoResponse = await _videoRepository.getVideoInfo(result.key);
+      trailerVideos.addAll(videoInfoResponse.items.where((item) =>
+          item.snippet != null &&
+          item.snippet.thumbnails != null &&
+          item.snippet.thumbnails.getThumbnailInfo() != null));
+      state.updateUI(() {});
     });
+    state.updateUI(() {});
   }
+
+  Future<void> refreshData(int movieId) => getMovieDetail(movieId);
 
 }

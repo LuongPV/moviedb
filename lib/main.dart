@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/screens/splash/splash_widget.dart';
+import 'package:movie_db/services/fcm/firebase_cloud_message.dart';
 
 void main() {
+  initCloudMessageService();
   runApp(MyApp());
 }
 

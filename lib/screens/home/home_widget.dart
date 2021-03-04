@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/base/base_state.dart';
+import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/home/home_controller.dart';
 import 'package:movie_db/screens/home/home_movie_widget.dart';
 import 'package:movie_db/screens/home/home_settings_widget.dart';
 import 'package:movie_db/screens/home/home_trend_widget.dart';
 import 'package:movie_db/screens/home/home_tv_show_widget.dart';
+import 'package:movie_db/screens/scan_qr/scan_qr_widget.dart';
 import 'package:movie_db/screens/search/search_widget.dart';
 import 'package:movie_db/utils/package_info.dart';
 
@@ -166,6 +167,12 @@ class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
             _buildLeftMenuItem(Icons.movie, 'Movie', () => _selectedIndex = 1),
             _buildLeftMenuItem(Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
             _buildLeftMenuItem(Icons.settings, 'Settings', () => _selectedIndex = 3),
+            _buildLeftMenuItem(
+                Icons.qr_code,
+                'Scan QR',
+                () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => ScanQRWidget()))
+            ),
             Expanded(child: Material()),
             Text('Version: $versionName'),
             SizedBox(height: 10,),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/cast.dart';
-import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
 import 'package:movie_db/screens/detail/movie_detail_controller.dart';

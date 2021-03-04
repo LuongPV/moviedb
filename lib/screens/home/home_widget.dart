@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/home/home_controller.dart';
 import 'package:movie_db/screens/home/home_movie_widget.dart';

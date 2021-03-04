@@ -1,37 +1,33 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/data/repositories/account_repository.dart';
+import 'package:movie_db/screens/base/base_stateful_controller.dart';
 
 import 'login_widget.dart';
 
-class LoginController {
+class LoginController extends BaseStatefulController<LoginWidgetState> {
   AccountRepository _accountRepository = AccountRepository();
-  LoginWidgetState loginWidgetState;
-  BuildContext context;
   var usernameErrorText;
   var passwordErrorText;
 
-  LoginController(this.loginWidgetState, this.context);
+  LoginController(state, context) : super(state, context);
 
   void login(String username, String password) {
-    loginWidgetState.updateUI(() {
-      usernameErrorText = _validateUsername(username);
-      passwordErrorText = _validatePassword(password);
-      if (usernameErrorText == null && passwordErrorText == null) {
-        loginWidgetState.widget.showLoadingDialog(context);
-        _accountRepository.login(username, password).then((loginData) {
-          loginWidgetState.updateUI(() {
-            loginWidgetState.widget.hideLoadingDialog(context);
-            if (loginData == null) {
-              usernameErrorText = AppLocalizations.of(context).errWrongUsername;
-              usernameErrorText = AppLocalizations.of(context).errWrongPassword;
-            } else {
-              loginWidgetState.openHomeWidget();
-            }
-          });
-        });
-      }
-    });
+    usernameErrorText = _validateUsername(username);
+    passwordErrorText = _validatePassword(password);
+    updateUI();
+    if (usernameErrorText == null && passwordErrorText == null) {
+      state.widget.showLoadingDialog(context);
+      _accountRepository.login(username, password).then((loginData) {
+        state.widget.hideLoadingDialog(context);
+        if (loginData == null) {
+          usernameErrorText = AppLocalizations.of(context).errWrongUsername;
+          usernameErrorText = AppLocalizations.of(context).errWrongPassword;
+          updateUI();
+        } else {
+          state.openHomeWidget();
+        }
+      });
+    }
   }
 
   String _validateUsername(String username) {

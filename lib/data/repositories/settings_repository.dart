@@ -7,11 +7,11 @@ class SettingsRepository {
     return _settingsPref.isConfirmExit();
   }
 
-  void setConfirmExit(bool isConfirmExit) async {
+  Future<void> setConfirmExit(bool isConfirmExit) async {
     _settingsPref.setConfirmExit(isConfirmExit);
   }
 
-  void clearConfirmExit() async {
+  Future<void> clearConfirmExit() async {
     _settingsPref.clearConfirmExit();
   }
 }

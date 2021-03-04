@@ -7,7 +7,7 @@ import 'package:movie_db/data/models/cast_detail.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/cast_repository.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
-import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_cast.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';

@@ -1,20 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:movie_db/data/repositories/settings_repository.dart';
+import 'package:movie_db/screens/base/base_stateful_controller.dart';
 import 'package:movie_db/screens/home/home_widget.dart';
 
-class HomeController {
-  SettingsRepository _settingsRepository = SettingsRepository();
-  HomeWidgetState state;
-  BuildContext context;
+class HomeController extends BaseStatefulController<HomeWidgetState> {
+  final _settingsRepository = SettingsRepository();
   var isConfirmExit;
 
-  HomeController(this.state, this.context);
+  HomeController(state, context) : super(state, context);
 
-  void initConfirmExit() {
-    _settingsRepository.isConfirmExit().then((value) {
-      state.updateUI(() {
-        isConfirmExit = value;
-      });
-    });
+  void initConfirmExit() async {
+    isConfirmExit = await _settingsRepository.isConfirmExit();
+    updateUI();
   }
 }

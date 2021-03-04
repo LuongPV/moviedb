@@ -8,7 +8,7 @@ import 'package:movie_db/data/models/cast.dart';
 import 'package:movie_db/data/models/tv_show_detail.dart';
 import 'package:movie_db/data/repositories/cast_repository.dart';
 import 'package:movie_db/data/repositories/tv_show_repository.dart';
-import 'package:movie_db/screens/base/base.dart';
+import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/cast/cast_detail.dart';
 import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
 import 'package:movie_db/utils/logger/logger.dart';

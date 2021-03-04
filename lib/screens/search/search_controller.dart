@@ -1,27 +1,24 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:async/async.dart';
 import 'package:movie_db/data/models/movie_general.dart';
 import 'package:movie_db/data/repositories/movie_repository.dart';
-import 'package:async/async.dart';
+import 'package:movie_db/screens/base/base_stateful_controller.dart';
 
 import 'search_widget.dart';
 
-class SearchController {
-  SearchWidgetState state;
-  BuildContext context;
+class SearchController extends BaseStatefulController<SearchWidgetState> {
   final movies = List<MovieGeneral>();
   final _movieRepository = MovieRepository();
   CancelableOperation _searchOperation;
 
-  SearchController(this.state, this.context);
+  SearchController(state, context) : super(state, context);
 
   void searchMovie(String searchText) {
     final apiFuture = _movieRepository.searchMovie(searchText).then((response) {
-      state.updateUI(() {
-        movies.clear();
-        movies.addAll(response.results);
-      });
+      movies.clear();
+      movies.addAll(response.results);
+      updateUI();
       state.hideLoading();
     }).catchError((e) {
       state.hideLoading();

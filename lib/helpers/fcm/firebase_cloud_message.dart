@@ -9,6 +9,9 @@ void initCloudMessageService() {
   _firebaseMessaging.getToken().then((token) {
     Logger.d('Firebase cloud message token: $token');
   });
+  _firebaseMessaging.onTokenRefresh.listen((newToken) {
+    Logger.d('Firebase cloud message new token refresh: $newToken');
+  });
   _firebaseMessaging.configure(
     onMessage: (Map<String, dynamic> message) async {
       Logger.d('Firebase onMessage: $message');

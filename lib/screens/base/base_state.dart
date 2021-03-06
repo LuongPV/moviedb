@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_db/screens/base/base_stateful_controller.dart';
 
-abstract class BaseState<WidgetType extends StatefulWidget, ControllerType> extends State<WidgetType> {
+abstract class BaseState<WidgetType extends StatefulWidget, ControllerType extends BaseStatefulController<Object>> extends State<WidgetType> {
   ControllerType controller;
 
   void updateUI() => setState(() {});
@@ -11,6 +12,12 @@ abstract class BaseState<WidgetType extends StatefulWidget, ControllerType> exte
   void initState() {
     super.initState();
     controller = getController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.stop();
   }
 
 }

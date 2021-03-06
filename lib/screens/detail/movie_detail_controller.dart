@@ -7,7 +7,8 @@ import 'package:movie_db/data/repositories/video_repository.dart';
 import 'package:movie_db/screens/base/base_stateful_controller.dart';
 import 'package:movie_db/screens/detail/movie_detail.dart';
 
-class MovieDetailController extends BaseStatefulController<MovieDetailWidgetState> {
+class MovieDetailController
+    extends BaseStatefulController<MovieDetailWidgetState> {
   final _videoRepository = VideoRepository();
   final _movieRepository = MovieRepository();
   final _castRepository = CastRepository();
@@ -18,21 +19,27 @@ class MovieDetailController extends BaseStatefulController<MovieDetailWidgetStat
   MovieDetailController(state, context) : super(state, context);
 
   Future<void> getMovieDetail(int movieId) async {
-    movie = await _movieRepository.getMovieDetail(movieId);
-    updateUI();
-    casts = (await _castRepository.getCastByMovie(movieId)).cast;
-    final videoByMovieResponse = await _videoRepository.getVideoByMovie(movieId);
-    videoByMovieResponse.results.forEach((result) async {
-      final videoInfoResponse = await _videoRepository.getVideoInfo(result.key);
-      trailerVideos.addAll(videoInfoResponse.items.where((item) =>
-          item.snippet != null &&
-          item.snippet.thumbnails != null &&
-          item.snippet.thumbnails.getThumbnailInfo() != null));
+    _movieRepository.getMovieDetail(movieId).enqueue(this, (response) {
+      movie = response;
       updateUI();
+      _castRepository.getCastByMovie(movieId).enqueue(this, (response) {
+        casts = response.cast;
+        updateUI();
+        _videoRepository.getVideoByMovie(movieId).enqueue(this, (response) => {
+          response.results.forEach((result) {
+            _videoRepository.getVideoInfo(result.key).enqueue(this, (response) {
+              trailerVideos.addAll(response.items.where((item) =>
+                  item.snippet != null &&
+                  item.snippet.thumbnails != null &&
+                  item.snippet.thumbnails.getThumbnailInfo() != null)
+              );
+              updateUI();
+            });
+          })
+        });
+      });
     });
-    updateUI();
   }
 
   Future<void> refreshData(int movieId) => getMovieDetail(movieId);
-
 }

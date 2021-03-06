@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:movie_db/data/repositories/account_repository.dart';
+import 'package:movie_db/screens/base/base_stateful_controller.dart';
 import 'package:movie_db/screens/splash/splash_widget.dart';
 
-class SplashController {
-  SplashWidgetState loginWidgetState;
-  BuildContext context;
+class SplashController extends BaseStatefulController<SplashWidgetState> {
   AccountRepository _accountRepository = AccountRepository();
 
-  SplashController(this.loginWidgetState, this.context);
+  SplashController(state, context) : super(state, context);
 
   void checkLogin() {
     Future.delayed(
@@ -17,9 +15,9 @@ class SplashController {
     ).then((_) async {
       final loginData = await _accountRepository.getLoginData();
       if (loginData == null) {
-        loginWidgetState.openLogin();
+        state.openLogin();
       } else {
-        loginWidgetState.openHome();
+        state.openHome();
       }
     });
   }

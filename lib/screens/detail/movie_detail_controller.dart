@@ -19,23 +19,23 @@ class MovieDetailController
   MovieDetailController(state, context) : super(state, context);
 
   Future<void> getMovieDetail(int movieId) async {
-    _movieRepository.getMovieDetail(movieId).enqueue(this, (response) {
+    _movieRepository.getMovieDetail(movieId).then((response) async {
       movie = response;
       updateUI();
-      _castRepository.getCastByMovie(movieId).enqueue(this, (response) {
-        casts = response.cast;
-        updateUI();
-        _videoRepository.getVideoByMovie(movieId).enqueue(this, (response) => {
-          response.results.forEach((result) {
-            _videoRepository.getVideoInfo(result.key).enqueue(this, (response) {
-              trailerVideos.addAll(response.items.where((item) =>
-                  item.snippet != null &&
-                  item.snippet.thumbnails != null &&
-                  item.snippet.thumbnails.getThumbnailInfo() != null)
-              );
-              updateUI();
-            });
-          })
+      return await _castRepository.getCastByMovie(movieId);
+    }).then((response) {
+      casts = response.cast;
+      updateUI();
+      return _videoRepository.getVideoByMovie(movieId);
+    }).then((response) {
+      response.results.forEach((result) {
+        _videoRepository.getVideoInfo(result.key).then((response) {
+          trailerVideos.addAll(response.items.where((item) =>
+          item.snippet != null &&
+              item.snippet.thumbnails != null &&
+              item.snippet.thumbnails.getThumbnailInfo() != null)
+          );
+          updateUI();
         });
       });
     });

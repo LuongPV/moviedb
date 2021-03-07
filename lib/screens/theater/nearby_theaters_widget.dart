@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:movie_db/data/models/permission_action.dart';
 import 'package:movie_db/helpers/location/location.dart';
@@ -81,18 +82,20 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
   }
 
   void _handleLocationServiceError(ServicePermissionAction e) {
-    var errMsg;
     switch (e) {
       case ServicePermissionAction.SERVICE_DISABLED:
-        errMsg = 'Location services are disabled.';
+        showConfirmationDialog(context, 'Location services are disabled.', textAction: 'Open Location Settings', action: () {
+          Geolocator.openLocationSettings();
+        });
         break;
       case ServicePermissionAction.DENIED_FOREVER:
-        errMsg = 'Location permissions are permanently denied, we cannot request permissions.';
+        showConfirmationDialog(context, 'Location permissions are permanently denied, we cannot request permissions.', textAction: 'Open Settings', action: () {
+          Geolocator.openAppSettings();
+        });
         break;
       case ServicePermissionAction.DENIED:
-        errMsg = 'Location permissions are denied';
+        showInformationDialog(context, 'Location permissions are denied');
         break;
     }
-    showInformationDialog(context, errMsg);
   }
 }

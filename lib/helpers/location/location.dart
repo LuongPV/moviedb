@@ -23,5 +23,10 @@ Future<Position> determinePosition() async {
     }
   }
 
-  return await Geolocator.getCurrentPosition();
+  try {
+    return await Geolocator.getCurrentPosition();
+  } on LocationServiceDisabledException catch (e) {
+    // On Xiaomi Devices, app can't get location although location service was enabled and the permissions were granted
+    return Future.error(ServicePermissionAction.SERVICE_DISABLED);
+  }
 }

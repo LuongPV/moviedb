@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:movie_db/data/models/permission_action.dart';
 import 'package:movie_db/helpers/location/location.dart';
 import 'package:movie_db/screens/base/base_stateful_widget.dart';
+import 'package:movie_db/utils/dialog.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
 class NearbyTheatersWidget extends BaseStatefulWidget {
@@ -92,22 +93,6 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
         errMsg = 'Location permissions are denied';
         break;
     }
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: null,
-          content: Text(errMsg),
-          actions: [
-            MaterialButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
+    showInformationDialog(context, errMsg);
   }
 }

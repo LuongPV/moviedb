@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/screens/base/base_state.dart';
 import 'package:movie_db/screens/widgets/common_widgets.dart';
+import 'package:movie_db/utils/dialog.dart';
 import 'package:movie_db/utils/logger/logger.dart';
 
 import 'search_controller.dart';
@@ -79,26 +80,7 @@ class SearchWidgetState extends BaseState<SearchWidget, SearchController> {
   SearchController getController() => SearchController(this, context);
 
   void showNetworkError(errDetailMessage) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: AlertDialog(
-            title: null,
-            content: Text(errDetailMessage),
-            actions: [
-              MaterialButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+    showInformationDialog(context, errDetailMessage);
   }
 
   void showLoading() {

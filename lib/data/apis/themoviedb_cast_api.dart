@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:movie_db/data/apis/base_api.dart';
+import 'package:movie_db/data/apis/base_themoviedb_api.dart';
 import 'package:movie_db/data/models/cast_by_movie.dart';
 import 'package:movie_db/data/models/cast_by_tv_show.dart';
 import 'package:movie_db/data/models/cast_detail.dart';
@@ -9,7 +9,7 @@ import 'package:sprintf/sprintf.dart';
 
 import '../constants.dart';
 
-class TheMovieDbCastAPI extends BaseAPI {
+class TheMovieDbCastAPI extends BaseTheMovieDbAPI {
 
   Future<CastByMovieResponse> getCastByMovie(int movieId) async {
     try {

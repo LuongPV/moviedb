@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:movie_db/data/apis/base_api.dart';
+import 'package:movie_db/data/apis/base_themoviedb_api.dart';
 import 'package:movie_db/data/models/movie_by_cast.dart';
 import 'package:movie_db/data/models/movie_by_genre.dart';
 import 'package:movie_db/data/models/movie_detail.dart';
@@ -10,7 +10,7 @@ import 'package:sprintf/sprintf.dart';
 
 import '../constants.dart';
 
-class TheMovieDbMovieAPI extends BaseAPI {
+class TheMovieDbMovieAPI extends BaseTheMovieDbAPI {
 
   Future<MovieSearchResponse> searchMovie(String title) async {
     try {

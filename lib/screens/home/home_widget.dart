@@ -11,7 +11,7 @@ import 'package:movie_db/screens/home/home_trend_widget.dart';
 import 'package:movie_db/screens/home/home_tv_show_widget.dart';
 import 'package:movie_db/screens/scan_qr/scan_qr_widget.dart';
 import 'package:movie_db/screens/search/search_widget.dart';
-import 'package:movie_db/screens/theater/NearbyTheatersWidget.dart';
+import 'package:movie_db/screens/theater/nearby_theaters_widget.dart';
 import 'package:movie_db/utils/package_info.dart';
 
 class HomeWidget extends BaseStatefulWidget {

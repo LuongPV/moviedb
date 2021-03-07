@@ -11,7 +11,9 @@ class NearbyTheatersWidget extends BaseStatefulWidget {
 }
 
 class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
+  static const MARKER_ID_CURRENT_POSITION = 'MARKER_ID_CURRENT_POSITION';
   Completer<GoogleMapController> _mapController = Completer();
+  Set<Marker> markers = Set();
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
           zoom: 16
         ),
         onMapCreated: (controller) => _mapController.complete(controller),
+        markers: markers,
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.pin_drop),
@@ -56,6 +59,15 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
           ),
         ),
       );
+      setState(() {
+        markers.add(Marker(
+          markerId: MarkerId(MARKER_ID_CURRENT_POSITION),
+          position: LatLng(10.7910389, 106.6784616),
+          infoWindow: InfoWindow(
+            title: 'Current Location',
+          ),
+        ));
+      });
     });
   }
 }

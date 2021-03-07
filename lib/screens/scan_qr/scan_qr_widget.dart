@@ -1,7 +1,6 @@
 
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/utils/url.dart';

@@ -39,6 +39,9 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Nearby Cinemas'),
+      ),
       body: GoogleMap(
         mapType: MapType.normal,
         zoomControlsEnabled: false,
@@ -144,6 +147,7 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
       polylines.add(Polyline(
           polylineId: PolylineId(POLYLINE_ID + polylineId.toString()),
           color: Colors.blue,
+          width: 6,
           points: results.map((result) => LatLng(result.latitude, result.longitude)).toList(),
       ));
       setState(() {});

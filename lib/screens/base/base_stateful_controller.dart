@@ -10,7 +10,11 @@ abstract class BaseStatefulController <StateType extends BaseState> {
 
   BaseStatefulController(this.state, this.context);
 
-  void updateUI() => state.updateUI();
+  void updateUI() {
+    if (state != null) {
+      state.updateUI();
+    }
+  }
 
   void stop() {
     _subscriptions.forEach((subscription) => subscription.cancel());

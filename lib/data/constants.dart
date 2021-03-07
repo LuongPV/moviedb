@@ -16,3 +16,7 @@ const URL_YOUTUBE_SEARCH = 'https://www.youtube.com/results?search_query=%s';
 const URL_IMDB_CAST = 'https://www.imdb.com/name/%s';
 const URL_TRENDING = 'https://api.themoviedb.org/3/trending/%s/day?api_key=$API_KEY_THE_MOVIE_DB&language=%s';
 const DELAY_CONFIRM_EXIT_SEC = 2;
+const API_KEY_LOCATION_SERVICE = 'AIzaSyBmVjdTVugqq4O2r2RL-rBvI5B7E-VlelU';
+const URL_GOOGLE_NEARBY_PLACE = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&radius=5000&type=%s&key=$API_KEY_LOCATION_SERVICE';
+const URL_GOOGLE_DIRECTION = 'https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&key=$API_KEY_LOCATION_SERVICE';
+const PLACE_TYPE_MOVIE_THEATER = 'movie_theater';

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:movie_db/data/constants.dart';
 import 'package:movie_db/data/models/permission_action.dart';
+import 'package:movie_db/data/repositories/place_repository.dart';
 import 'package:movie_db/helpers/location/location.dart';
 import 'package:movie_db/screens/base/base_stateful_widget.dart';
 import 'package:movie_db/utils/dialog.dart';
@@ -16,8 +19,14 @@ class NearbyTheatersWidget extends BaseStatefulWidget {
 
 class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
   static const MARKER_ID_CURRENT_POSITION = 'MARKER_ID_CURRENT_POSITION';
+  static const MARKER_ID_NEAR_BY = 'MARKER_ID_NEAR_BY_';
+  static const POLYLINE_ID = 'POLYLINE_ID_';
+  var nearbyPlaceId = 0;
+  var polylineId = 0;
   Completer<GoogleMapController> _mapController = Completer();
+  final _placeRepository = PlaceRepository();
   Set<Marker> markers = Set();
+  Set<Polyline> polylines = Set();
 
   @override
   void initState() {
@@ -41,6 +50,7 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
         ),
         onMapCreated: (controller) => _mapController.complete(controller),
         markers: markers,
+        polylines: polylines,
       ),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.pin_drop),
@@ -54,8 +64,9 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
 
   void _currentPosition() {
     _mapController.future.then((controller) async {
+      Position currentLocation;
       try {
-        final currentLocation = await determinePosition();
+        currentLocation = await determinePosition();
         Logger.d('Current location = $currentLocation');
         controller.animateCamera(
           CameraUpdate.newCameraPosition(
@@ -78,6 +89,30 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
         Logger.e('Location service error: $e');
         _handleLocationServiceError(e);
       }
+      return currentLocation;
+    }).then((location) async {
+      if (location != null) {
+        final response = await _placeRepository.getNearbyPlaces(location.latitude, location.longitude, PLACE_TYPE_MOVIE_THEATER);
+        if (response.results.isNotEmpty) {
+          nearbyPlaceId = 0;
+          markers.removeWhere((marker) => marker.markerId.value.contains(MARKER_ID_NEAR_BY));
+        }
+        final nearbyMarkers = response.results.map((result) {
+          nearbyPlaceId++;
+          return Marker(
+            markerId: MarkerId(MARKER_ID_NEAR_BY + nearbyPlaceId.toString()),
+            position: LatLng(result.geometry.location.lat, result.geometry.location.lng),
+            infoWindow: InfoWindow(
+              title: result.name,
+              snippet: result.vicinity,
+            ),
+            onTap: () => _getDirectionMarker(result.geometry.location.lat, result.geometry.location.lng)
+          );
+        }).toSet();
+        setState(() {
+          markers.addAll(nearbyMarkers);
+        });
+      }
     });
   }
 
@@ -96,6 +131,22 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
       case ServicePermissionAction.DENIED:
         showInformationDialog(context, 'Location permissions are denied');
         break;
+    }
+  }
+
+  void _getDirectionMarker(double lat, double lng) async {
+    final currentLocation = await determinePosition();
+    final response = await _placeRepository.getDirection(currentLocation.latitude, currentLocation.longitude, lat, lng);
+    if (response.routes.isNotEmpty) {
+      polylines.clear();
+      final polylinePoints = PolylinePoints();
+      List<PointLatLng> results = polylinePoints.decodePolyline(response.routes.first.overviewPolyline.points);
+      polylines.add(Polyline(
+          polylineId: PolylineId(POLYLINE_ID + polylineId.toString()),
+          color: Colors.blue,
+          points: results.map((result) => LatLng(result.latitude, result.longitude)).toList(),
+      ));
+      setState(() {});
     }
   }
 }

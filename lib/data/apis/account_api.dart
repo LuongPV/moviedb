@@ -1,4 +1,4 @@
-import 'package:movie_db/data/models/login_data.dart';
+import '../models/login_data.dart';
 
 class AccountAPI {
   Future<bool> login(LoginData loginData) async {

@@ -1,7 +1,7 @@
-import 'package:movie_db/data/repositories/account_repository.dart';
-import 'package:movie_db/data/repositories/settings_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
-import 'package:movie_db/screens/home/home_settings_widget.dart';
+import '../../data/repositories/account_repository.dart';
+import '../../data/repositories/settings_repository.dart';
+import '../base/base_stateful_controller.dart';
+import 'home_settings_widget.dart';
 
 class HomeSettingsController extends BaseStatefulController<HomeSettingsWidgetState> {
   AccountRepository _accountRepository = AccountRepository();

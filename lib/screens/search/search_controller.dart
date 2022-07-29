@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:async/async.dart';
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
 
+import '../../data/models/movie_general.dart';
+import '../../data/repositories/movie_repository.dart';
+import '../base/base_stateful_controller.dart';
 import 'search_widget.dart';
 
 class SearchController extends BaseStatefulController<SearchWidgetState> {

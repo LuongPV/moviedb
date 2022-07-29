@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/data/models/trending_media.dart';
-import 'package:movie_db/data/models/trending_media_type.dart';
-import 'package:movie_db/screens/detail/movie_detail.dart';
-import 'package:movie_db/utils/logger/logger.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../data/models/movie_general.dart';
+import '../../data/models/trending_media.dart';
+import '../../data/models/trending_media_type.dart';
+import '../../utils/logger/logger.dart';
 
 Widget buildSearchListWidget(List<MovieGeneral> movies, BuildContext context) =>
     ListView(

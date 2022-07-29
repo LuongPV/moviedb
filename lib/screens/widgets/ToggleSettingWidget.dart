@@ -1,5 +1,4 @@
 import 'package:custom_switch/custom_switch.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ToggleSettingWidget extends StatefulWidget {

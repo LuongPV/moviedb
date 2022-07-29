@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/base/base_state.dart';
-import 'package:movie_db/screens/home/home_widget.dart';
-import 'package:movie_db/screens/login/login_widget.dart';
-import 'package:movie_db/screens/splash/splash_controller.dart';
+
+import '../base/base_state.dart';
+import 'splash_controller.dart';
 
 class SplashWidget extends StatefulWidget {
   @override

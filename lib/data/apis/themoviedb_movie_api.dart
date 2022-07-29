@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:movie_db/data/apis/base_themoviedb_api.dart';
-import 'package:movie_db/data/models/movie_by_cast.dart';
-import 'package:movie_db/data/models/movie_by_genre.dart';
-import 'package:movie_db/data/models/movie_detail.dart';
-import 'package:movie_db/data/models/movie_search.dart';
-import 'package:movie_db/utils/logger/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
+import '../../utils/logger/logger.dart';
 import '../constants.dart';
+import '../models/movie_by_cast.dart';
+import '../models/movie_by_genre.dart';
+import '../models/movie_detail.dart';
+import '../models/movie_search.dart';
+import 'base_themoviedb_api.dart';
 
 class TheMovieDbMovieAPI extends BaseTheMovieDbAPI {
 

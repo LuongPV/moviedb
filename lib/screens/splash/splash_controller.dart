@@ -1,6 +1,6 @@
-import 'package:movie_db/data/repositories/account_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
-import 'package:movie_db/screens/splash/splash_widget.dart';
+import '../../data/repositories/account_repository.dart';
+import '../base/base_stateful_controller.dart';
+import 'splash_widget.dart';
 
 class SplashController extends BaseStatefulController<SplashWidgetState> {
   AccountRepository _accountRepository = AccountRepository();

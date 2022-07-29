@@ -1,7 +1,5 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:movie_db/data/repositories/account_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
-
+import '../../data/repositories/account_repository.dart';
+import '../base/base_stateful_controller.dart';
 import 'login_widget.dart';
 
 class LoginController extends BaseStatefulController<LoginWidgetState> {

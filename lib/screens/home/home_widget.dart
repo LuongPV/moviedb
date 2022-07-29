@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/screens/base/base_state.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/screens/home/home_controller.dart';
-import 'package:movie_db/screens/home/home_movie_widget.dart';
-import 'package:movie_db/screens/home/home_settings_widget.dart';
-import 'package:movie_db/screens/home/home_trend_widget.dart';
-import 'package:movie_db/screens/home/home_tv_show_widget.dart';
-import 'package:movie_db/screens/scan_qr/scan_qr_widget.dart';
-import 'package:movie_db/screens/search/search_widget.dart';
-import 'package:movie_db/screens/theater/nearby_theaters_widget.dart';
-import 'package:movie_db/utils/package_info.dart';
+
+import '../../data/constants.dart';
+import '../../data/models/movie_general.dart';
+import '../base/base_state.dart';
+import '../base/base_stateful_widget.dart';
+import '../scan_qr/scan_qr_widget.dart';
+import '../search/search_widget.dart';
+import '../theater/nearby_theaters_widget.dart';
+import 'home_controller.dart';
+import 'home_movie_widget.dart';
+import 'home_settings_widget.dart';
+import 'home_trend_widget.dart';
+import 'home_tv_show_widget.dart';
 
 class HomeWidget extends BaseStatefulWidget {
   @override

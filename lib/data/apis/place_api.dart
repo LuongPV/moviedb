@@ -1,9 +1,10 @@
-import 'package:movie_db/data/apis/base_api.dart';
-import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/direction_response.dart';
-import 'package:movie_db/data/models/nearby_place_response.dart';
-import 'package:movie_db/utils/logger/logger.dart';
 import 'package:sprintf/sprintf.dart';
+
+import '../../utils/logger/logger.dart';
+import '../constants.dart';
+import '../models/direction_response.dart';
+import '../models/nearby_place_response.dart';
+import 'base_api.dart';
 
 class PlaceAPI extends BaseAPI {
   Future<NearbyPlaceResponse> getNearbyPlaces(double latitude, double longitude, String type) async {

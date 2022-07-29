@@ -2,9 +2,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/utils/url.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../base/base_stateful_widget.dart';
 
 class ScanQRWidget extends BaseStatefulWidget {
   @override

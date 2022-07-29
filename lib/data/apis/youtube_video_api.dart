@@ -1,9 +1,9 @@
-import 'package:movie_db/data/apis/base_api.dart';
-import 'package:movie_db/data/models/youtube_video_response.dart';
-import 'package:movie_db/utils/logger/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
+import '../../utils/logger/logger.dart';
 import '../constants.dart';
+import '../models/youtube_video_response.dart';
+import 'base_api.dart';
 
 class YoutubeVideoAPI extends BaseAPI {
   Future<YoutubeVideoResponse> getVideoInfo(String videoId) async {

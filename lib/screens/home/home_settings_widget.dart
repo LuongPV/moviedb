@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/screens/base/base_state.dart';
-import 'package:movie_db/screens/home/home_settings_controller.dart';
-import 'package:movie_db/screens/login/login_widget.dart';
-import 'package:movie_db/screens/widgets/ToggleSettingWidget.dart';
+
+import '../base/base_state.dart';
+import '../base/base_stateful_widget.dart';
+import '../login/login_widget.dart';
+import '../widgets/ToggleSettingWidget.dart';
+import 'home_settings_controller.dart';
 
 class HomeSettingsWidget extends BaseStatefulWidget {
   @override

@@ -1,5 +1,5 @@
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/data/models/trending_media.dart';
+import '../data/models/movie_general.dart';
+import '../data/models/trending_media.dart';
 
 extension Media on List<MovieGeneral> {
   List<TrendingMedia> toMedia() {

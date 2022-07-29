@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/permission_action.dart';
-import 'package:movie_db/data/repositories/place_repository.dart';
-import 'package:movie_db/helpers/location/location.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/utils/dialog.dart';
-import 'package:movie_db/utils/logger/logger.dart';
+
+import '../../data/models/permission_action.dart';
+import '../../data/repositories/place_repository.dart';
+import '../../helpers/location/location.dart';
+import '../../utils/dialog.dart';
+import '../../utils/logger/logger.dart';
+import '../base/base_stateful_widget.dart';
 
 class NearbyTheatersWidget extends BaseStatefulWidget {
   @override

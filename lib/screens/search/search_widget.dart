@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/screens/base/base_state.dart';
-import 'package:movie_db/screens/widgets/common_widgets.dart';
-import 'package:movie_db/utils/dialog.dart';
-import 'package:movie_db/utils/logger/logger.dart';
 
+import '../../utils/dialog.dart';
+import '../base/base_state.dart';
+import '../base/base_stateful_widget.dart';
+import '../widgets/common_widgets.dart';
 import 'search_controller.dart';
 
 class SearchWidget extends BaseStatefulWidget {

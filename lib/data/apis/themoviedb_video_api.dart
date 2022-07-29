@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:movie_db/data/apis/base_themoviedb_api.dart';
-import 'package:movie_db/data/models/video_by_movie_response.dart';
-import 'package:movie_db/utils/logger/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
+import '../../utils/logger/logger.dart';
 import '../constants.dart';
+import '../models/video_by_movie_response.dart';
+import 'base_themoviedb_api.dart';
 
 class TheMovieDbVideoAPI extends BaseTheMovieDbAPI {
 

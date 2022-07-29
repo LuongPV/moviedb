@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:movie_db/utils/logger/logger.dart';
+
+import '../../utils/logger/logger.dart';
 
 abstract class BaseAPI {
   Future<ModelType> executeGetRequest<ModelType>(String url, ModelType modelCreator(Map jsonMap)) async {

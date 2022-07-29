@@ -1,4 +1,4 @@
-import 'package:movie_db/data/models/trending_media.dart';
+import 'trending_media.dart';
 
 class TrendingMediaResponse {
   int page;

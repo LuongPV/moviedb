@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/base/base_state.dart';
+
+import 'base_state.dart';
 
 abstract class BaseStatefulController <StateType extends BaseState> {
   StateType state;

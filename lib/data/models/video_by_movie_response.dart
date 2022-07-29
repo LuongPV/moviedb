@@ -1,4 +1,4 @@
-import 'package:movie_db/data/models/youtube_video.dart';
+import 'youtube_video.dart';
 
 class VideoByMovieResponse {
   int id;

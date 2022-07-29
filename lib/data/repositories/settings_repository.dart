@@ -1,4 +1,4 @@
-import 'package:movie_db/data/prefs/settings_prefs.dart';
+import '../prefs/settings_prefs.dart';
 
 class SettingsRepository {
   final _settingsPref = SettingsPrefs();

@@ -1,20 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/cast_detail.dart';
-import 'package:movie_db/data/models/movie_general.dart';
-import 'package:movie_db/data/repositories/cast_repository.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/screens/detail/movie_detail.dart';
-import 'package:movie_db/screens/movie_by/movie_by_cast.dart';
-import 'package:movie_db/screens/widgets/common_widgets.dart';
-import 'package:movie_db/utils/logger/logger.dart';
-import 'package:movie_db/utils/model_converter.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../data/models/cast_detail.dart';
+import '../../data/models/movie_general.dart';
+import '../../data/repositories/cast_repository.dart';
+import '../../data/repositories/movie_repository.dart';
+import '../../utils/logger/logger.dart';
+import '../base/base_stateful_widget.dart';
 
 class CastDetailWidget extends BaseStatefulWidget {
   final int castId;

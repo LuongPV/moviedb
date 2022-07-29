@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:movie_db/utils/logger/logger.dart';
+
+import '../../utils/logger/logger.dart';
 
 const _CHANNEL_ID_DEFAULT = 'channel id';
 const _CHANNEL_NAME_DEFAULT = 'channel name';

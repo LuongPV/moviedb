@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:movie_db/data/models/login_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/login_data.dart';
 
 class AccountPrefs {
   static const String PREF_LOGIN_DATA = 'PREF_LOGIN_DATA';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
+
+import 'base_stateful_controller.dart';
 
 abstract class BaseState<WidgetType extends StatefulWidget, ControllerType extends BaseStatefulController<Object>> extends State<WidgetType> {
   ControllerType controller;

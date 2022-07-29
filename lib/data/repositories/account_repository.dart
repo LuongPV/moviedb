@@ -1,6 +1,6 @@
-import 'package:movie_db/data/apis/account_api.dart';
-import 'package:movie_db/data/models/login_data.dart';
-import 'package:movie_db/data/prefs/account_prefs.dart';
+import '../apis/account_api.dart';
+import '../models/login_data.dart';
+import '../prefs/account_prefs.dart';
 
 class AccountRepository  {
   final _accountPrefs = AccountPrefs();

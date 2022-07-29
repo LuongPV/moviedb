@@ -1,6 +1,6 @@
-import 'package:movie_db/data/apis/place_api.dart';
-import 'package:movie_db/data/models/direction_response.dart';
-import 'package:movie_db/data/models/nearby_place_response.dart';
+import '../apis/place_api.dart';
+import '../models/direction_response.dart';
+import '../models/nearby_place_response.dart';
 
 class PlaceRepository {
   final _api = PlaceAPI();

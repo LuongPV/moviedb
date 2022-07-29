@@ -1,7 +1,7 @@
-import 'package:movie_db/data/apis/themoviedb_video_api.dart';
-import 'package:movie_db/data/apis/youtube_video_api.dart';
-import 'package:movie_db/data/models/video_by_movie_response.dart';
-import 'package:movie_db/data/models/youtube_video_response.dart';
+import '../apis/themoviedb_video_api.dart';
+import '../apis/youtube_video_api.dart';
+import '../models/video_by_movie_response.dart';
+import '../models/youtube_video_response.dart';
 
 class VideoRepository {
   final _theMovieDbAPI = TheMovieDbVideoAPI();

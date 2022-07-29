@@ -1,7 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:movie_db/helpers/notification/notification_manager.dart' as notification_manager;
-import 'package:movie_db/utils/logger/logger.dart';
+
+import '../../helpers/notification/notification_manager.dart' as notification_manager;
+import '../../utils/logger/logger.dart';
 
 void initCloudMessageService() {
   WidgetsFlutterBinding.ensureInitialized();

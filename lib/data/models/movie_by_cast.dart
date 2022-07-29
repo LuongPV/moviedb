@@ -1,4 +1,4 @@
-import 'package:movie_db/data/models/movie_general.dart';
+import 'movie_general.dart';
 
 class MovieByCastResponse {
   List<MovieGeneral> cast;

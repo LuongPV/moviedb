@@ -1,4 +1,4 @@
-package com.pv.movie_db
+package com.example.moviedb
 
 import io.flutter.embedding.android.FlutterActivity
 

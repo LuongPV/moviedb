@@ -1,11 +1,11 @@
-import 'package:movie_db/data/models/cast.dart';
-import 'package:movie_db/data/models/movie_detail.dart';
-import 'package:movie_db/data/models/youtube_video_response.dart';
-import 'package:movie_db/data/repositories/cast_repository.dart';
-import 'package:movie_db/data/repositories/movie_repository.dart';
-import 'package:movie_db/data/repositories/video_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_controller.dart';
-import 'package:movie_db/screens/detail/movie_detail.dart';
+import '../../data/models/cast.dart';
+import '../../data/models/movie_detail.dart';
+import '../../data/models/youtube_video_response.dart';
+import '../../data/repositories/cast_repository.dart';
+import '../../data/repositories/movie_repository.dart';
+import '../../data/repositories/video_repository.dart';
+import '../base/base_stateful_controller.dart';
+import 'movie_detail.dart';
 
 class MovieDetailController
     extends BaseStatefulController<MovieDetailWidgetState> {

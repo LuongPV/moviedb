@@ -1,8 +1,8 @@
-import 'package:movie_db/data/apis/themoviedb_movie_api.dart';
-import 'package:movie_db/data/models/movie_by_cast.dart';
-import 'package:movie_db/data/models/movie_by_genre.dart';
-import 'package:movie_db/data/models/movie_detail.dart';
-import 'package:movie_db/data/models/movie_search.dart';
+import '../apis/themoviedb_movie_api.dart';
+import '../models/movie_by_cast.dart';
+import '../models/movie_by_genre.dart';
+import '../models/movie_detail.dart';
+import '../models/movie_search.dart';
 
 class MovieRepository {
   final _theMovieDbAPI = TheMovieDbMovieAPI();

@@ -1,7 +1,7 @@
-import 'package:movie_db/data/apis/themoviedb_cast_api.dart';
-import 'package:movie_db/data/models/cast_by_movie.dart';
-import 'package:movie_db/data/models/cast_by_tv_show.dart';
-import 'package:movie_db/data/models/cast_detail.dart';
+import '../apis/themoviedb_cast_api.dart';
+import '../models/cast_by_movie.dart';
+import '../models/cast_by_tv_show.dart';
+import '../models/cast_detail.dart';
 
 class CastRepository {
   final _theMovieDbAPI = TheMovieDbCastAPI();

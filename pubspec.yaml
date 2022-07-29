@@ -1,38 +1,48 @@
-name: movie_db
-description: A new Flutter application.
-publish_to: 'none'
-version: 0.0.2+2
+name: moviedb
+description: A flutter project mainly for education.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.16.2 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.16.1
-  http: ^0.12.2
-  logger: ^0.9.4
-  cupertino_icons: ^1.0.0
+  intl: ^0.17.0
+  http: ^0.13.4
+  logger: ^1.1.0
   smooth_star_rating: ^1.1.1
-  url_launcher: ^5.7.10
-  package_info: ^0.4.0+16
+  url_launcher: ^6.1.5
+  package_info_plus: ^1.4.2
   custom_switch: ^0.0.1
-  sprintf: ^4.0.0
-  flutter_launcher_icons: ^0.8.1
-  shared_preferences: ^0.5.12+4
-  qr_code_scanner: ^0.3.5
-  firebase_messaging: ^7.0.3
-  flutter_local_notifications: ^3.0.0
-  google_maps_flutter: ^1.2.0
-  geolocator: ^6.2.1
-  flutter_polyline_points: ^0.2.4
+  sprintf: ^6.0.0
+  flutter_launcher_icons: ^0.9.3
+  shared_preferences: ^2.0.15
+  qr_code_scanner: ^0.7.0
+  firebase_messaging: ^12.0.1
+  flutter_local_notifications: ^9.5.3
+  google_maps_flutter: ^2.1.10
+  geolocator: ^9.0.1
+  flutter_polyline_points: ^1.0.0
+  bloc: ^7.0.0
+  flutter_bloc: ^7.0.1
+  cupertino_icons: ^1.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.0
+
 flutter_icons:
   android: true
   ios: false
   image_path: "assets/icons/ic_launcher.png"
+
 flutter:
   uses-material-design: true
   generate: true

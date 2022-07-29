@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:movie_db/data/models/permission_action.dart';
+
+import '../../data/models/permission_action.dart';
 
 Future<Position> determinePosition() async {
   bool serviceEnabled;

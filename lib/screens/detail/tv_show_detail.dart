@@ -3,18 +3,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:movie_db/data/constants.dart';
-import 'package:movie_db/data/models/cast.dart';
-import 'package:movie_db/data/models/tv_show_detail.dart';
-import 'package:movie_db/data/repositories/cast_repository.dart';
-import 'package:movie_db/data/repositories/tv_show_repository.dart';
-import 'package:movie_db/screens/base/base_stateful_widget.dart';
-import 'package:movie_db/screens/cast/cast_detail.dart';
-import 'package:movie_db/screens/movie_by/movie_by_genre.dart';
-import 'package:movie_db/utils/logger/logger.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../data/models/cast.dart';
+import '../../data/models/tv_show_detail.dart';
+import '../../data/repositories/cast_repository.dart';
+import '../../data/repositories/tv_show_repository.dart';
+import '../base/base_stateful_widget.dart';
 
 class TVShowDetailWidget extends BaseStatefulWidget {
   final int tvShowId;

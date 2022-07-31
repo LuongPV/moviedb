@@ -1,4 +1,4 @@
-import 'cast/cast_data.dart';
+import 'cast/cast.dart';
 
 class CastByTVShowResponse {
   int id;

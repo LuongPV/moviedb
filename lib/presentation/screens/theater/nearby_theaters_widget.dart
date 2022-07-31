@@ -121,17 +121,17 @@ class NearbyTheatersWidgetState extends State<NearbyTheatersWidget> {
 
   void _handleLocationServiceError(ServicePermissionAction e) {
     switch (e) {
-      case ServicePermissionAction.SERVICE_DISABLED:
+      case ServicePermissionAction.serviceDisabled:
         showConfirmationDialog(context, 'Location services are disabled.', textAction: 'Open Location Settings', action: () {
           Geolocator.openLocationSettings();
         });
         break;
-      case ServicePermissionAction.DENIED_FOREVER:
+      case ServicePermissionAction.deniedForever:
         showConfirmationDialog(context, 'Location permissions are permanently denied, we cannot request permissions.', textAction: 'Open Settings', action: () {
           Geolocator.openAppSettings();
         });
         break;
-      case ServicePermissionAction.DENIED:
+      case ServicePermissionAction.denied:
         showInformationDialog(context, 'Location permissions are denied');
         break;
     }

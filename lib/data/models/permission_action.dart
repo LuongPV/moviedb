@@ -1,5 +1,5 @@
 enum ServicePermissionAction {
-  SERVICE_DISABLED,
-  DENIED,
-  DENIED_FOREVER
+  serviceDisabled,
+  denied,
+  deniedForever,
 }

@@ -1,23 +1,11 @@
-class LoginData {
-  String username;
-  String password;
+import 'package:equatable/equatable.dart';
 
-  LoginData({this.username, this.password});
+class LoginData extends Equatable {
+  final String? username;
+  final String? password;
 
-  LoginData.fromJson(Map<String, dynamic> json) {
-    username = json['username'];
-    password = json['password'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['username'] = this.username;
-    data['password'] = this.password;
-    return data;
-  }
+  const LoginData(this.username, this.password);
 
   @override
-  String toString() {
-    return 'LoginData{username: $username, password: $password}';
-  }
+  List<Object?> get props => [username, password];
 }

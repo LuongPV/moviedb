@@ -39,7 +39,7 @@ class _HomeMovieWidgetState extends State<HomeMovieWidget> {
   }
 
   void _getTrendingMovies() {
-    _trendingRepository.getTrendingMedia(TrendingMediaType.MOVIE).then((response) {
+    _trendingRepository.getTrendingMedia(TrendingMediaType.movie).then((response) {
       setState(() {
         trendingMovies = response.results;
       });

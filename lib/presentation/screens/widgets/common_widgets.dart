@@ -155,9 +155,9 @@ Widget _buildMovieItem(TrendingMedia movie, BuildContext context, {Function(Tren
 
 Widget _buildMediaTypeIcon(TrendingMedia media) {
   var icon;
-  if (media.mediaType == TrendingMediaType.MOVIE.name) {
+  if (media.mediaType == TrendingMediaType.movie.name) {
     icon = Icon(Icons.movie);
-  } else if (media.mediaType == TrendingMediaType.TV_SHOW.name) {
+  } else if (media.mediaType == TrendingMediaType.tvShow.name) {
     icon = Icon(Icons.live_tv);
   } else {
     icon = Material();

@@ -34,7 +34,7 @@ class _HomeTrendWidgetState extends State<HomeTrendWidget> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            if (item.mediaType == TrendingMediaType.MOVIE.name) {
+            if (item.mediaType == TrendingMediaType.movie.name) {
               return MovieDetailWidget(item.id, item.title);
             } else {
               return TVShowDetailWidget(item.id, item.name);
@@ -47,7 +47,7 @@ class _HomeTrendWidgetState extends State<HomeTrendWidget> {
   }
 
   void _getTrendingMovies() {
-    _trendingRepository.getTrendingMedia(TrendingMediaType.ALL).then((response) {
+    _trendingRepository.getTrendingMedia(TrendingMediaType.all).then((response) {
       setState(() {
         trendingMovies = response.results;
       });

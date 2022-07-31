@@ -1,17 +1,7 @@
-import '../prefs/settings_prefs.dart';
+abstract class SettingsRepository {
+  Future<bool> isConfirmExit();
 
-class SettingsRepository {
-  final _settingsPref = SettingsPrefs();
+  Future<void> setConfirmExit(bool isConfirmExit);
 
-  Future<bool> isConfirmExit() {
-    return _settingsPref.isConfirmExit();
-  }
-
-  Future<void> setConfirmExit(bool isConfirmExit) async {
-    _settingsPref.setConfirmExit(isConfirmExit);
-  }
-
-  Future<void> clearConfirmExit() async {
-    _settingsPref.clearConfirmExit();
-  }
+  Future<void> clearConfirmExit();
 }

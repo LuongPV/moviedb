@@ -1,11 +1,16 @@
+import 'package:moviedb/domain/repositories/account_repository.dart';
+
+import '../../domain/models/login_data.dart';
 import '../apis/account_api.dart';
-import '../models/login_data.dart';
 import '../prefs/account_prefs.dart';
 
-class AccountRepository  {
-  final _accountPrefs = AccountPrefs();
-  final _accountAPI = AccountAPI();
+class AccountRepositoryImpl extends AccountRepository {
+  final AccountAPI _accountAPI;
+  final AccountPrefs _accountPrefs;
 
+  AccountRepositoryImpl(this._accountAPI, this._accountPrefs)
+
+  @override
   Future<LoginData> getLoginData() {
     return _accountPrefs.getLoginData();
   }
@@ -25,6 +30,11 @@ class AccountRepository  {
     if (isLogoutSuccess) {
       _accountPrefs.clearLoginData();
     }
+  }
+
+  @override
+  Future<LoginData> getLoginData() {
+    throw UnimplementedError();
   }
 
 }

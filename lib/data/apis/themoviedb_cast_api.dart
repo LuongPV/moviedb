@@ -4,7 +4,7 @@ import 'package:sprintf/sprintf.dart';
 
 import '../../utils/logger/logger.dart';
 import '../constants.dart';
-import '../models/cast_by_movie.dart';
+import '../models/cast_by_movie/cast_by_movie.dart';
 import '../models/cast_by_tv_show.dart';
 import '../models/cast_detail.dart';
 import 'base_themoviedb_api.dart';

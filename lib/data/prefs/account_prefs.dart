@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login_data.dart';
 
 class AccountPrefs {
-  static const String PREF_LOGIN_DATA = 'PREF_LOGIN_DATA';
+  static const String prefLoginData = 'prefLoginData';
 
   _getSharedPreferences() async => await SharedPreferences.getInstance();
 
-  Future<LoginData> getLoginData() async {
-    final json = (await _getSharedPreferences()).getString(PREF_LOGIN_DATA);
+  Future<LoginData?> getLoginData() async {
+    final json = (await _getSharedPreferences()).getString(prefLoginData);
     if (json == null) {
       return null;
     }
@@ -18,10 +18,13 @@ class AccountPrefs {
   }
 
   void saveLoginData(LoginData loginData) async {
-    (await _getSharedPreferences()).setString(PREF_LOGIN_DATA, jsonEncode(loginData.toJson()));
+    (await _getSharedPreferences()).setString(
+      prefLoginData,
+      jsonEncode(loginData.toJson()),
+    );
   }
 
   void clearLoginData() async {
-    (await _getSharedPreferences()).setString(PREF_LOGIN_DATA, null);
+    (await _getSharedPreferences()).setString(prefLoginData, null);
   }
 }

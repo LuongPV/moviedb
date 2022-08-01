@@ -1,10 +1,10 @@
 import '../../../domain/models/trending_media.dart' as domain;
-import '../base_mapper.dart';
+import '../base_to_domain_mapper.dart';
 import 'trending_media.dart' as data;
 
-class TrendingMediaMapper extends BaseMapper<data.TrendingMedia, domain.TrendingMedia> {
+class TrendingMediaMapper with DataToDomainMapper<data.TrendingMedia, domain.TrendingMedia> {
   @override
-  domain.TrendingMedia convert(data.TrendingMedia inputType) {
+  domain.TrendingMedia convertToDomain(data.TrendingMedia inputType) {
     return domain.TrendingMedia(
       inputType.genreIds,
       inputType.originalLanguage,

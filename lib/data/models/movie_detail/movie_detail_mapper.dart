@@ -1,10 +1,10 @@
 import '../../../domain/models/movie_detail.dart' as domain;
-import '../base_mapper.dart';
+import '../base_to_domain_mapper.dart';
 import 'movie_detail.dart' as data;
 
-class CastByMovieMapper extends BaseMapper<data.MovieDetail, domain.MovieDetail> {
+class CastByMovieMapper with DataToDomainMapper<data.MovieDetail, domain.MovieDetail> {
   @override
-  domain.MovieDetail convert(data.MovieDetail inputType) {
+  domain.MovieDetail convertToDomain(data.MovieDetail inputType) {
     return domain.MovieDetail(
       inputType.adult,
       inputType.backdropPath,

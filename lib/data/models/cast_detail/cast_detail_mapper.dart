@@ -1,10 +1,10 @@
 import '../../../domain/models/cast_detail.dart' as domain;
-import '../base_mapper.dart';
+import '../base_to_domain_mapper.dart';
 import 'cast_detail.dart' as data;
 
-class CastDetailMapper extends BaseMapper<data.CastDetail, domain.CastDetail> {
+class CastDetailMapper with DataToDomainMapper<data.CastDetail, domain.CastDetail> {
   @override
-  domain.CastDetail convert(data.CastDetail inputType) {
+  domain.CastDetail convertToDomain(data.CastDetail inputType) {
     return domain.CastDetail(
       inputType.adult,
       inputType.alsoKnownAs,

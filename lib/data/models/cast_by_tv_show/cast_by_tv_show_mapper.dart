@@ -1,15 +1,15 @@
 import 'package:moviedb/domain/models/cast_by_tv_show.dart';
 
-import '../base_mapper.dart';
+import '../base_to_domain_mapper.dart';
 import '../cast/cast_mapper.dart';
 import 'cast_by_tv_show.dart';
 
-class CastByTvShowMapper extends BaseMapper<CastByTVShowResponse, CastByTVShow> {
+class CastByTvShowMapper with DataToDomainMapper<CastByTVShowResponse, CastByTVShow> {
   @override
-  CastByTVShow convert(CastByTVShowResponse inputType) {
+  CastByTVShow convertToDomain(CastByTVShowResponse inputType) {
     return CastByTVShow(
       inputType.id,
-      CastMapper().convertList(inputType.cast),
+      CastMapper().convertListToDomain(inputType.cast),
     );
   }
 }

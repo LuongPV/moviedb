@@ -13,7 +13,7 @@ class AccountRepositoryImpl extends AccountRepository {
 
   @override
   Future<LoginData?> getLoginData() async {
-    return LoginDataMapper().convert(await _accountPrefs.getLoginData());
+    return LoginDataMapper().convertToDomain(await _accountPrefs.getLoginData());
   }
 
   Future<LoginData?> login(String username, String password) async {

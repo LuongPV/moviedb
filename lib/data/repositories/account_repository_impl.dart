@@ -9,33 +9,29 @@ class AccountRepositoryImpl extends AccountRepository {
   final AccountAPI _accountAPI;
   final AccountPrefs _accountPrefs;
 
-  AccountRepositoryImpl(this._accountAPI, this._accountPrefs)
+  AccountRepositoryImpl(this._accountAPI, this._accountPrefs);
 
   @override
   Future<LoginData?> getLoginData() async {
     return LoginDataMapper().convertToDomain(await _accountPrefs.getLoginData());
   }
 
+  @override
   Future<LoginData?> login(String username, String password) async {
     var loginData = LoginData(username, password);
-    final isLoginSuccess = await _accountAPI.login(loginData);
+    final isLoginSuccess =await _accountAPI.login(LoginDataMapper().convertToData(loginData)!);
     if (isLoginSuccess) {
-      _accountPrefs.saveLoginData(loginData);
+      _accountPrefs.saveLoginData(LoginDataMapper().convertToData(loginData)!);
       return loginData;
     }
     return null;
   }
 
+  @override
   Future<void> logout() async {
     var isLogoutSuccess = await _accountAPI.logout();
     if (isLogoutSuccess) {
       _accountPrefs.clearLoginData();
     }
   }
-
-  @override
-  Future<LoginData> getLoginData() {
-    throw UnimplementedError();
-  }
-
 }

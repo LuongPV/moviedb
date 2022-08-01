@@ -2,20 +2,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPrefs {
-  static const String PREF_SETTINGS_CONFIRM_EXIT = 'PREF_SETTINGS_CONFIRM_EXIT';
+  static const String prefSettingsConfirmExit = 'prefSettingsConfirmExit';
 
   _getSharedPreferences() async => await SharedPreferences.getInstance();
 
   Future<bool> isConfirmExit() async {
-    return (await _getSharedPreferences()).getBool(PREF_SETTINGS_CONFIRM_EXIT);
+    return (await _getSharedPreferences()).getBool(prefSettingsConfirmExit);
   }
 
   void setConfirmExit(bool isConfirmExit) async {
-    (await _getSharedPreferences()).setBool(PREF_SETTINGS_CONFIRM_EXIT, isConfirmExit);
+    (await _getSharedPreferences()).setBool(prefSettingsConfirmExit, isConfirmExit);
   }
 
   void clearConfirmExit() async {
-    (await _getSharedPreferences()).setBool(PREF_SETTINGS_CONFIRM_EXIT, null);
+    (await _getSharedPreferences()).setBool(prefSettingsConfirmExit, null);
   }
 
 }

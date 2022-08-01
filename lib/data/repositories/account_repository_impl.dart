@@ -1,3 +1,4 @@
+import 'package:moviedb/data/models/login_data/login_data_mapper.dart';
 import 'package:moviedb/domain/repositories/account_repository.dart';
 
 import '../../domain/models/login_data.dart';
@@ -11,12 +12,12 @@ class AccountRepositoryImpl extends AccountRepository {
   AccountRepositoryImpl(this._accountAPI, this._accountPrefs)
 
   @override
-  Future<LoginData> getLoginData() {
-    return _accountPrefs.getLoginData();
+  Future<LoginData?> getLoginData() async {
+    return LoginDataMapper().convert(await _accountPrefs.getLoginData());
   }
 
-  Future<LoginData> login(String username, String password) async {
-    var loginData = LoginData(username: username, password: password);
+  Future<LoginData?> login(String username, String password) async {
+    var loginData = LoginData(username, password);
     final isLoginSuccess = await _accountAPI.login(loginData);
     if (isLoginSuccess) {
       _accountPrefs.saveLoginData(loginData);

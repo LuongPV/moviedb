@@ -1,13 +1,13 @@
 class TVShowDetail {
-  String backdropPath;
-  List<Genre> genres;
-  String homepage;
-  int id;
-  String name;
-  String overview;
-  String posterPath;
-  num voteAverage;
-  String lastAirDate;
+  String? backdropPath;
+  List<Genre>? genres;
+  String? homepage;
+  int? id;
+  String? name;
+  String? overview;
+  String? posterPath;
+  num? voteAverage;
+  String? lastAirDate;
 
   TVShowDetail(
       {this.backdropPath,

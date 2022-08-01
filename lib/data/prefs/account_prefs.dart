@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/login_data.dart';
+import '../models/login_data/login_data.dart';
 
 class AccountPrefs {
   static const String prefLoginData = 'prefLoginData';

@@ -1,19 +1,19 @@
 class MovieGeneral {
-  bool adult;
-  String backdropPath;
-  List<int> genreIds;
-  int id;
-  String originalLanguage;
-  String originalTitle;
-  String overview;
-  num popularity;
-  String posterPath;
-  String releaseDate;
-  String title;
-  bool video;
-  num voteAverage;
-  int voteCount;
-  String name;
+  bool? adult;
+  String? backdropPath;
+  List<int>? genreIds;
+  int? id;
+  String? originalLanguage;
+  String? originalTitle;
+  String? overview;
+  num? popularity;
+  String? posterPath;
+  String? releaseDate;
+  String? title;
+  bool? video;
+  num? voteAverage;
+  int? voteCount;
+  String? name;
 
   MovieGeneral(
       {this.adult,

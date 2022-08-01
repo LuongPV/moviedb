@@ -1,4 +1,4 @@
-import 'trending_media.dart';
+import 'trending_media/trending_media.dart';
 
 class TrendingMediaResponse {
   int page;

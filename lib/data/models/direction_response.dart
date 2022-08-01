@@ -1,5 +1,5 @@
 class DirectionResponse {
-  List<Routes> routes;
+  List<Routes>? routes;
 
   DirectionResponse({this.routes});
 

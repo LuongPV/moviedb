@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:sprintf/sprintf.dart';
 
-import '../../utils/logger/logger.dart';
+import '../../presentation/utils/logger/logger.dart';
 import '../constants.dart';
 import '../models/trending_media_response.dart';
 import '../models/trending_media_type.dart';
 import 'base_themoviedb_api.dart';
 
 class TheMovieDbTrendingAPI extends BaseTheMovieDbAPI {
-  Future<TrendingMediaResponse> getTrendingMedia(TrendingMediaType type) async {
+  Future<TrendingMediaResponse?> getTrendingMedia(TrendingMediaType type) async {
     try {
       final url = sprintf(URL_TRENDING, [type.name, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
@@ -23,7 +23,7 @@ class TheMovieDbTrendingAPI extends BaseTheMovieDbAPI {
       return responseModel;
     } catch (e) {
       Logger.w('API Exception $e');
-      throw e;
+      rethrow;
     }
   }
 

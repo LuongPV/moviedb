@@ -1,12 +1,12 @@
 import 'package:sprintf/sprintf.dart';
 
-import '../../utils/logger/logger.dart';
+import '../../presentation/utils/logger/logger.dart';
 import '../constants.dart';
 import '../models/youtube_video_response.dart';
 import 'base_api.dart';
 
 class YoutubeVideoAPI extends BaseAPI {
-  Future<YoutubeVideoResponse> getVideoInfo(String videoId) async {
+  Future<YoutubeVideoResponse?> getVideoInfo(String videoId) async {
     try {
       final url = sprintf(URL_YOUTUBE_VIDEO_INFO, [videoId]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
@@ -16,7 +16,7 @@ class YoutubeVideoAPI extends BaseAPI {
       return responseModel;
     } catch (e) {
       Logger.w('API Exception $e');
-      throw e;
+      rethrow;
     }
   }
 }

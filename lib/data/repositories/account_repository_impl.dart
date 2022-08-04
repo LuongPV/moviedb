@@ -1,8 +1,7 @@
-import 'package:moviedb/data/models/login_data/login_data_mapper.dart';
-import 'package:moviedb/domain/repositories/account_repository.dart';
-
 import '../../domain/models/login_data.dart';
+import '../../domain/repositories/account_repository.dart';
 import '../apis/account_api.dart';
+import '../models/login_data/login_data_mapper.dart';
 import '../prefs/account_prefs.dart';
 
 class AccountRepositoryImpl extends AccountRepository {

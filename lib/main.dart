@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'data/apis/account_api.dart';
+import 'data/prefs/account_prefs.dart';
+import 'data/repositories/account_repository_impl.dart';
 import 'data/services/fcm/firebase_cloud_message.dart';
-import 'presentation/screens/splash/splash_widget.dart';
+import 'presentation/features/shared_blocs/auth/auth_bloc.dart';
+import 'presentation/features/ui/splash/splash_widget.dart';
 
 void main() {
   initCloudMessageService();
-  runApp(const MyApp());
+  final accountAPI = AccountAPI();
+  final accountPref = AccountPrefs();
+  final accountRepository = AccountRepositoryImpl(accountAPI, accountPref);
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: AuthBloc(accountRepository)),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

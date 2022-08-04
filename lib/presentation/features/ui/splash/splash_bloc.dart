@@ -6,16 +6,16 @@ import 'splash_states.dart';
 
 class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
   SplashBloc() : super(SplashInitial()) {
-    on<SplashOpen>(((event, emit) {
+    on<SplashOpen>((event, emit) {
       Future.delayed(
         const Duration(seconds: 3),
       ).then((_) async {
         emit(SplashTimeout());
       });
-    }), transformer: sequential());
-    on<CheckNavigateLogin>(((event, emit) {
+    }, transformer: sequential());
+    on<CheckNavigateLogin>((event, emit) {
       event.loginData != null ? emit(NavigateHome()) : emit(NavigateLogin());
-    }), transformer: sequential());
+    }, transformer: sequential());
 
     add(SplashOpen());
   }

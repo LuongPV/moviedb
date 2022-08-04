@@ -4,20 +4,23 @@ import '../base/base_state.dart';
 import 'splash_controller.dart';
 
 class SplashWidget extends StatefulWidget {
+  const SplashWidget({Key? key}) : super(key: key);
+
   @override
-  SplashWidgetState createState() => SplashWidgetState();
+  _SplashWidgetState createState() => _SplashWidgetState();
 }
 
-class SplashWidgetState extends BaseState<SplashWidget, SplashController> {
+class _SplashWidgetState extends BaseState<SplashWidget, SplashBloc> {
+  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       controller.checkLogin();
     });
   }
 
   @override
-  SplashController getController() => SplashController(this, context);
+  SplashBloc getController() => SplashBloc(this, context);
 
   @override
   Widget build(BuildContext context) {

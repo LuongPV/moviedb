@@ -1,5 +1,5 @@
 import '../../../domain/models/movie_detail.dart' as domain;
-import '../base_to_domain_mapper.dart';
+import '../data_to_domain_mapper.dart';
 import 'movie_detail.dart' as data;
 
 class CastByMovieMapper with DataToDomainMapper<data.MovieDetail, domain.MovieDetail> {

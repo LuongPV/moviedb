@@ -1,5 +1,5 @@
 import '../../../domain/models/cast_by_movie.dart';
-import '../base_to_domain_mapper.dart';
+import '../data_to_domain_mapper.dart';
 import '../cast/cast_mapper.dart';
 import 'cast_by_movie.dart';
 

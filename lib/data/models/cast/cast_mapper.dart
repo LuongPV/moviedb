@@ -1,5 +1,5 @@
 import '../../../domain/models/cast.dart' as domain;
-import '../base_to_domain_mapper.dart';
+import '../data_to_domain_mapper.dart';
 import 'cast.dart' as data;
 
 class CastMapper with DataToDomainMapper<data.Cast, domain.Cast> {

@@ -1,5 +1,5 @@
 import '../../../domain/models/trending_media.dart' as domain;
-import '../base_to_domain_mapper.dart';
+import '../data_to_domain_mapper.dart';
 import 'trending_media.dart' as data;
 
 class TrendingMediaMapper with DataToDomainMapper<data.TrendingMedia, domain.TrendingMedia> {

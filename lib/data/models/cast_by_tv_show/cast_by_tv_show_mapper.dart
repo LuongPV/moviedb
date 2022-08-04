@@ -1,6 +1,6 @@
 import 'package:moviedb/domain/models/cast_by_tv_show.dart';
 
-import '../base_to_domain_mapper.dart';
+import '../data_to_domain_mapper.dart';
 import '../cast/cast_mapper.dart';
 import 'cast_by_tv_show.dart';
 

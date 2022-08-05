@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviedb/presentation/features/shared_blocs/auth/auth_bloc.dart';
-import 'package:moviedb/presentation/features/shared_blocs/auth/auth_states.dart';
-import 'package:moviedb/presentation/features/ui/splash/splash_events.dart';
+
+import '../../shared_blocs/auth/auth_bloc.dart';
 import '../../shared_blocs/auth/auth_events.dart';
+import '../../shared_blocs/auth/auth_states.dart';
+import '../base/base_stateless_widget.dart';
+import '../login/login_widget.dart';
 import 'splash_bloc.dart';
+import 'splash_events.dart';
 import 'splash_states.dart';
 
-class SplashWidget extends StatelessWidget {
+class SplashWidget extends BaseStatelessWidget {
   const SplashWidget({Key? key}) : super(key: key);
 
   @override

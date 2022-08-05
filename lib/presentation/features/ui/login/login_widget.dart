@@ -5,11 +5,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../shared_blocs/auth/auth_bloc.dart';
 import '../../shared_blocs/auth/auth_events.dart';
 import '../../shared_blocs/auth/auth_states.dart';
+import '../base/base_stateless_widget.dart';
 import 'login_bloc.dart';
 import 'login_events.dart';
 import 'login_states.dart';
 
-class LoginWidget extends StatelessWidget {
+class LoginWidget extends BaseStatelessWidget {
   final usernameInputController = TextEditingController();
   final passwordInputController = TextEditingController();
 
@@ -21,15 +22,28 @@ class LoginWidget extends StatelessWidget {
       create: ((_) => LoginBloc()),
       child: Builder(builder: (context) {
         return Scaffold(
-          body: BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) {
-              if (state is InputsValid) {
-                BlocProvider.of<AuthBloc>(context).add(RequestLogin(
-                  usernameInputController.text.trim(),
-                  passwordInputController.text.trim(),
-                ));
-              }
-            },
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  if (state is InputsValid) {
+                    BlocProvider.of<AuthBloc>(context).add(RequestLogin(
+                      usernameInputController.text.trim(),
+                      passwordInputController.text.trim(),
+                    ));
+                  }
+                },
+              ),
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is RequestLoginLoading) {
+                    showLoadingDialog(context);
+                  } else if (state is RequestLoginLoaded) {
+                    hideLoadingDialog(context);
+                  }
+                },
+              ),
+            ],
             child: Container(
               padding: const EdgeInsets.all(30),
               child: SingleChildScrollView(

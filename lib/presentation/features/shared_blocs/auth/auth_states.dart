@@ -9,3 +9,9 @@ class LoginDataLoaded extends AuthState {
 
   LoginDataLoaded(this.loginData);
 }
+
+class RequestLoginLoading extends AuthState {}
+
+class RequestLoginLoaded extends AuthState {}
+
+class WrongCredentials extends AuthState {}

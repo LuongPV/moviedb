@@ -10,6 +10,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
 
   LoginBloc() : super(LoginInitial()) {
     on<ValidateInputs>((event, emit) {
+      emit(ErrorCleared());
       var isInputsValid = true;
       if (!_isUsernameValid(event.username)) {
         emit(UsernameInvalid());

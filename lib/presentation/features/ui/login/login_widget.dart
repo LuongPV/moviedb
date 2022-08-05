@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../shared_blocs/auth/auth_bloc.dart';
+import '../../shared_blocs/auth/auth_events.dart';
+import '../../shared_blocs/auth/auth_states.dart';
 import 'login_bloc.dart';
 import 'login_events.dart';
 import 'login_states.dart';
@@ -14,34 +17,49 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(30),
-        child: SingleChildScrollView(
-          reverse: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 100),
-                child: _buildAppLogoWidget(),
+    return BlocProvider(
+      create: ((_) => LoginBloc()),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          body: BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              if (state is InputsValid) {
+                BlocProvider.of<AuthBloc>(context).add(RequestLogin(
+                  usernameInputController.text.trim(),
+                  passwordInputController.text.trim(),
+                ));
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.all(30),
+              child: SingleChildScrollView(
+                reverse: true,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 100),
+                      child: _buildAppLogoWidget(),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 64),
+                      child: _buildUsernameWidget(context),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    _buildPasswordWidget(context),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    _buildLoginButtonWidget(context),
+                  ],
+                ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 64),
-                child: _buildUsernameWidget(context),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              _buildPasswordWidget(context),
-              const SizedBox(
-                height: 50,
-              ),
-              _buildLoginButtonWidget(context),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -76,50 +94,58 @@ class LoginWidget extends StatelessWidget {
   }
 
   Widget _buildPasswordWidget(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      var errorText = '';
-      if (state is PasswordInvalid) {
-        errorText = AppLocalizations.of(context)!.errEmptyPassword;
-      } else if (state is WrongPassword) {
-        errorText = AppLocalizations.of(context)!.errWrongPassword;
-      }
-      return TextField(
-        controller: passwordInputController,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          icon: const Icon(Icons.lock_outline),
-          hintText: AppLocalizations.of(context)!.txtPassword,
-          labelText: AppLocalizations.of(context)!.txtPassword,
-          errorText: errorText,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+      return BlocBuilder<LoginBloc, LoginState>(builder: (context, loginState) {
+        var errorText = '';
+        if (loginState is ErrorCleared) {
+          errorText = '';
+        } else if (loginState is PasswordInvalid) {
+          errorText = AppLocalizations.of(context)!.errEmptyPassword;
+        } else if (authState is WrongCredentials) {
+          errorText = AppLocalizations.of(context)!.errWrongPassword;
+        }
+        return TextField(
+          controller: passwordInputController,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            icon: const Icon(Icons.lock_outline),
+            hintText: AppLocalizations.of(context)!.txtPassword,
+            labelText: AppLocalizations.of(context)!.txtPassword,
+            errorText: errorText,
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32)),
+            ),
           ),
-        ),
-      );
+        );
+      });
     });
   }
 
   Widget _buildUsernameWidget(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      var errorText = '';
-      if (state is UsernameInvalid) {
-        errorText = AppLocalizations.of(context)!.errEmptyUsername;
-      } else if (state is WrongUsername) {
-        errorText = AppLocalizations.of(context)!.errWrongUsername;
-      }
-      return TextField(
-        controller: usernameInputController,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          icon: const Icon(Icons.person),
-          hintText: AppLocalizations.of(context)!.txtUsername,
-          labelText: AppLocalizations.of(context)!.txtUsername,
-          errorText: errorText,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+      return BlocBuilder<LoginBloc, LoginState>(builder: (context, loginState) {
+        var errorText = '';
+        if (loginState is ErrorCleared) {
+          errorText = '';
+        } else if (loginState is UsernameInvalid) {
+          errorText = AppLocalizations.of(context)!.errEmptyUsername;
+        } else if (authState is WrongCredentials) {
+          errorText = AppLocalizations.of(context)!.errWrongUsername;
+        }
+        return TextField(
+          controller: usernameInputController,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+            icon: const Icon(Icons.person),
+            hintText: AppLocalizations.of(context)!.txtUsername,
+            labelText: AppLocalizations.of(context)!.txtUsername,
+            errorText: errorText,
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32)),
+            ),
           ),
-        ),
-      );
+        );
+      });
     });
   }
 

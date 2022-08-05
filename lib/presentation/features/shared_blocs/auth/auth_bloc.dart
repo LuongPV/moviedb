@@ -9,9 +9,25 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
   final AccountRepository _accountRepository;
 
   AuthBloc(this._accountRepository) : super(AuthInitial()) {
-    on<CheckLogin>(((event, emit) async {
+    on<CheckLogin>((event, emit) async {
       final loginData = await _accountRepository.getLoginData();
       emit(LoginDataLoaded(loginData));
-    }), transformer: sequential());
+    }, transformer: sequential());
+    on<RequestLogin>((event, emit) {
+      emit(RequestLoginLoading());
+      _accountRepository
+          .login(event.username, event.password)
+          .then((loginData) {
+        emit(RequestLoginLoaded());
+        if (loginData == null) {
+          emit(WrongCredentials());
+          usernameErrorText = AppLocalizations.of(context).errWrongUsername;
+          usernameErrorText = AppLocalizations.of(context).errWrongPassword;
+          updateUI();
+        } else {
+          state.openHomeWidget();
+        }
+      });
+    }, transformer: sequential());
   }
 }

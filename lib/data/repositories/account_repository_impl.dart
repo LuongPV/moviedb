@@ -18,7 +18,7 @@ class AccountRepositoryImpl extends AccountRepository {
   @override
   Future<LoginData?> login(String username, String password) async {
     var loginData = LoginData(username, password);
-    final isLoginSuccess =await _accountAPI.login(LoginDataMapper().convertToData(loginData)!);
+    final isLoginSuccess = await _accountAPI.login(LoginDataMapper().convertToData(loginData)!);
     if (isLoginSuccess) {
       _accountPrefs.saveLoginData(LoginDataMapper().convertToData(loginData)!);
       return loginData;

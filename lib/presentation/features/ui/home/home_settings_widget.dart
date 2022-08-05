@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../base/base_state.dart';
-import '../base/base_stateful_widget.dart';
+import '../base/base_stateless_widget.dart';
 import '../login/login_widget.dart';
 import '../widgets/ToggleSettingWidget.dart';
 import 'home_settings_controller.dart';

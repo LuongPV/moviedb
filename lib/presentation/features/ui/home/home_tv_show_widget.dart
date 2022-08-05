@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../data/models/trending_media.dart';
 import '../../data/models/trending_media_type.dart';
 import '../../data/repositories/trending_repository.dart';
-import '../base/base_stateful_widget.dart';
+import '../base/base_stateless_widget.dart';
 import '../detail/tv_show_detail.dart';
 import '../widgets/common_widgets.dart';
 
-class HomeTVShowWidget extends BaseStatefulWidget {
+class HomeTVShowWidget extends BaseStatelessWidget {
   @override
   _HomeTVShowWidgetState createState() => _HomeTVShowWidgetState();
 }

@@ -6,6 +6,7 @@ import '../../shared_blocs/auth/auth_bloc.dart';
 import '../../shared_blocs/auth/auth_events.dart';
 import '../../shared_blocs/auth/auth_states.dart';
 import '../base/base_stateless_widget.dart';
+import '../home/home_widget.dart';
 import 'login_bloc.dart';
 import 'login_events.dart';
 import 'login_states.dart';
@@ -165,6 +166,6 @@ class LoginWidget extends BaseStatelessWidget {
 
   void openHomeWidget(BuildContext context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeWidget()));
+        context, MaterialPageRoute(builder: (context) => const HomeWidget()));
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/constants.dart';
 import '../../data/models/movie_general.dart';
 import '../base/base_state.dart';
-import '../base/base_stateful_widget.dart';
+import '../base/base_stateless_widget.dart';
 import '../scan_qr/scan_qr_widget.dart';
 import '../search/search_widget.dart';
 import '../theater/nearby_theaters_widget.dart';
@@ -13,12 +13,14 @@ import 'home_settings_widget.dart';
 import 'home_trend_widget.dart';
 import 'home_tv_show_widget.dart';
 
-class HomeWidget extends BaseStatefulWidget {
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({Key? key}) : super(key: key);
+
   @override
   HomeWidgetState createState() => HomeWidgetState();
 }
 
-class HomeWidgetState extends BaseState<HomeWidget, HomeController> {
+class HomeWidgetState extends State<HomeWidget> {
   var canExit = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<MovieGeneral> movies;

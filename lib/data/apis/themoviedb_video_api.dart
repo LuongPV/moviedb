@@ -7,7 +7,7 @@ import '../constants.dart';
 import '../models/video_by_movie_response.dart';
 import 'base_themoviedb_api.dart';
 
-class TheMovieDbVideoAPI extends BaseTheMovieDbAPI {
+class TheMovieDbVideoAPI extends BaseTheMovieDbApi {
 
   Future<VideoByMovieResponse?> getVideoByMovie(int movieId) async {
     try {

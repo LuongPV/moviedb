@@ -4,7 +4,7 @@ import 'package:sprintf/sprintf.dart';
 import '../constants.dart';
 import 'base_api.dart';
 
-abstract class BaseTheMovieDbAPI extends BaseAPI {
+abstract class BaseTheMovieDbApi extends BaseAPI {
 
   String? appendImageUrl(String? fileName) {
     if (fileName != null) {

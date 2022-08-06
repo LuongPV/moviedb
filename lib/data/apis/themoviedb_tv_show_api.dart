@@ -7,7 +7,7 @@ import '../constants.dart';
 import '../models/tv_show_detail.dart';
 import 'base_themoviedb_api.dart';
 
-class TheMovieDbTVShowAPI extends BaseTheMovieDbAPI {
+class TheMovieDbTVShowAPI extends BaseTheMovieDbApi {
 
   Future<TVShowDetail?> getTVShowDetail(int movieId) async {
     try {

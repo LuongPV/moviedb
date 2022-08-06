@@ -10,7 +10,7 @@ import '../models/movie_detail/movie_detail.dart';
 import '../models/movie_search.dart';
 import 'base_themoviedb_api.dart';
 
-class TheMovieDbMovieAPI extends BaseTheMovieDbAPI {
+class TheMovieDbMovieAPI extends BaseTheMovieDbApi {
 
   Future<MovieSearchResponse?> searchMovie(String title) async {
     try {

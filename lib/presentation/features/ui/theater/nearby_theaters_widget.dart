@@ -13,6 +13,8 @@ import '../../utils/logger/logger.dart';
 import '../base/base_stateful_widget.dart';
 
 class NearbyTheatersWidget extends BaseStatefulWidget {
+  const NearbyTheatersWidget({Key? key}) : super(key: key);
+
   @override
   NearbyTheatersWidgetState createState() => NearbyTheatersWidgetState();
 }

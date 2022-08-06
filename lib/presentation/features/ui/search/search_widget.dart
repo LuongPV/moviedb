@@ -9,6 +9,8 @@ import '../widgets/common_widgets.dart';
 import 'search_controller.dart';
 
 class SearchWidget extends BaseStatefulWidget {
+  const SearchWidget({Key? key}) : super(key: key);
+
   @override
   SearchWidgetState createState() => SearchWidgetState();
 }

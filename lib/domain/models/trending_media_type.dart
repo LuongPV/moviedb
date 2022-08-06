@@ -1,21 +1,19 @@
 enum TrendingMediaType {
-  MOVIE,
-  TV_SHOW,
-  ALL
+  movie,
+  tvShow,
+  all,
 }
 
 extension APIString on TrendingMediaType {
-
   String get name {
     switch (this) {
-      case TrendingMediaType.MOVIE:
+      case TrendingMediaType.movie:
         return 'movie';
-      case TrendingMediaType.TV_SHOW:
+      case TrendingMediaType.tvShow:
         return 'tv';
-      case TrendingMediaType.ALL:
+      case TrendingMediaType.all:
       default:
         return 'all';
     }
   }
-
 }

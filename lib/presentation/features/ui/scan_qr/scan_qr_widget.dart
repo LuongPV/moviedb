@@ -7,6 +7,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../base/base_stateful_widget.dart';
 
 class ScanQRWidget extends BaseStatefulWidget {
+  const ScanQRWidget({Key? key}) : super(key: key);
+
   @override
   ScanQRWidgetState createState() => ScanQRWidgetState();
 }

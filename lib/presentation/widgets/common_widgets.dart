@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../data/models/movie_general.dart';
-import '../../data/models/trending_media.dart';
-import '../../data/models/trending_media_type.dart';
-import '../../utils/logger/logger.dart';
+import '../../domain/models/movie_general.dart';
+import '../../domain/models/trending_media.dart';
+import '../../domain/models/trending_media_type.dart';
+import '../features/ui/detail/movie_detail.dart';
+import '../utils/logger/logger.dart';
 
 Widget buildSearchListWidget(List<MovieGeneral> movies, BuildContext context) =>
     ListView(
@@ -20,11 +22,9 @@ Widget buildEmptyListLayoutWidget(BuildContext context) => Center(
             color: Colors.blue,
             width: 150,
           ),
-          SizedBox(
-            height: 30,
-          ),
-          Text(AppLocalizations.of(context).txtNoResult,
-              style: TextStyle(color: Colors.blue, fontSize: 20))
+          const SizedBox(height: 30),
+          Text(AppLocalizations.of(context)!.txtNoResult,
+              style: const TextStyle(color: Colors.blue, fontSize: 20))
         ],
       ),
     );
@@ -36,25 +36,21 @@ Widget _buildMovieItemWidget(MovieGeneral movie, BuildContext context) {
         child: Row(
           children: [
             _getMovieThumbnailWidget(movie),
-            SizedBox(
-              width: 10,
-            ),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     movie.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.redAccent,
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Text(movie.releaseDate ?? '---',
-                      style: TextStyle(color: Colors.grey, fontSize: 16))
+                      style: const TextStyle(color: Colors.grey, fontSize: 16))
                 ],
               ),
             ),
@@ -91,15 +87,10 @@ Widget _getMovieThumbnailWidget(MovieGeneral movie) {
   );
 }
 
-Widget buildMovieList(
-    List<TrendingMedia> movies,
-    BuildContext context,
-    {Function(TrendingMedia) itemClickListener, bool showType = false}
-    ) {
+Widget buildMovieList(List<TrendingMedia>? movies, BuildContext context,
+    {Function(TrendingMedia)? itemClickListener, bool showType = false}) {
   if (movies == null) {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
   return GridView.count(
     childAspectRatio: 0.5,
@@ -108,17 +99,19 @@ Widget buildMovieList(
     mainAxisSpacing: 10,
     crossAxisCount: 3,
     children: movies
-        .map((movie) => _buildMovieItem(movie, context, itemClickListener: itemClickListener, showType: showType))
+        .map((movie) => _buildMovieItem(movie, context,
+            itemClickListener: itemClickListener, showType: showType))
         .toList(),
   );
 }
 
-Widget _buildMovieItem(TrendingMedia movie, BuildContext context, {Function(TrendingMedia) itemClickListener, bool showType = false}) {
+Widget _buildMovieItem(TrendingMedia movie, BuildContext context,
+    {Function(TrendingMedia)? itemClickListener, bool showType = false}) {
   Widget content = Column(
     children: [
       _buildMovieImage(movie),
       Text(
-        movie.title ?? movie.name,
+        movie.title ?? movie.name!,
         textAlign: TextAlign.center,
       )
     ],
@@ -131,11 +124,11 @@ Widget _buildMovieItem(TrendingMedia movie, BuildContext context, {Function(Tren
           top: 5,
           right: 10,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.blue,
-              borderRadius: BorderRadius.all(Radius.circular(5))
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            padding: EdgeInsets.all(3),
+            padding: const EdgeInsets.all(3),
             child: _buildMediaTypeIcon(movie),
           ),
         ),
@@ -154,13 +147,13 @@ Widget _buildMovieItem(TrendingMedia movie, BuildContext context, {Function(Tren
 }
 
 Widget _buildMediaTypeIcon(TrendingMedia media) {
-  var icon;
+  Widget icon;
   if (media.mediaType == TrendingMediaType.movie.name) {
-    icon = Icon(Icons.movie);
+    icon = const Icon(Icons.movie);
   } else if (media.mediaType == TrendingMediaType.tvShow.name) {
-    icon = Icon(Icons.live_tv);
+    icon = const Icon(Icons.live_tv);
   } else {
-    icon = Material();
+    icon = const Material();
   }
   return icon;
 }
@@ -172,7 +165,7 @@ Widget _buildMovieImage(TrendingMedia movie) {
     );
   }
   return Image.network(
-    movie.posterPath,
+    movie.posterPath!,
     height: 170,
   );
 }

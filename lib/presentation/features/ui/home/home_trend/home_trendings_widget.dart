@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../base/base_stateful_widget.dart';
 
 
-class HomeTrendWidget extends BaseStatefulWidget {
-  const HomeTrendWidget({Key? key}) : super(key: key);
+class HomeTrendingsWidget extends BaseStatefulWidget {
+  const HomeTrendingsWidget({Key? key}) : super(key: key);
 
   @override
   _HomeTrendWidgetState createState() => _HomeTrendWidgetState();
 }
 
-class _HomeTrendWidgetState extends State<HomeTrendWidget> {
+class _HomeTrendWidgetState extends State<HomeTrendingsWidget> {
   List<TrendingMedia> trendingMovies;
   final _trendingRepository = TrendingRepository();
 

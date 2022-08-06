@@ -2,7 +2,7 @@ import 'package:custom_switch/custom_switch.dart';
 import 'package:flutter/material.dart';
 
 class ToggleSettingWidget extends StatefulWidget {
-  final Function(bool) onSettingToggled;
+  final Function(bool)? onSettingToggled;
 
   final key;
 
@@ -12,9 +12,9 @@ class ToggleSettingWidget extends StatefulWidget {
 
   final Widget icon;
 
-  final bool defaultValue;
+  final bool? defaultValue;
 
-  ToggleSettingWidget(this.title, this.description, this.icon,
+  const ToggleSettingWidget(this.title, this.description, this.icon,
       {this.key, this.defaultValue, this.onSettingToggled})
       : super(key: key);
 
@@ -23,7 +23,7 @@ class ToggleSettingWidget extends StatefulWidget {
 }
 
 class _ToggleSettingWidgetState extends State<ToggleSettingWidget> {
-  var isOn;
+  bool? isOn;
 
   @override
   void initState() {
@@ -34,20 +34,18 @@ class _ToggleSettingWidgetState extends State<ToggleSettingWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.blue,
           width: 2,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Row(
         children: [
           widget.icon,
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           _buildLabel(),
           CustomSwitch(
             onChanged: _onSwitchToggled,
@@ -66,18 +64,16 @@ class _ToggleSettingWidgetState extends State<ToggleSettingWidget> {
         children: [
           Text(
             widget.title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-              top: 5,
-            ),
+            margin: const EdgeInsets.only(top: 5),
             child: Text(
               widget.description,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: Colors.grey,
               ),
@@ -92,7 +88,7 @@ class _ToggleSettingWidgetState extends State<ToggleSettingWidget> {
     setState(() {
       isOn = value;
       if (widget.onSettingToggled != null) {
-        widget.onSettingToggled(value);
+        widget.onSettingToggled!(value);
       }
     });
   }

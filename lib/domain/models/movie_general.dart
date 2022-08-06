@@ -8,7 +8,7 @@ class MovieGeneral {
   String overview;
   num popularity;
   String posterPath;
-  String releaseDate;
+  String? releaseDate;
   String title;
   bool video;
   num voteAverage;

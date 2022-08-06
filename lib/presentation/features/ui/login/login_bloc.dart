@@ -26,25 +26,6 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     }, transformer: sequential());
   }
 
-  void login(String username, String password) {
-    usernameErrorText = _isUsernameValid(username);
-    passwordErrorText = _isPasswordValid(password);
-    updateUI();
-    if (usernameErrorText == null && passwordErrorText == null) {
-      state.widget.showLoadingDialog(context);
-      _accountRepository.login(username, password).then((loginData) {
-        state.widget.hideLoadingDialog(context);
-        if (loginData == null) {
-          usernameErrorText = AppLocalizations.of(context).errWrongUsername;
-          usernameErrorText = AppLocalizations.of(context).errWrongPassword;
-          updateUI();
-        } else {
-          state.openHomeWidget();
-        }
-      });
-    }
-  }
-
   bool _isUsernameValid(String username) {
     return username.isNotEmpty && username.length >= 3;
   }

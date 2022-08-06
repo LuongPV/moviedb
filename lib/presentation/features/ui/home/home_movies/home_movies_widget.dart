@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/trending_media.dart';
-import '../../data/models/trending_media_type.dart';
-import '../../data/repositories/trending_repository.dart';
-import '../base/base_stateless_widget.dart';
-import '../detail/movie_detail.dart';
-import '../widgets/common_widgets.dart';
+import '../../base/base_stateful_widget.dart';
 
-class HomeMovieWidget extends BaseStatefulWidget {
+class HomeMoviesWidget extends BaseStatefulWidget {
+  const HomeMoviesWidget({Key? key}) : super(key: key);
+
   @override
   _HomeMovieWidgetState createState() => _HomeMovieWidgetState();
 }
 
-class _HomeMovieWidgetState extends State<HomeMovieWidget> {
+class _HomeMovieWidgetState extends State<HomeMoviesWidget> {
   List<TrendingMedia> trendingMovies;
   final _trendingRepository = TrendingRepository();
 

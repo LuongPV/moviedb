@@ -1,80 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moviedb/presentation/features/ui/home/home_states.dart';
 
-import '../../data/constants.dart';
-import '../../data/models/movie_general.dart';
-import '../base/base_state.dart';
-import '../base/base_stateless_widget.dart';
-import '../scan_qr/scan_qr_widget.dart';
-import '../search/search_widget.dart';
-import '../theater/nearby_theaters_widget.dart';
-import 'home_controller.dart';
-import 'home_movie_widget.dart';
-import 'home_settings_widget.dart';
-import 'home_trend_widget.dart';
-import 'home_tv_show_widget.dart';
+import '../../../../data/constants.dart';
+import 'home_bloc.dart';
+import 'home_movies/home_movies_widget.dart';
+import 'home_settings/home_settings_widget.dart';
+import 'home_trend/home_trend_widget.dart';
+import 'home_tv_shows/home_tv_shows_widget.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
 
   @override
-  HomeWidgetState createState() => HomeWidgetState();
+  _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class HomeWidgetState extends State<HomeWidget> {
-  var canExit = false;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<MovieGeneral> movies;
+class _HomeWidgetState extends State<HomeWidget> {
+  bool isConfirmExit = false;
+  bool _isDelayingExit = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-  List<Widget> _pages = _buildMainPages();
-  List<BottomNavigationBarItem> _bottomItems = _buildBottomNavigationBarItems();
-  var versionName;
-
-  @override
-  HomeController getController() => HomeController(this, context);
-
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.initConfirmExit();
-      _getVersionName();
-    });
-  }
+  final List<Widget> _pages = _buildMainPages();
+  final List<BottomNavigationBarItem> _bottomItems =
+      _buildBottomNavigationBarItems();
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(
-          title: Text(_bottomItems[_selectedIndex].label,
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
+    return BlocProvider<HomeBloc>(
+      create: (_) => HomeBloc(RepositoryProvider.of(context)),
+      child: Builder(builder: (context) {
+        return BlocListener<HomeBloc, HomeState>(
+          listener: (context, state) {
+            switch (state.runtimeType) {
+              case HomeConfirmExitLoaded:
+                setState(() {
+                  isConfirmExit =
+                      (state as HomeConfirmExitLoaded).isConfirmExit;
+                });
+                break;
+            }
+            isConfirmExit = false;
+          },
+          child: WillPopScope(
+            onWillPop: _onWillPop,
+            child: Scaffold(
+              key: _scaffoldKey,
+              appBar: AppBar(
+                title: Text(
+                  _bottomItems[_selectedIndex].label!,
+                  style: const TextStyle(fontWeight: FontWeight.w800),
+                ),
+              ),
+              drawer: _buildNavigationDrawer(),
+              body: IndexedStack(
+                children: _pages,
+                index: _selectedIndex,
+              ),
+              bottomNavigationBar: _buildBottomNavigationBar(),
             ),
           ),
-        ),
-        drawer: _buildNavigationDrawer(),
-        body: Container(
-          child: IndexedStack(
-            children: _pages,
-            index: _selectedIndex,
-          ),
-        ),
-        bottomNavigationBar: _buildBottomNavigationBar(),
-      ),
+        );
+      }),
     );
   }
 
   Future<bool> _onWillPop() {
-    if (scaffoldKey.currentState.isDrawerOpen) {
+    if (_scaffoldKey.currentState!.isDrawerOpen) {
       Navigator.pop(context);
       return Future.value(false);
     }
-    if (!controller.isConfirmExit) {
+    if (isConfirmExit) {
       return Future.value(true);
     }
-    if (!canExit) {
-      scaffoldKey.currentState.showSnackBar(SnackBar(
+    if (!_isDelayingExit) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         duration: Duration(seconds: DELAY_CONFIRM_EXIT_SEC),
         content: Text(
           "Press 'Back' again to exit",
@@ -86,8 +86,9 @@ class HomeWidgetState extends State<HomeWidget> {
         ),
         backgroundColor: Colors.blue,
       ));
-      canExit = true;
-      Future.delayed(Duration(seconds: DELAY_CONFIRM_EXIT_SEC)).then((_) => canExit = false);
+      _isDelayingExit = true;
+      Future.delayed(const Duration(seconds: DELAY_CONFIRM_EXIT_SEC))
+          .then((_) => _isDelayingExit = false);
       return Future.value(false);
     }
     return Future.value(true);
@@ -105,7 +106,7 @@ class HomeWidgetState extends State<HomeWidget> {
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
       showUnselectedLabels: true,
-      selectedLabelStyle: TextStyle(
+      selectedLabelStyle: const TextStyle(
         fontWeight: FontWeight.w600,
       ),
       onTap: _onIndexChanged,
@@ -115,10 +116,10 @@ class HomeWidgetState extends State<HomeWidget> {
 
   static List<Widget> _buildMainPages() {
     return [
-      HomeTrendWidget(),
-      HomeMovieWidget(),
-      HomeTVShowWidget(),
-      HomeSettingsWidget(),
+      const HomeTrendWidget(),
+      const HomeMoviesWidget(),
+      const HomeTVShowsWidget(),
+      const HomeSettingsWidget(),
     ];
   }
 
@@ -139,7 +140,7 @@ class HomeWidgetState extends State<HomeWidget> {
   Widget _buildNavigationDrawer() {
     return Drawer(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -149,7 +150,7 @@ class HomeWidgetState extends State<HomeWidget> {
         child: Column(
           children: [
             DrawerHeader(
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 child: Center(
                   child: Image.asset(
@@ -163,61 +164,61 @@ class HomeWidgetState extends State<HomeWidget> {
             _buildLeftMenuItem(
                 Icons.search_outlined,
                 'Search',
-                () => Navigator.push(context, MaterialPageRoute(builder: (_) => SearchWidget()))
-            ),
-            _buildLeftMenuItem(Icons.trending_up, 'Trend', () => _selectedIndex = 0),
+                () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => SearchWidget()))),
+            _buildLeftMenuItem(
+                Icons.trending_up, 'Trend', () => _selectedIndex = 0),
             _buildLeftMenuItem(Icons.movie, 'Movie', () => _selectedIndex = 1),
-            _buildLeftMenuItem(Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
-            _buildLeftMenuItem(Icons.settings, 'Settings', () => _selectedIndex = 3),
+            _buildLeftMenuItem(
+                Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
+            _buildLeftMenuItem(
+                Icons.settings, 'Settings', () => _selectedIndex = 3),
             _buildLeftMenuItem(
                 Icons.qr_code,
                 'Scan QR',
                 () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => ScanQRWidget()))
-            ),
+                    MaterialPageRoute(builder: (_) => ScanQRWidget()))),
             _buildLeftMenuItem(
                 Icons.theaters,
                 'Nearby Theaters',
                 () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => NearbyTheatersWidget()))
+                    MaterialPageRoute(builder: (_) => NearbyTheatersWidget()))),
+            const Expanded(child: Material()),
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) => Visibility(
+                visible: state is HomeAppVersionLoaded,
+                child:
+                    Text('Version: ${(state as HomeAppVersionLoaded).version}'),
+              ),
             ),
-            Expanded(child: Material()),
-            Text('Version: $versionName'),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
 
-  ListTile _buildLeftMenuItem(IconData iconData, String label, Function clickListener) {
+  ListTile _buildLeftMenuItem(
+      IconData iconData, String label, Function clickListener) {
     return ListTile(
       leading: Icon(
         iconData,
-        color: Color(0xFFDAE9FF),
+        color: const Color(0xFFDAE9FF),
       ),
       title: Text(
         label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           color: Color(0xFFDAE9FF),
           fontWeight: FontWeight.w600,
         ),
       ),
       onTap: () {
-            setState(() {
-              Navigator.pop(context);
-              clickListener();
-            });
-          },
-        );
-  }
-
-  void _getVersionName() {
-    getVersionName().then((value) {
-      setState(() {
-       versionName = value;
-      });
-    });
+        setState(() {
+          Navigator.pop(context);
+          clickListener();
+        });
+      },
+    );
   }
 }

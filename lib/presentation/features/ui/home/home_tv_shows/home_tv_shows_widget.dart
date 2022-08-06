@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/trending_media.dart';
-import '../../data/models/trending_media_type.dart';
-import '../../data/repositories/trending_repository.dart';
-import '../base/base_stateless_widget.dart';
-import '../detail/tv_show_detail.dart';
-import '../widgets/common_widgets.dart';
+import '../../base/base_stateful_widget.dart';
 
-class HomeTVShowWidget extends BaseStatelessWidget {
+class HomeTVShowsWidget extends BaseStatefulWidget {
+  const HomeTVShowsWidget({Key? key}) : super(key: key);
+
   @override
   _HomeTVShowWidgetState createState() => _HomeTVShowWidgetState();
 }
 
-class _HomeTVShowWidgetState extends State<HomeTVShowWidget> {
+class _HomeTVShowWidgetState extends State<HomeTVShowsWidget> {
   List<TrendingMedia> trendingMovies;
   final _trendingRepository = TrendingRepository();
 
@@ -39,7 +36,9 @@ class _HomeTVShowWidgetState extends State<HomeTVShowWidget> {
   }
 
   void _getTrendingMovies() {
-    _trendingRepository.getTrendingMedia(TrendingMediaType.tvShow).then((response) {
+    _trendingRepository
+        .getTrendingMedia(TrendingMediaType.tvShow)
+        .then((response) {
       setState(() {
         trendingMovies = response.results;
       });

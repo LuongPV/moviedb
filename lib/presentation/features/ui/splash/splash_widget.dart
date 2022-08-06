@@ -5,6 +5,7 @@ import '../../shared_blocs/auth/auth_bloc.dart';
 import '../../shared_blocs/auth/auth_events.dart';
 import '../../shared_blocs/auth/auth_states.dart';
 import '../base/base_stateless_widget.dart';
+import '../home/home_widget.dart';
 import '../login/login_widget.dart';
 import 'splash_bloc.dart';
 import 'splash_events.dart';
@@ -69,7 +70,7 @@ class SplashWidget extends BaseStatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomeWidget(),
+        builder: (context) => const HomeWidget(),
       ),
     );
   }

@@ -41,6 +41,8 @@ class LoginWidget extends BaseStatelessWidget {
                     showLoadingDialog(context);
                   } else if (state is RequestLoginLoaded) {
                     hideLoadingDialog(context);
+                  } else if (state is CorrectCredentials) {
+                    _openHomeWidget(context);
                   }
                 },
               ),
@@ -164,7 +166,7 @@ class LoginWidget extends BaseStatelessWidget {
     });
   }
 
-  void openHomeWidget(BuildContext context) {
+  void _openHomeWidget(BuildContext context) {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const HomeWidget()));
   }

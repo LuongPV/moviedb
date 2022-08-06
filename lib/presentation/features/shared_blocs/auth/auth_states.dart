@@ -15,3 +15,5 @@ class RequestLoginLoading extends AuthState {}
 class RequestLoginLoaded extends AuthState {}
 
 class WrongCredentials extends AuthState {}
+
+class CorrectCredentials extends AuthState {}

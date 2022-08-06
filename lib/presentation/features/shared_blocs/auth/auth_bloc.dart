@@ -19,14 +19,7 @@ class AuthBloc extends BaseBloc<AuthEvent, AuthState> {
           .login(event.username, event.password)
           .then((loginData) {
         emit(RequestLoginLoaded());
-        if (loginData == null) {
-          emit(WrongCredentials());
-          usernameErrorText = AppLocalizations.of(context).errWrongUsername;
-          usernameErrorText = AppLocalizations.of(context).errWrongPassword;
-          updateUI();
-        } else {
-          state.openHomeWidget();
-        }
+        emit(loginData != null ? CorrectCredentials() : WrongCredentials());
       });
     }, transformer: sequential());
   }

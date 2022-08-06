@@ -4,8 +4,8 @@ import '../models/video_by_movie_response.dart';
 import '../models/youtube_video_response.dart';
 
 class VideoRepository {
-  final _theMovieDbAPI = TheMovieDbVideoAPI();
-  final _youtubeVideoAPI = YoutubeVideoAPI();
+  final _theMovieDbAPI = TheMovieDbVideoApi();
+  final _youtubeVideoAPI = YoutubeVideoApi();
 
   Future<VideoByMovieResponse> getVideoByMovie(int movieId) {
     return _theMovieDbAPI.getVideoByMovie(movieId);

@@ -9,7 +9,7 @@ import '../models/cast_by_tv_show/cast_by_tv_show.dart';
 import '../models/cast_detail/cast_detail.dart';
 import 'base_themoviedb_api.dart';
 
-class TheMovieDbCastAPI extends BaseTheMovieDbApi {
+class TheMovieDbCastApi extends BaseTheMovieDbApi {
   Future<CastByMovieResponse?> getCastByMovie(int movieId) async {
     try {
       final url =

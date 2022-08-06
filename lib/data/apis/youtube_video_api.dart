@@ -5,7 +5,7 @@ import '../constants.dart';
 import '../models/youtube_video_response.dart';
 import 'base_api.dart';
 
-class YoutubeVideoAPI extends BaseAPI {
+class YoutubeVideoAPI extends BaseApi {
   Future<YoutubeVideoResponse?> getVideoInfo(String videoId) async {
     try {
       final url = sprintf(URL_YOUTUBE_VIDEO_INFO, [videoId]);

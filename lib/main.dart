@@ -13,7 +13,7 @@ import 'presentation/features/ui/splash/splash_widget.dart';
 
 void main() {
   initCloudMessageService();
-  final accountAPI = AccountAPI();
+  final accountAPI = AccountApi();
   final accountPref = AccountPrefs();
   final accountRepository = AccountRepositoryImpl(accountAPI, accountPref);
   runApp(

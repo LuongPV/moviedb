@@ -6,7 +6,7 @@ import '../models/direction_response.dart';
 import '../models/nearby_place_response.dart';
 import 'base_api.dart';
 
-class PlaceAPI extends BaseAPI {
+class PlaceApi extends BaseApi {
   Future<NearbyPlaceResponse?> getNearbyPlaces(
     double latitude,
     double longitude,

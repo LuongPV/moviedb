@@ -5,10 +5,10 @@ import '../models/login_data/login_data_mapper.dart';
 import '../prefs/account_prefs.dart';
 
 class AccountRepositoryImpl extends AccountRepository {
-  final AccountAPI _accountAPI;
+  final AccountApi _accountApi;
   final AccountPrefs _accountPrefs;
 
-  AccountRepositoryImpl(this._accountAPI, this._accountPrefs);
+  AccountRepositoryImpl(this._accountApi, this._accountPrefs);
 
   @override
   Future<LoginData?> getLoginData() async {
@@ -18,7 +18,7 @@ class AccountRepositoryImpl extends AccountRepository {
   @override
   Future<LoginData?> login(String username, String password) async {
     var loginData = LoginData(username, password);
-    final isLoginSuccess = await _accountAPI.login(LoginDataMapper().convertToData(loginData)!);
+    final isLoginSuccess = await _accountApi.login(LoginDataMapper().convertToData(loginData)!);
     if (isLoginSuccess) {
       _accountPrefs.saveLoginData(LoginDataMapper().convertToData(loginData)!);
       return loginData;
@@ -28,7 +28,7 @@ class AccountRepositoryImpl extends AccountRepository {
 
   @override
   Future<void> logout() async {
-    var isLogoutSuccess = await _accountAPI.logout();
+    var isLogoutSuccess = await _accountApi.logout();
     if (isLogoutSuccess) {
       _accountPrefs.clearLoginData();
     }

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../../presentation/utils/logger/logger.dart';
 
-abstract class BaseAPI {
+abstract class BaseApi {
   Future<ModelType?> executeGetRequest<ModelType>(
     String url,
     ModelType Function(Map<String, dynamic> jsonMap) modelCreator,

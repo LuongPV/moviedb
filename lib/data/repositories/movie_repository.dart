@@ -5,7 +5,7 @@ import '../models/movie_detail/movie_detail.dart';
 import '../models/movie_search.dart';
 
 class MovieRepository {
-  final _theMovieDbAPI = TheMovieDbMovieAPI();
+  final _theMovieDbAPI = TheMovieDbMovieApi();
 
   Future<MovieSearchResponse> searchMovie(String title) {
     return _theMovieDbAPI.searchMovie(title);

@@ -4,10 +4,12 @@ import '../models/trending_media_response.dart';
 import '../models/trending_media_type.dart';
 
 class TrendingRepositoryImpl extends TrendingRepository {
-  final TheMovieDbTrendingAPI _theMovieDbAPI = TheMovieDbTrendingAPI();
+  final TheMovieDbTrendingApi _theMovieDbApi;
+
+  TrendingRepositoryImpl(this._theMovieDbApi);
 
   @override
   Future<TrendingMediaResponse> getTrendingMedia(TrendingMediaType type) {
-    return _theMovieDbAPI.getTrendingMedia(type);
+    return _theMovieDbApi.getTrendingMedia(type);
   }
 }

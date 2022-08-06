@@ -4,7 +4,7 @@ import '../models/cast_by_tv_show/cast_by_tv_show.dart';
 import '../models/cast_detail/cast_detail.dart';
 
 class CastRepository {
-  final _theMovieDbAPI = TheMovieDbCastAPI();
+  final _theMovieDbAPI = TheMovieDbCastApi();
 
   Future<CastByMovieResponse> getCastByMovie(int movieId) {
     return _theMovieDbAPI.getCastByMovie(movieId);

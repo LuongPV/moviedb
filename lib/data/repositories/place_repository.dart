@@ -3,7 +3,7 @@ import '../models/direction_response.dart';
 import '../models/nearby_place_response.dart';
 
 class PlaceRepository {
-  final _api = PlaceAPI();
+  final _api = PlaceApi();
 
   Future<NearbyPlaceResponse> getNearbyPlaces(double latitude, double longitude, String type) {
     return _api.getNearbyPlaces(latitude, longitude, type);

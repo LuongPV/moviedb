@@ -8,7 +8,7 @@ import 'base_api.dart';
 class YoutubeVideoAPI extends BaseApi {
   Future<YoutubeVideoResponse?> getVideoInfo(String videoId) async {
     try {
-      final url = sprintf(URL_YOUTUBE_VIDEO_INFO, [videoId]);
+      final url = sprintf(urlYoutubeVideoInfo, [videoId]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = YoutubeVideoResponse.fromJson(jsonMap);
         return response;

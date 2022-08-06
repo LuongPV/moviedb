@@ -13,7 +13,7 @@ class TheMovieDbTrendingApiImpl extends TheMovieDbTrendingApi {
   @override
   Future<TrendingMediaResponse?> getTrendingMedia(TrendingMediaType type) async {
     try {
-      final url = sprintf(URL_TRENDING, [type.name, Platform.localeName]);
+      final url = sprintf(urlTrending, [type.name, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = TrendingMediaResponse.fromJson(jsonMap);
         for (var item in response.results) {

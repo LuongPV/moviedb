@@ -14,7 +14,7 @@ class TheMovieDbMovieApi extends BaseTheMovieDbApi {
 
   Future<MovieSearchResponse?> searchMovie(String title) async {
     try {
-      final url = sprintf(URL_MOVIE_SEARCH, [title, Platform.localeName]);
+      final url = sprintf(urlMovieSearch, [title, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieSearchResponse.fromJson(jsonMap);
         for (var item in response.results) {
@@ -32,7 +32,7 @@ class TheMovieDbMovieApi extends BaseTheMovieDbApi {
 
   Future<MovieDetail?> getMovieDetail(int movieId) async {
     try {
-      final url = sprintf(URL_MOVIE_DETAIL, [movieId, Platform.localeName]);
+      final url = sprintf(urlMovieDetail, [movieId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieDetail.fromJson(jsonMap);
         response.posterPath = appendImageUrl(response.posterPath);
@@ -48,7 +48,7 @@ class TheMovieDbMovieApi extends BaseTheMovieDbApi {
 
   Future<MovieByGenreResponse?> getMovieByGenre(int genreId) async {
     try {
-      final url = sprintf(URL_MOVIE_BY_GENRE, [genreId, Platform.localeName]);
+      final url = sprintf(urlMovieByGenre, [genreId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieByGenreResponse.fromJson(jsonMap);
         for (var item in response.results) {
@@ -66,7 +66,7 @@ class TheMovieDbMovieApi extends BaseTheMovieDbApi {
 
   Future<MovieByCastResponse?> getMovieByCast(int castId) async {
     try {
-      final url = sprintf(URL_MOVIE_BY_CAST, [castId, Platform.localeName]);
+      final url = sprintf(urlMovieByCast, [castId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieByCastResponse.fromJson(jsonMap);
         for (var item in response.cast) {

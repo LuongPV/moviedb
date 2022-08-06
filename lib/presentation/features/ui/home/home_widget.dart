@@ -78,7 +78,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     }
     if (!_isDelayingExit) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: DELAY_CONFIRM_EXIT_SEC),
+        duration: Duration(seconds: delayConfirmExitSec),
         content: Text(
           "Press 'Back' again to exit",
           style: TextStyle(
@@ -90,7 +90,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         backgroundColor: Colors.blue,
       ));
       _isDelayingExit = true;
-      Future.delayed(const Duration(seconds: DELAY_CONFIRM_EXIT_SEC))
+      Future.delayed(const Duration(seconds: delayConfirmExitSec))
           .then((_) => _isDelayingExit = false);
       return Future.value(false);
     }

@@ -11,7 +11,7 @@ class TheMovieDbTVShowAPI extends BaseTheMovieDbApi {
 
   Future<TVShowDetail?> getTVShowDetail(int movieId) async {
     try {
-      final url = sprintf(URL_TV_SHOW_DETAIL, [movieId, Platform.localeName]);
+      final url = sprintf(urlTvShowDetail, [movieId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = TVShowDetail.fromJson(jsonMap);
         response.posterPath = appendImageUrl(response.posterPath);

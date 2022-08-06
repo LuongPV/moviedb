@@ -8,7 +8,7 @@ abstract class BaseTheMovieDbApi extends BaseApi {
 
   String? appendImageUrl(String? fileName) {
     if (fileName != null) {
-      return fileName = sprintf(URL_MOVIE_IMAGE, [fileName]);
+      return fileName = sprintf(urlMovieImage, [fileName]);
     }
     return null;
   }

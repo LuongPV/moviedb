@@ -1,10 +1,6 @@
-enum TrendingMediaType {
-  movie,
-  tvShow,
-  all,
-}
+import '../../domain/models/trending_media_type.dart';
 
-extension APIString on TrendingMediaType {
+extension ApiString on TrendingMediaType {
   String get name {
     switch (this) {
       case TrendingMediaType.movie:

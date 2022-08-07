@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:sprintf/sprintf.dart';
 
+import '../../domain/models/trending_media_type.dart';
 import '../../presentation/utils/logger/logger.dart';
 import '../constants.dart';
 import '../models/trending_media_response.dart';
-import '../models/trending_media_type.dart';
+import '../models/trending_media_type_ext.dart';
 import 'themoviedb_trending_api.dart';
 
 class TheMovieDbTrendingApiImpl extends TheMovieDbTrendingApi {

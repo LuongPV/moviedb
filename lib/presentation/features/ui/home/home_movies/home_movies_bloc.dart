@@ -10,14 +10,12 @@ class HomeMoviesBloc extends BaseBloc<HomeMoviesEvent, HomeMoviesState> {
   List<TrendingMedia> trendingMovies = [];
 
   HomeMoviesBloc(this._trendingRepository) : super(HomeMoviesInitial()) {
-    processEvent<HomeGetTrendingMovies>((event, emit) {
+    processEvent<HomeGetTrendingMovies>((event, emit) async {
       emit(HomeMoviesTrendingLoading());
-      _trendingRepository
-          .getTrendingMedia(TrendingMediaType.movie)
-          .then((response) {
-        trendingMovies = response.results;
-        emit(HomeMoviesTrendingLoaded(trendingMovies));
-      });
+      final response =
+          await _trendingRepository.getTrendingMedia(TrendingMediaType.movie);
+      trendingMovies = response.results;
+      emit(HomeMoviesTrendingLoaded(trendingMovies));
     });
     add(HomeGetTrendingMovies());
   }

@@ -1,12 +1,12 @@
 import '../../../../../domain/models/trending_media.dart';
 
-abstract class HomeTrendingsStates {}
+abstract class HomeTrendingsState {}
 
-class HomeTrendingsInitial extends HomeTrendingsStates {}
+class HomeTrendingsInitial extends HomeTrendingsState {}
 
-class HomeTrendingsLoading extends HomeTrendingsStates {}
+class HomeTrendingsLoading extends HomeTrendingsState {}
 
-class HomeTrendingsLoaded extends HomeTrendingsStates {
+class HomeTrendingsLoaded extends HomeTrendingsState {
   List<TrendingMedia> trendingMovies;
   HomeTrendingsLoaded(this.trendingMovies);
 }

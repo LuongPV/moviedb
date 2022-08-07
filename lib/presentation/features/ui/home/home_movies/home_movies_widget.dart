@@ -22,7 +22,7 @@ class _HomeMovieWidgetState extends State<HomeMoviesWidget> {
       create: (context) =>
           HomeMoviesBloc(RepositoryProvider.of<TrendingRepository>(context)),
       child: Builder(builder: (context) {
-        return BlocBuilder<HomeMoviesBloc, HomeMoviesStates>(
+        return BlocBuilder<HomeMoviesBloc, HomeMoviesState>(
             builder: (context, state) {
           if (state is HomeMoviesTrendingLoaded) {
             return buildMovieList(

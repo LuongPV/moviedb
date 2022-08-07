@@ -3,35 +3,34 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../data/models/cast.dart';
-import '../../data/models/tv_show_detail.dart';
-import '../../data/repositories/cast_repository.dart';
-import '../../data/repositories/tv_show_repository.dart';
+import '../../base/base_stateful_widget.dart';
+import '../base/base_state.dart';
 import '../base/base_stateful_widget.dart';
+import 'movie_detail_bloc.dart';
 
-class TVShowDetailWidget extends BaseStatefulWidget {
-  final int tvShowId;
-  final String name;
+class MovieDetailWidget extends BaseStatefulWidget {
+  final movieId;
+  final title;
 
-  TVShowDetailWidget(this.tvShowId, this.name);
+  MovieDetailWidget(this.movieId, this.title);
 
   @override
-  _TVShowDetailWidgetState createState() => _TVShowDetailWidgetState();
+  MovieDetailWidgetState createState() => MovieDetailWidgetState();
 }
 
-class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
-  TVShowDetail tvShowDetail;
-  List<Cast> casts;
-  final _tvShowRepository = TVShowRepository();
-  final _castRepository = CastRepository();
+class MovieDetailWidgetState extends BaseState<MovieDetailWidget, MovieDetailController> {
+
+  @override
+  getController() => MovieDetailController(this, context);
 
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getTVShowDetail(widget.tvShowId);
+      controller.getMovieDetail(widget.movieId);
     });
   }
 
@@ -39,11 +38,12 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text(widget.title),
       ),
-      body: tvShowDetail == null ? _buildNoDataContent() : _buildDataContent(),
+      body: controller.movie == null ? _buildNoDataContent() : _buildDataContent(),
     );
   }
+
 
   Widget _buildNoDataContent() {
     return Center(
@@ -51,25 +51,30 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
     );
   }
 
-  SingleChildScrollView _buildDataContent() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImagePosterWidget(tvShowDetail.backdropPath),
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Colors.yellow,
-            child: _buildInfoBannerWidget(),
-          ),
-          SizedBox(height: 10),
-          _buildYoutubeSearchButtonWidget(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(tvShowDetail.overview),
-          ),
-          _buildCastListWidget(),
-        ],
+  Widget _buildDataContent() {
+    return RefreshIndicator(
+      onRefresh: () => controller.refreshData(widget.movieId),
+      strokeWidth: 5,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildImagePosterWidget(controller.movie.backdropPath),
+            Container(
+              padding: EdgeInsets.all(20),
+              color: Colors.yellow,
+              child: _buildInfoBannerWidget(),
+            ),
+            SizedBox(height: 10),
+            _buildTrailerVideos(),
+            _buildYoutubeSearchButtonWidget(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(controller.movie.overview),
+            ),
+            _buildCastListWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -96,7 +101,7 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
             ),
           ],
         ),
-        onPressed: () => _openYoutubeSearch(tvShowDetail.name),
+        onPressed: () => launchUrl(sprintf(URL_YOUTUBE_SEARCH, [controller.movie.title])),
       ),
     );
   }
@@ -106,15 +111,17 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          tvShowDetail.name,
+          controller.movie.title == controller.movie.originalTitle
+              ? controller.movie.title
+              : '${controller.movie.title} (${controller.movie.originalTitle})',
           style: TextStyle(
               fontSize: 26, color: Colors.black87, fontWeight: FontWeight.bold),
         ),
-        Text(tvShowDetail.lastAirDate ?? '---',
+        Text(controller.movie.releaseDate ?? '---',
             style: TextStyle(color: Colors.black54)),
         SmoothStarRating(
             starCount: 5,
-            rating: tvShowDetail.voteAverage.toDouble() / 2,
+            rating: controller.movie.voteAverage.toDouble() / 2,
             allowHalfRating: true,
             size: 25,
             isReadOnly: true,
@@ -141,36 +148,11 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
     return Image.network(imageName);
   }
 
-  _openYoutubeSearch(String title) async {
-    if (Platform.isAndroid) {
-      final url = sprintf(URL_YOUTUBE_SEARCH, [title]);
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        Logger.w('Fail launch url $url');
-      }
-    }
-  }
-
-  void _getTVShowDetail(int tvShowId) {
-    _tvShowRepository.getTVShowDetail(tvShowId).then((response) {
-      setState(() {
-        tvShowDetail = response;
-      });
-    }).then((_) {
-      _castRepository.getCastByTVShow(tvShowId).then((response) {
-        setState(() {
-          casts = response.cast;
-        });
-      });
-    });
-  }
-
   Widget _buildGenreListWidget() {
     final random = Random();
     return Wrap(
       spacing: 4,
-      children: tvShowDetail.genres
+      children: controller.movie.genres
           .map(
             (genre) => InkWell(
               child: Chip(
@@ -199,9 +181,9 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: casts == null
+        children: controller.casts == null
             ? []
-            : casts.map(
+            : controller.casts.map(
                 (cast) => InkWell(
                   child: Container(
                     margin: EdgeInsets.only(left: 20),
@@ -209,9 +191,12 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
                     child: Column(
                       children: [
                         _buildCastImage(cast),
-                        Text(
-                          '${cast.name} (${cast.character})',
-                          textAlign: TextAlign.center,
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            '${cast.name} (${cast.character})',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ],
                     ),
@@ -238,6 +223,56 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
       cast.profilePath,
       width: 100,
       height: 150,
+    );
+  }
+
+  Image _buildVideoImage(String path) {
+    return Image.network(
+      path,
+    );
+  }
+
+  Widget _buildTrailerVideos() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: controller.trailerVideos
+            .map(
+              (trailerVideo) => InkWell(
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 20),
+                      width: 200,
+                      child: Column(
+                        children: [
+                          _buildVideoImage(trailerVideo.snippet.thumbnails.standard.url),
+                          Container(
+                            margin: EdgeInsets.only(top: 5),
+                            child: Text(
+                              trailerVideo.snippet.title,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      left: 90,
+                      top: 30,
+                      child: Image.asset(
+                        'assets/images/ic_play_youtube.png',
+                        height: 50,
+                      ),
+                    ),
+                  ]
+                ),
+                onTap: () => launchUrl(sprintf(URL_YOUTUBE_VIEW_VIDEO, [trailerVideo.id])),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }

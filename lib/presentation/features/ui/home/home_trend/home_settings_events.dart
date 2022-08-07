@@ -1,3 +1,3 @@
-abstract class HomeTrendingsEvents {}
+abstract class HomeTrendingsEvent {}
 
-class HomeTrendingsGetMovies extends HomeTrendingsEvents {}
+class HomeTrendingsGetMovies extends HomeTrendingsEvent {}

@@ -5,7 +5,7 @@ import '../../../shared_blocs/base/base_bloc.dart';
 import 'home_movies_events.dart';
 import 'home_movies_states.dart';
 
-class HomeMoviesBloc extends BaseBloc<HomeMoviesEvents, HomeMoviesStates> {
+class HomeMoviesBloc extends BaseBloc<HomeMoviesEvent, HomeMoviesState> {
   final TrendingRepository _trendingRepository;
   List<TrendingMedia> trendingMovies = [];
 

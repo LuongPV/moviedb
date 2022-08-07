@@ -6,7 +6,7 @@ import 'home_settings_events.dart';
 import 'home_settings_states.dart';
 
 class HomeTrendingsBloc
-    extends BaseBloc<HomeTrendingsEvents, HomeTrendingsStates> {
+    extends BaseBloc<HomeTrendingsEvent, HomeTrendingsState> {
   final TrendingRepository _trendingRepository;
   List<TrendingMedia> trendingMovies = [];
 

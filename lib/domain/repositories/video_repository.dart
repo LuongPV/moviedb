@@ -1,8 +1,8 @@
-import '../models/video_by_movie_response.dart';
+import '../models/youtube_video.dart';
 import '../models/youtube_video_response.dart';
 
-abstract class VideoRepository {
-  Future<VideoByMovieResponse> getVideoByMovie(int movieId);
+abstract class YoutubeVideoRepository {
+  Future<List<TheMovieDBYoutubeVideo>> getMovieDbYoutubeVideoByMovie(int movieId);
 
-  Future<YoutubeVideoResponse> getVideoInfo(String videoId);
+  Future<List<YoutubeVideo>> getYoutubeVideoInfo(String videoId);
 }

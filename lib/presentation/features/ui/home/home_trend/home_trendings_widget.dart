@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../domain/models/trending_media_type.dart';
 import '../../../../widgets/common_widgets.dart';
 import '../../base/base_stateful_widget.dart';
-import '../../detail/movie/movie_detail.dart';
-import '../../detail/tv_show/tv_show_detail.dart';
+import '../../detail/movie/movie_detail_widget.dart';
+import '../../detail/tv_show/tv_show_detail_widget.dart';
 import 'home_settings_states.dart';
 import 'home_trendings_bloc.dart';
 

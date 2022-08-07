@@ -1,3 +1,7 @@
 abstract class MovieDetailEvent {}
 
-class HomeGetTrendingMovies extends MovieDetailEvent {}
+class GetMovieDetail extends MovieDetailEvent {}
+
+class GetCasts extends MovieDetailEvent {}
+
+class GetYoutubeVideosByMovie extends MovieDetailEvent {}

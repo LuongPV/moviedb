@@ -1,6 +1,7 @@
+import 'package:moviedb/domain/models/cast.dart';
+
 import '../../domain/repositories/cast_repository.dart';
 import '../apis/themoviedb_cast_api.dart';
-import '../models/cast_by_movie/cast_by_movie.dart';
 import '../models/cast_by_tv_show/cast_by_tv_show.dart';
 import '../models/cast_detail/cast_detail.dart';
 
@@ -10,7 +11,7 @@ class CastRepositoryImpl extends CastRepository {
   CastRepositoryImpl(this._theMovieDbApi);
 
   @override
-  Future<CastByMovieResponse> getCastByMovie(int movieId) {
+  Future<List<Cast>> getCastByMovie(int movieId) {
     return _theMovieDbApi.getCastByMovie(movieId);
   }
 

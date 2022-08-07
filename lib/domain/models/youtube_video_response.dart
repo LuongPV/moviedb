@@ -30,7 +30,7 @@ class YoutubeVideoResponse {
 
 class YoutubeVideo {
   String id;
-  YoutubeVideoInfo snippet;
+  YoutubeVideoInfo? snippet;
 
   YoutubeVideo({this.id, this.snippet});
 

@@ -1,5 +1,3 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-
 import '../../shared_blocs/base/base_bloc.dart';
 import 'login_events.dart';
 import 'login_states.dart';
@@ -9,7 +7,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   String? passwordErrorText;
 
   LoginBloc() : super(LoginInitial()) {
-    on<ValidateInputs>((event, emit) {
+    processEvent<ValidateInputs>((event, emit) {
       emit(ErrorCleared());
       var isInputsValid = true;
       if (!_isUsernameValid(event.username)) {
@@ -23,7 +21,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       if (isInputsValid) {
         emit(InputsValid());
       }
-    }, transformer: sequential());
+    });
   }
 
   bool _isUsernameValid(String username) {

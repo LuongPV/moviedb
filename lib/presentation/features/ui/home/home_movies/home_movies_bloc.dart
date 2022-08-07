@@ -1,5 +1,3 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-
 import '../../../../../domain/models/trending_media.dart';
 import '../../../../../domain/models/trending_media_type.dart';
 import '../../../../../domain/repositories/trending_repository.dart';
@@ -12,7 +10,7 @@ class HomeMoviesBloc extends BaseBloc<HomeMoviesEvents, HomeMoviesStates> {
   List<TrendingMedia> trendingMovies = [];
 
   HomeMoviesBloc(this._trendingRepository) : super(HomeMoviesInitial()) {
-    on<HomeGetTrendingMovies>((event, emit) {
+    processEvent<HomeGetTrendingMovies>((event, emit) {
       emit(HomeMoviesTrendingLoading());
       _trendingRepository
           .getTrendingMedia(TrendingMediaType.movie)
@@ -20,7 +18,7 @@ class HomeMoviesBloc extends BaseBloc<HomeMoviesEvents, HomeMoviesStates> {
         trendingMovies = response.results;
         emit(HomeMoviesTrendingLoaded(trendingMovies));
       });
-    }, transformer: sequential());
+    });
     add(HomeGetTrendingMovies());
   }
 }

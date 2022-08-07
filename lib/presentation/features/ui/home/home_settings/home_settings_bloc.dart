@@ -1,37 +1,29 @@
-import '../../data/repositories/account_repository.dart';
-import '../../data/repositories/settings_repository.dart';
-import '../base/base_stateful_controller.dart';
-import 'home_settings_widget.dart';
+import '../../../../../domain/repositories/account_repository.dart';
+import '../../../../../domain/repositories/settings_repository.dart';
+import '../../../shared_blocs/base/base_bloc.dart';
+import 'home_settings_events.dart';
+import 'home_settings_states.dart';
 
-class HomeSettingsController extends BaseStatefulController<HomeSettingsWidgetState> {
-  AccountRepository _accountRepository = AccountRepository();
-  SettingsRepository _settingsRepository = SettingsRepository();
-  HomeSettingsWidgetState homeSettingsWidgetState;
-  var isConfirmExit = true;
+class HomeSettingsBloc
+    extends BaseBloc<HomeSettingsEvents, HomeSettingsStates> {
+  final AccountRepository _accountRepository;
+  final SettingsRepository _settingsRepository;
 
-  HomeSettingsController(state, context) : super(state, context);
-
-  void logout() {
-    homeSettingsWidgetState.widget.showLoadingDialog(context);
-    _accountRepository.logout().then((value) {
-      homeSettingsWidgetState.widget.hideLoadingDialog(context);
-      homeSettingsWidgetState.openLogin();
+  HomeSettingsBloc(this._accountRepository, this._settingsRepository)
+      : super(HomeSettingsInitial()) {
+    processEvent<HomeSettingsRequestLogout>((event, emit) async {
+      emit(HomeSettingsLoading());
+      await _accountRepository.logout();
+      emit(HomeSettingsLoaded());
+      emit(NavigateLogin());
     });
-  }
-
-  void initConfirmExit() {
-    _settingsRepository.isConfirmExit().then((value) {
-      isConfirmExit = value;
-      if (isConfirmExit == null) {
-        isConfirmExit = true;
-        _settingsRepository.setConfirmExit(isConfirmExit);
-      }
-      updateUI();
+    processEvent<HomeSettingsInitConfirmExit>((event, emit) async {
+      bool isConfirmExit = await _settingsRepository.isConfirmExit();
+      emit(HomeSettingsConfirmExitLoaded(isConfirmExit));
     });
-  }
-
-  void setConfirmExit(bool isOn) {
-    isConfirmExit = isOn;
-    _settingsRepository.setConfirmExit(isOn);
+    processEvent<HomeSettingsToggleConfirmExit>((event, emit) {
+      _settingsRepository.setConfirmExit(event.isConfirmExit);
+    });
+    add(HomeSettingsInitConfirmExit());
   }
 }

@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../../data/models/permission_action.dart';
+import '../../models/permission_action.dart';
 
 Future<Position> determinePosition() async {
   bool serviceEnabled;
@@ -26,7 +26,7 @@ Future<Position> determinePosition() async {
 
   try {
     return await Geolocator.getCurrentPosition();
-  } on LocationServiceDisabledException catch (e) {
+  } on LocationServiceDisabledException {
     // On Xiaomi Devices, app can't get location although location service was enabled and the permissions were granted
     return Future.error(ServicePermissionAction.serviceDisabled);
   }

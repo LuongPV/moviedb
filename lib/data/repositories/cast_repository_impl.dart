@@ -1,20 +1,26 @@
+import '../../domain/repositories/cast_repository.dart';
 import '../apis/themoviedb_cast_api.dart';
 import '../models/cast_by_movie/cast_by_movie.dart';
 import '../models/cast_by_tv_show/cast_by_tv_show.dart';
 import '../models/cast_detail/cast_detail.dart';
 
-class CastRepository {
-  final _theMovieDbAPI = TheMovieDbCastApi();
+class CastRepositoryImpl extends CastRepository {
+  final TheMovieDbCastApi _theMovieDbApi;
 
+  CastRepositoryImpl(this._theMovieDbApi);
+
+  @override
   Future<CastByMovieResponse> getCastByMovie(int movieId) {
-    return _theMovieDbAPI.getCastByMovie(movieId);
+    return _theMovieDbApi.getCastByMovie(movieId);
   }
 
+  @override
   Future<CastByTVShowResponse> getCastByTVShow(int tvShowId) {
-    return _theMovieDbAPI.getCastByTVShow(tvShowId);
+    return _theMovieDbApi.getCastByTVShow(tvShowId);
   }
 
+  @override
   Future<CastDetail> getCastDetail(int castId) {
-    return _theMovieDbAPI.getCastDetail(castId);
+    return _theMovieDbApi.getCastDetail(castId);
   }
 }

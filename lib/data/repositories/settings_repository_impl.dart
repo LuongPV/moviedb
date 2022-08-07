@@ -2,7 +2,9 @@ import '../../domain/repositories/settings_repository.dart';
 import '../prefs/settings_prefs.dart';
 
 class SettingsRepositoryImpl extends SettingsRepository {
-  final _settingsPref = SettingsPrefs();
+  final SettingsPrefs _settingsPref;
+
+  SettingsRepositoryImpl(this._settingsPref);
 
   @override
   Future<bool> isConfirmExit() {

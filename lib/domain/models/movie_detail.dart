@@ -5,7 +5,7 @@ class MovieDetail extends Equatable {
   final String? backdropPath;
   final BelongsToCollection? belongsToCollection;
   final int? budget;
-  final List<Genres>? genres;
+  final List<Genres> genres;
   final String? homepage;
   final int? id;
   final String? imdbId;

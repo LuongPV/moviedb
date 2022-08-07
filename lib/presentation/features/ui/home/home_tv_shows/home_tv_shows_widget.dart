@@ -37,7 +37,7 @@ class _HomeTVShowWidgetState extends State<HomeTVShowsWidget> {
 
   void _getTrendingMovies() {
     _trendingRepository
-        .getTrendingMedia(TrendingMediaType.tvShow)
+        .getTrendingMedia(TrendingMediaType.tvShowDetail)
         .then((response) {
       setState(() {
         trendingMovies = response.results;

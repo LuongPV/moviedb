@@ -16,7 +16,7 @@ class MovieDetailLoaded extends MovieDetailState {
 class MovieDetailError extends MovieDetailState {}
 
 class CastsLoaded extends MovieDetailState {
-  List<Cast>? casts;
+  List<Cast> casts;
   CastsLoaded(this.casts);
 }
 

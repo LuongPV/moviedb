@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../domain/repositories/trending_repository.dart';
 import '../../../../widgets/common_widgets.dart';
 import '../../base/base_stateful_widget.dart';
-import '../../detail/movie_detail.dart';
+import '../../detail/movie/movie_detail_widget.dart';
 import 'home_movies_bloc.dart';
 import 'home_movies_states.dart';
 
@@ -31,7 +31,10 @@ class _HomeMovieWidgetState extends State<HomeMoviesWidget> {
               itemClickListener: (item) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MovieDetailWidget(item.id, item.title),
+                  builder: (context) => MovieDetailWidget(
+                    movieId: item.id!,
+                    movieTitle: item.title!,
+                  ),
                 ),
               ),
             );

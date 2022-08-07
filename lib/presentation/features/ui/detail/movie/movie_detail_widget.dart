@@ -200,35 +200,32 @@ class MovieDetailWidgetState extends State<MovieDetailWidget> {
         if (state is CastsLoaded) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: state.casts == null
-                ? []
-                : state.casts
-                    .map(
-                      (cast) => InkWell(
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20),
-                          width: 100,
-                          child: Column(
-                            children: [
-                              _buildCastImage(cast),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                  '${cast.name} (${cast.character})',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
+            children: state.casts
+                .map(
+                  (cast) => InkWell(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20),
+                      width: 100,
+                      child: Column(
+                        children: [
+                          _buildCastImage(cast),
+                          Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              '${cast.name} (${cast.character})',
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CastDetailWidget(cast.id!))),
+                        ],
                       ),
-                    )
-                    .toList(),
+                    ),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CastDetailWidget(cast.id!))),
+                  ),
+                )
+                .toList(),
           );
         }
         return Container();

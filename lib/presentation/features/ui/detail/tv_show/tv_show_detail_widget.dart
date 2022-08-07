@@ -2,96 +2,111 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../data/models/cast.dart';
-import '../../../data/models/tv_show_detail.dart';
-import '../../../data/repositories/cast_repository.dart';
-import '../../../data/repositories/tv_show_repository.dart';
+import '../../../../../data/constants.dart';
+import '../../../../../domain/models/cast.dart';
+import '../../../../../domain/models/tv_show_detail.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../base/base_stateful_widget.dart';
+import '../../cast/cast_detail.dart';
+import '../../movie_by/movie_by_genre.dart';
+import 'tv_show_detail_bloc.dart';
+import 'tv_show_detail_states.dart';
 
-class TVShowDetailWidget extends BaseStatefulWidget {
+class TvShowDetailWidget extends BaseStatefulWidget {
   final int tvShowId;
-  final String name;
+  final String tvShowTitle;
 
-  TVShowDetailWidget(this.tvShowId, this.name);
+  const TvShowDetailWidget({
+    Key? key,
+    required this.tvShowId,
+    required this.tvShowTitle,
+  }) : super(key: key);
 
   @override
-  _TVShowDetailWidgetState createState() => _TVShowDetailWidgetState();
+  _TvShowDetailWidgetState createState() => _TvShowDetailWidgetState();
 }
 
-class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
-  TVShowDetail tvShowDetail;
-  List<Cast> casts;
-  final _tvShowRepository = TVShowRepository();
-  final _castRepository = CastRepository();
-
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _getTVShowDetail(widget.tvShowId);
-    });
-  }
-
+class _TvShowDetailWidgetState extends State<TvShowDetailWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.name),
+    return BlocProvider(
+      create: (context) => TvShowDetailBloc(
+        RepositoryProvider.of(context),
+        RepositoryProvider.of(context),
+        widget.tvShowId,
       ),
-      body: tvShowDetail == null ? _buildNoDataContent() : _buildDataContent(),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.tvShowTitle),
+          ),
+          body: BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+            builder: ((context, state) {
+              return state is TvShowDetailLoaded
+                  ? _buildDataContent(context)
+                  : _buildNoDataContent();
+            }),
+          ),
+        );
+      }),
     );
   }
 
   Widget _buildNoDataContent() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 
-  SingleChildScrollView _buildDataContent() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImagePosterWidget(tvShowDetail.backdropPath),
-          Container(
-            padding: EdgeInsets.all(20),
-            color: Colors.yellow,
-            child: _buildInfoBannerWidget(),
+  Widget _buildDataContent(BuildContext context) {
+    return BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+        builder: (context, state) {
+      if (state is TvShowDetailLoaded) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImagePosterWidget(state.tvShow.backdropPath),
+              Container(
+                padding: const EdgeInsets.all(20),
+                color: Colors.yellow,
+                child: _buildInfoBannerWidget(state.tvShow),
+              ),
+              const SizedBox(height: 10),
+              _buildYoutubeSearchButtonWidget(state.tvShow),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(state.tvShow.overview),
+              ),
+              _buildCastListWidget(),
+            ],
           ),
-          SizedBox(height: 10),
-          _buildYoutubeSearchButtonWidget(),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(tvShowDetail.overview),
-          ),
-          _buildCastListWidget(),
-        ],
-      ),
-    );
+        );
+      }
+      return Container();
+    });
   }
 
-  Container _buildYoutubeSearchButtonWidget() {
+  Container _buildYoutubeSearchButtonWidget(TvShowDetail tvShowDetail) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: Colors.red,
       ),
-      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: MaterialButton(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.play_circle_outline),
-            SizedBox(
-              width: 10,
-            ),
+            const Icon(Icons.play_circle_outline),
+            const SizedBox(width: 10),
             Text(
-              AppLocalizations.of(context).txtYoutubeSearch,
+              AppLocalizations.of(context)!.txtYoutubeSearch,
               textAlign: TextAlign.start,
             ),
           ],
@@ -101,17 +116,20 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
     );
   }
 
-  Column _buildInfoBannerWidget() {
+  Column _buildInfoBannerWidget(TvShowDetail tvShowDetail) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           tvShowDetail.name,
-          style: TextStyle(
-              fontSize: 26, color: Colors.black87, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 26,
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         Text(tvShowDetail.lastAirDate ?? '---',
-            style: TextStyle(color: Colors.black54)),
+            style: const TextStyle(color: Colors.black54)),
         SmoothStarRating(
             starCount: 5,
             rating: tvShowDetail.voteAverage.toDouble() / 2,
@@ -120,14 +138,14 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
             isReadOnly: true,
             color: Colors.blue,
             spacing: 0),
-        _buildGenreListWidget(),
+        _buildGenreListWidget(tvShowDetail),
       ],
     );
   }
 
-  Widget _buildImagePosterWidget(String imageName) {
+  Widget _buildImagePosterWidget(String? imageName) {
     if (imageName == null) {
-      return Container(
+      return SizedBox(
         height: 230,
         child: Align(
           alignment: Alignment.center,
@@ -143,7 +161,7 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
 
   _openYoutubeSearch(String title) async {
     if (Platform.isAndroid) {
-      final url = sprintf(URL_YOUTUBE_SEARCH, [title]);
+      final url = sprintf(urlYoutubeSearch, [title]);
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -152,21 +170,7 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
     }
   }
 
-  void _getTVShowDetail(int tvShowId) {
-    _tvShowRepository.getTVShowDetail(tvShowId).then((response) {
-      setState(() {
-        tvShowDetail = response;
-      });
-    }).then((_) {
-      _castRepository.getCastByTVShow(tvShowId).then((response) {
-        setState(() {
-          casts = response.cast;
-        });
-      });
-    });
-  }
-
-  Widget _buildGenreListWidget() {
+  Widget _buildGenreListWidget(TvShowDetail tvShowDetail) {
     final random = Random();
     return Wrap(
       spacing: 4,
@@ -181,13 +185,15 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
                       random.nextInt(255), random.nextInt(255), 1),
                   child: Text(
                     genre.name[0],
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MovieByGenreWidget(genre.id, genre.name))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          MovieByGenreWidget(genre.id, genre.name))),
             ),
           )
           .toList(),
@@ -196,33 +202,40 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
 
   Widget _buildCastListWidget() {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: casts == null
-            ? []
-            : casts.map(
-                (cast) => InkWell(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 20),
-                    width: 100,
-                    child: Column(
-                      children: [
-                        _buildCastImage(cast),
-                        Text(
-                          '${cast.name} (${cast.character})',
-                          textAlign: TextAlign.center,
+        scrollDirection: Axis.horizontal,
+        child: BlocBuilder<TvShowDetailBloc, TvShowDetailState>(
+            builder: (context, state) {
+          if (state is CastsLoaded) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: state.casts
+                  .map(
+                    (cast) => InkWell(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 20),
+                        width: 100,
+                        child: Column(
+                          children: [
+                            _buildCastImage(cast),
+                            Text(
+                              '${cast.name} (${cast.character})',
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CastDetailWidget(cast.id!))),
                     ),
-                  ),
-                  onTap: () => Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => CastDetailWidget(cast.id))
-                  ),
-                ),
-              ).toList(),
-      ),
-    );
+                  )
+                  .toList(),
+            );
+          }
+          return Container();
+        }));
   }
 
   Image _buildCastImage(Cast cast) {
@@ -235,7 +248,7 @@ class _TVShowDetailWidgetState extends State<TVShowDetailWidget> {
       );
     }
     return Image.network(
-      cast.profilePath,
+      cast.profilePath!,
       width: 100,
       height: 150,
     );

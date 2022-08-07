@@ -31,9 +31,9 @@ class _HomeTrendWidgetState extends State<HomeTrendingsWidget> {
                       MaterialPageRoute(
                         builder: (context) {
                           if (item.mediaType == TrendingMediaType.movie.name) {
-                            return MovieDetailWidget(item.id, item.title);
+                            return MovieDetailWidget(movieId: item.id!, movieTitle: item.title!);
                           } else {
-                            return TVShowDetailWidget(item.id, item.name);
+                            return TvShowDetailWidget(item.id, item.name);
                           }
                         },
                       ),

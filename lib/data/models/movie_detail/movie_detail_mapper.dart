@@ -10,7 +10,7 @@ class CastByMovieMapper with DataToDomainMapper<data.MovieDetail, domain.MovieDe
       inputType.backdropPath,
       _convertBelongsToCollection(inputType.belongsToCollection),
       inputType.budget,
-      _convertGenres(inputType.genres),
+      _convertGenres(inputType.genres)!,
       inputType.homepage,
       inputType.id,
       inputType.imdbId,

@@ -1,4 +1,4 @@
-class TVShowDetail {
+class TvShowDetail {
   String backdropPath;
   List<Genre> genres;
   String homepage;
@@ -7,9 +7,9 @@ class TVShowDetail {
   String overview;
   String posterPath;
   num voteAverage;
-  String lastAirDate;
+  String? lastAirDate;
 
-  TVShowDetail(
+  TvShowDetail(
       {this.backdropPath,
         this.genres,
         this.homepage,
@@ -20,7 +20,7 @@ class TVShowDetail {
         this.voteAverage,
         this.lastAirDate});
 
-  TVShowDetail.fromJson(Map<String, dynamic> json) {
+  TvShowDetail.fromJson(Map<String, dynamic> json) {
     backdropPath = json['backdrop_path'];
     if (json['genres'] != null) {
       genres = new List<Genre>();

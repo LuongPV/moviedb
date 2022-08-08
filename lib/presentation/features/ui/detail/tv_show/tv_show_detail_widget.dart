@@ -13,7 +13,7 @@ import '../../../../../domain/models/cast.dart';
 import '../../../../../domain/models/tv_show_detail.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../base/base_stateful_widget.dart';
-import '../../cast/cast_detail.dart';
+import '../../cast/cast_detail_widget.dart';
 import '../../movie_by/movie_by_genre.dart';
 import 'tv_show_detail_bloc.dart';
 import 'tv_show_detail_states.dart';

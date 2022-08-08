@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../domain/models/movie_general.dart';
 import '../../domain/models/trending_media.dart';
 import '../../domain/models/trending_media_type.dart';
-import '../features/ui/detail/movie_detail.dart';
+import '../features/ui/detail/movie/movie_detail_widget.dart';
 import '../utils/logger/logger.dart';
 
 Widget buildSearchListWidget(List<MovieGeneral> movies, BuildContext context) =>
@@ -66,7 +66,7 @@ void _openDetailMovie(MovieGeneral movie, BuildContext context) {
     MaterialPageRoute(
       builder: (context) {
         Logger.d('Open movie $movie');
-        return MovieDetailWidget(movie.id, movie.title);
+        return MovieDetailWidget(movieId: movie.id, movieTitle: movie.title);
       },
     ),
   );

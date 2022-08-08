@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-void showInformationDialog(BuildContext context, String content, {String title}) {
+void showInformationDialog(BuildContext context, String content,
+    {String? title}) {
   showDialog(
       context: context,
       builder: (context) {
@@ -26,14 +27,12 @@ void showInformationDialog(BuildContext context, String content, {String title})
 }
 
 void showConfirmationDialog(
-    BuildContext context,
-    String content,
-    {
-      String title,
-      String textAction = 'Cancel',
-      void Function() action,
-    }
-) {
+  BuildContext context,
+  String content, {
+  String? title,
+  String textAction = 'Cancel',
+  void Function()? action,
+}) {
   showDialog(
       context: context,
       builder: (context) {

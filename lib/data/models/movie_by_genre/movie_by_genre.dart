@@ -1,4 +1,4 @@
-import 'movie_general.dart';
+import '../movie_general/movie_general.dart';
 
 class MovieByGenreResponse {
   int? page;

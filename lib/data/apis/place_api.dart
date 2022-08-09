@@ -1,4 +1,4 @@
-import '../models/direction_response.dart';
+import '../models/direction/direction_response.dart';
 import '../models/nearby_place_response.dart';
 import 'base_api.dart';
 

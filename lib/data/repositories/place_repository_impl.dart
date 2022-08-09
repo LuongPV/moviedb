@@ -1,6 +1,6 @@
 import '../../domain/repositories/place_repository.dart';
 import '../apis/place_api.dart';
-import '../models/direction_response.dart';
+import '../models/direction/direction_response.dart';
 import '../models/nearby_place_response.dart';
 
 class PlaceRepositoryImpl extends PlaceRepository {

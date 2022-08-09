@@ -1,6 +1,6 @@
 class User {
-  String username;
-  String password;
+  String? username;
+  String? password;
 
   @override
   String toString() {

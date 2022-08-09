@@ -6,22 +6,22 @@ class TrendingMediaMapper with DataToDomainMapper<data.TrendingMedia, domain.Tre
   @override
   domain.TrendingMedia convertToDomain(data.TrendingMedia inputType) {
     return domain.TrendingMedia(
-      inputType.genreIds,
-      inputType.originalLanguage,
-      inputType.originalTitle,
-      inputType.posterPath,
-      inputType.video,
-      inputType.voteAverage,
-      inputType.id,
-      inputType.overview,
-      inputType.releaseDate,
-      inputType.voteCount,
-      inputType.title,
-      inputType.adult,
-      inputType.backdropPath,
-      inputType.popularity,
-      inputType.mediaType,
-      inputType.name,
+      genreIds: inputType.genreIds,
+      originalLanguage: inputType.originalLanguage,
+      originalTitle: inputType.originalTitle,
+      posterPath: inputType.posterPath,
+      video: inputType.video,
+      voteAverage: inputType.voteAverage,
+      id: inputType.id,
+      overview: inputType.overview,
+      releaseDate: inputType.releaseDate,
+      voteCount: inputType.voteCount,
+      title: inputType.title,
+      adult: inputType.adult,
+      backdropPath: inputType.backdropPath,
+      popularity: inputType.popularity,
+      mediaType: inputType.mediaType,
+      name: inputType.name,
     );
   }
 }

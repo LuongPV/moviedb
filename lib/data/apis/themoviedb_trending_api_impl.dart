@@ -10,16 +10,18 @@ import '../models/trending_media_type_ext.dart';
 import 'themoviedb_trending_api.dart';
 
 class TheMovieDbTrendingApiImpl extends TheMovieDbTrendingApi {
-
   @override
-  Future<TrendingMediaResponse?> getTrendingMedia(TrendingMediaType type) async {
+  Future<TrendingMediaResponse?> getTrendingMedia(
+      TrendingMediaType type) async {
     try {
       final url = sprintf(urlTrending, [type.name, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = TrendingMediaResponse.fromJson(jsonMap);
-        for (var item in response.results) {
-          item.posterPath = appendImageUrl(item.posterPath);
-          item.backdropPath = appendImageUrl(item.backdropPath);
+        if (response.results != null) {
+          for (var item in response.results!) {
+            item.posterPath = appendImageUrl(item.posterPath);
+            item.backdropPath = appendImageUrl(item.backdropPath);
+          }
         }
         return response;
       });
@@ -29,5 +31,4 @@ class TheMovieDbTrendingApiImpl extends TheMovieDbTrendingApi {
       rethrow;
     }
   }
-
 }

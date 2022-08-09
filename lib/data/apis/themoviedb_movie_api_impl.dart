@@ -17,9 +17,11 @@ class TheMovieDbMovieApiImpl extends TheMovieDbMovieApi {
       final url = sprintf(urlMovieSearch, [title, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieSearchResponse.fromJson(jsonMap);
-        for (var item in response.results) {
-          item.posterPath = appendImageUrl(item.posterPath);
-          item.backdropPath = appendImageUrl(item.backdropPath);
+        if (response.results != null) {
+          for (var item in response.results!) {
+            item.posterPath = appendImageUrl(item.posterPath);
+            item.backdropPath = appendImageUrl(item.backdropPath);
+          }
         }
         return response;
       });
@@ -53,9 +55,11 @@ class TheMovieDbMovieApiImpl extends TheMovieDbMovieApi {
       final url = sprintf(urlMovieByGenre, [genreId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieByGenreResponse.fromJson(jsonMap);
-        for (var item in response.results) {
-          item.posterPath = appendImageUrl(item.posterPath);
-          item.backdropPath = appendImageUrl(item.backdropPath);
+        if (response.results != null) {
+          for (var item in response.results!) {
+            item.posterPath = appendImageUrl(item.posterPath);
+            item.backdropPath = appendImageUrl(item.backdropPath);
+          }
         }
         return response;
       });
@@ -72,9 +76,11 @@ class TheMovieDbMovieApiImpl extends TheMovieDbMovieApi {
       final url = sprintf(urlMovieByCast, [castId, Platform.localeName]);
       final responseModel = await executeGetRequest(url, (jsonMap) {
         var response = MovieByCastResponse.fromJson(jsonMap);
-        for (var item in response.cast) {
-          item.posterPath = appendImageUrl(item.posterPath);
-          item.backdropPath = appendImageUrl(item.backdropPath);
+        if (response.cast != null) {
+          for (var item in response.cast!) {
+            item.posterPath = appendImageUrl(item.posterPath);
+            item.backdropPath = appendImageUrl(item.backdropPath);
+          }
         }
         return response;
       });

@@ -5,9 +5,9 @@ class DirectionResponse {
 
   DirectionResponse.fromJson(Map<String, dynamic> json) {
     if (json['routes'] != null) {
-      routes = new List<Routes>();
+      routes = [];
       json['routes'].forEach((v) {
-        routes.add(new Routes.fromJson(v));
+        routes?.add(new Routes.fromJson(v));
       });
     }
   }
@@ -15,14 +15,14 @@ class DirectionResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.routes != null) {
-      data['routes'] = this.routes.map((v) => v.toJson()).toList();
+      data['routes'] = this.routes?.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Routes {
-  OverviewPolyline overviewPolyline;
+  OverviewPolyline? overviewPolyline;
 
   Routes({this.overviewPolyline});
 
@@ -35,14 +35,14 @@ class Routes {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.overviewPolyline != null) {
-      data['overview_polyline'] = this.overviewPolyline.toJson();
+      data['overview_polyline'] = this.overviewPolyline?.toJson();
     }
     return data;
   }
 }
 
 class OverviewPolyline {
-  String points;
+  String? points;
 
   OverviewPolyline({this.points});
 

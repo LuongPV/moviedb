@@ -11,21 +11,21 @@ class TVShowDetail {
 
   TVShowDetail(
       {this.backdropPath,
-        this.genres,
-        this.homepage,
-        this.id,
-        this.name,
-        this.overview,
-        this.posterPath,
-        this.voteAverage,
-        this.lastAirDate});
+      this.genres,
+      this.homepage,
+      this.id,
+      this.name,
+      this.overview,
+      this.posterPath,
+      this.voteAverage,
+      this.lastAirDate});
 
   TVShowDetail.fromJson(Map<String, dynamic> json) {
     backdropPath = json['backdrop_path'];
     if (json['genres'] != null) {
-      genres = new List<Genre>();
+      genres = [];
       json['genres'].forEach((v) {
-        genres.add(new Genre.fromJson(v));
+        genres?.add(new Genre.fromJson(v));
       });
     }
     homepage = json['homepage'];
@@ -41,7 +41,7 @@ class TVShowDetail {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['backdrop_path'] = this.backdropPath;
     if (this.genres != null) {
-      data['genres'] = this.genres.map((v) => v.toJson()).toList();
+      data['genres'] = this.genres?.map((v) => v.toJson()).toList();
     }
     data['homepage'] = this.homepage;
     data['id'] = this.id;
@@ -55,8 +55,8 @@ class TVShowDetail {
 }
 
 class Genre {
-  int id;
-  String name;
+  int? id;
+  String? name;
 
   Genre({this.id, this.name});
 

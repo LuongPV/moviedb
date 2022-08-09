@@ -1,12 +1,12 @@
 class TheMovieDBYoutubeVideo {
-  String id;
-  String iso6391;
-  String iso31661;
-  String key;
-  String name;
-  String site;
-  int size;
-  String type;
+  String? id;
+  String? iso6391;
+  String? iso31661;
+  String? key;
+  String? name;
+  String? site;
+  int? size;
+  String? type;
 
   TheMovieDBYoutubeVideo(
       {this.id,

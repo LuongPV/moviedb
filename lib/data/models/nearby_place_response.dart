@@ -1,13 +1,13 @@
 class NearbyPlaceResponse {
-  List<Place> results;
+  List<Place>? results;
 
   NearbyPlaceResponse({this.results});
 
   NearbyPlaceResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      results = new List<Place>();
+      results = [];
       json['results'].forEach((v) {
-        results.add(new Place.fromJson(v));
+        results?.add(new Place.fromJson(v));
       });
     }
   }
@@ -15,16 +15,16 @@ class NearbyPlaceResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
+      data['results'] = this.results?.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Place {
-  Geometry geometry;
-  String name;
-  String vicinity;
+  Geometry? geometry;
+  String? name;
+  String? vicinity;
 
   Place({this.geometry, this.name, this.vicinity});
 
@@ -39,7 +39,7 @@ class Place {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.geometry != null) {
-      data['geometry'] = this.geometry.toJson();
+      data['geometry'] = this.geometry?.toJson();
     }
     data['name'] = this.name;
     data['vicinity'] = this.vicinity;
@@ -48,7 +48,7 @@ class Place {
 }
 
 class Geometry {
-  Location location;
+  Location? location;
 
   Geometry({this.location});
 
@@ -61,15 +61,15 @@ class Geometry {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.location != null) {
-      data['location'] = this.location.toJson();
+      data['location'] = this.location?.toJson();
     }
     return data;
   }
 }
 
 class Location {
-  double lat;
-  double lng;
+  double? lat;
+  double? lng;
 
   Location({this.lat, this.lng});
 

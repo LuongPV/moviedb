@@ -1,19 +1,19 @@
 import 'movie_general.dart';
 
 class MovieSearchResponse {
-  int page;
-  List<MovieGeneral> results;
-  int totalPages;
-  int totalResults;
+  int? page;
+  List<MovieGeneral>? results;
+  int? totalPages;
+  int? totalResults;
 
   MovieSearchResponse({this.page, this.results, this.totalPages, this.totalResults});
 
   MovieSearchResponse.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     if (json['results'] != null) {
-      results = new List<MovieGeneral>();
+      results = [];
       json['results'].forEach((v) {
-        results.add(new MovieGeneral.fromJson(v));
+        results?.add(new MovieGeneral.fromJson(v));
       });
     }
     totalPages = json['total_pages'];
@@ -24,7 +24,7 @@ class MovieSearchResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['page'] = this.page;
     if (this.results != null) {
-      data['results'] = this.results.map((v) => v.toJson()).toList();
+      data['results'] = this.results?.map((v) => v.toJson()).toList();
     }
     data['total_pages'] = this.totalPages;
     data['total_results'] = this.totalResults;

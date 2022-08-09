@@ -18,7 +18,7 @@ class TrendingMedia extends Equatable {
   final String? mediaType;
   final String? name;
 
-  const TrendingMedia({
+  const TrendingMedia(
     this.genreIds,
     this.originalLanguage,
     this.originalTitle,
@@ -35,7 +35,7 @@ class TrendingMedia extends Equatable {
     this.popularity,
     this.mediaType,
     this.name,
-  });
+  );
 
   @override
   List<Object?> get props => [

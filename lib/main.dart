@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'data/apis/account_api.dart';
+import 'data/apis/account_api_impl.dart';
 import 'data/prefs/account_prefs.dart';
+import 'data/prefs/settings_prefs.dart';
 import 'data/repositories/account_repository_impl.dart';
 import 'data/repositories/settings_repository_impl.dart';
 import 'data/services/fcm/firebase_cloud_message.dart';
@@ -13,13 +14,15 @@ import 'presentation/features/ui/splash/splash_widget.dart';
 
 void main() {
   initCloudMessageService();
-  final accountAPI = AccountApi();
-  final accountPref = AccountPrefs();
-  final accountRepository = AccountRepositoryImpl(accountAPI, accountPref);
+  final accountAPI = AccountApiImpl();
+  final accountPrefs = AccountPrefs();
+  final settingsPrefs = SettingsPrefs();
+  final accountRepository = AccountRepositoryImpl(accountAPI, accountPrefs);
   runApp(
     MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<SettingsRepository>.value(value: SettingsRepositoryImpl())
+        RepositoryProvider<SettingsRepository>.value(
+            value: SettingsRepositoryImpl(settingsPrefs))
       ],
       child: MultiBlocProvider(
         providers: [

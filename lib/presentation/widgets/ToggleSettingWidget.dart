@@ -10,7 +10,7 @@ class ToggleSettingWidget extends StatefulWidget {
 
   final String description;
 
-  final Widget icon;
+  final Widget icon; 
 
   final bool? defaultValue;
 

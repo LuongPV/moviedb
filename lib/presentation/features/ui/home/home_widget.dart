@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviedb/presentation/features/ui/home/home_states.dart';
 
 import '../../../../data/constants.dart';
-import '../scan_qr/scan_qr_widget.dart';
 import '../search/search_widget.dart';
 import '../theater/nearby_theaters_widget.dart';
 import 'home_bloc.dart';
 import 'home_movies/home_movies_widget.dart';
 import 'home_settings/home_settings_widget.dart';
+import 'home_states.dart';
 import 'home_trend/home_trendings_widget.dart';
 import 'home_tv_shows/home_tv_shows_widget.dart';
 
@@ -176,11 +175,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                 Icons.live_tv_sharp, 'TV Show', () => _selectedIndex = 2),
             _buildLeftMenuItem(
                 Icons.settings, 'Settings', () => _selectedIndex = 3),
-            _buildLeftMenuItem(
-                Icons.qr_code,
-                'Scan QR',
-                () => Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const ScanQRWidget()))),
             _buildLeftMenuItem(
                 Icons.theaters,
                 'Nearby Theaters',

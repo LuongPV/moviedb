@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviedb/domain/models/cast_detail.dart';
-import 'package:moviedb/presentation/features/ui/cast/cast_detail_bloc.dart';
-import 'package:moviedb/presentation/features/ui/cast/cast_detail_states.dart';
-import 'package:moviedb/presentation/utils/model_converter.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../data/constants.dart';
+import '../../../../domain/models/cast_detail.dart';
 import '../../../utils/logger/logger.dart';
+import '../../../utils/model_converter.dart';
 import '../../../widgets/common_widgets.dart';
 import '../base/base_stateful_widget.dart';
 import '../detail/movie/movie_detail_widget.dart';
-import '../movie_by/movie_by_cast/movie_by_cast.dart';
+import '../movie_by/movie_by_cast/movie_by_cast_widget.dart';
+import 'cast_detail_bloc.dart';
+import 'cast_detail_states.dart';
 
 class CastDetailWidget extends BaseStatefulWidget {
   final int castId;

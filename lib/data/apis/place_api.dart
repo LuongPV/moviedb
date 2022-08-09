@@ -1,5 +1,5 @@
 import '../models/direction/direction_response.dart';
-import '../models/nearby_place_response.dart';
+import '../models/near_by_place/nearby_place_response.dart';
 import 'base_api.dart';
 
 abstract class PlaceApi extends BaseApi {

@@ -3,7 +3,7 @@ import 'package:sprintf/sprintf.dart';
 import '../../presentation/utils/logger/logger.dart';
 import '../constants.dart';
 import '../models/direction/direction_response.dart';
-import '../models/nearby_place_response.dart';
+import '../models/near_by_place/nearby_place_response.dart';
 import 'place_api.dart';
 
 class PlaceApiImpl extends PlaceApi {

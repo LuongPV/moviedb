@@ -5,9 +5,9 @@ import 'direction_response.dart' as data;
 class DirectionResponseMapper
     with DataToDomainMapper<data.DirectionResponse, domain.DirectionResponse> {
   @override
-  domain.DirectionResponse convertToDomain(data.DirectionResponse inputType) {
+  domain.DirectionResponse convertToDomain(data.DirectionResponse? inputType) {
     return domain.DirectionResponse(
-      routes: inputType.routes
+      routes: inputType?.routes
           ?.map(
             (e) => domain.Routes(
               overviewPolyline:

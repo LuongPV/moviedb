@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/movie_general.dart';
-import '../../data/repositories/movie_repository.dart';
-import '../base/base_stateful_widget.dart';
-import '../widgets/common_widgets.dart';
+import '../../../data/models/movie_general.dart';
+import '../../../data/repositories/movie_repository.dart';
+import '../../base/base_stateful_widget.dart';
+import '../../widgets/common_widgets.dart';
 
 class MovieByCastWidget extends BaseStatefulWidget {
   final int castId;

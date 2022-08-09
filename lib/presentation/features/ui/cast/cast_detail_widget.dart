@@ -14,7 +14,7 @@ import '../../../utils/logger/logger.dart';
 import '../../../widgets/common_widgets.dart';
 import '../base/base_stateful_widget.dart';
 import '../detail/movie/movie_detail_widget.dart';
-import '../movie_by/movie_by_cast.dart';
+import '../movie_by/movie_by_cast/movie_by_cast.dart';
 
 class CastDetailWidget extends BaseStatefulWidget {
   final int castId;
